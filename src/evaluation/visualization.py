@@ -14,9 +14,12 @@ def plot_comparison(data, column='avg_score', log_scale=True):
     for item in axis.get_xticklabels():
             item.set_rotation(25)
 
-    plt.title("Blabla")
+    extra = ''
+    if log_scale:
+        extra = ' (data follows logarithmic scale)'
+    plt.title(f"Feature learning {column}{extra}")
     plt.tight_layout()
-    plt.savefig(f"plots/blabla.pdf")
+    plt.savefig(f"plots/{column}_comparison.pdf")
     plt.close()
 
     
