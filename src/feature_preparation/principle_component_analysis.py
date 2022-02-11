@@ -1,11 +1,13 @@
-from feature_preparation.core import FeatureLearning
+from typing import Union
+from feature_preparation.core import FeatureLearningMethod
 from sklearn.decomposition import PCA
 
-class Principle_CA(FeatureLearning):
-    n_components: int = 2
+class Principle_CA(FeatureLearningMethod):
+    param_grid: Union[dict, list] = { 'feature_learning__n_components': [1,2,3,4,5] }
+    method = PCA
     
-    def mapping(self, data):
-        pca = PCA(n_components=self.n_components)
+    def mapping(self, data, n_components=2):
+        pca = PCA(n_components=n_components)
         pca.fit(data)
         new_data = pca.transform(data)
         return new_data

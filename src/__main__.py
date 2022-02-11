@@ -1,28 +1,37 @@
 import csv
-from multiprocessing.pool import RUN
 import time
 from typing import List
-import numpy as np
-import pandas as pd
 import sys
+import warnings
+warnings.filterwarnings('ignore')
 
-from data_extraction.data_extraction import load
-from feature_preparation.core import FeatureLearning
-from feature_preparation.no_feature_construction import NoFeatureLearning
-from feature_preparation.feature_tools_FS import FeatureToolsFS
-from feature_preparation.principle_component_analysis import Principle_CA
-from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
-from evaluation.evaluation_metrics import cv_score
-from evaluation.visualization import plot_comparison
-
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
+
+import numpy as np
+import pandas as pd
+
+from data_extraction.data_extraction import load
+from evaluation.evaluation_metrics import cv_score
+from evaluation.visualization import plot_comparison
+from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
+from feature_preparation.feature_tools_FS import FeatureToolsFS, RemoveHighlyCorrelatedFeatures
+from feature_preparation.no_feature_construction import NoFeatureLearning
+from feature_preparation.principle_component_analysis import Principle_CA
+from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
+
 
 N_SEEDS = 5   
 CROSS_VALIDATION_GROUPS = 10
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearning] = [ NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
+feature_learnings : List[FeatureLearningMethod] = [ NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
 
 
 
@@ -35,25 +44,33 @@ if __name__ == '__main__':
         print("Warning: Not running models. Using data stored.")
     else:
         print("Running models")
-        X,y = load("data/boom bikes 14-01-2022.csv",'cnt')
+        X,y = load("data/boom_bikes_14-01-2022.csv",'cnt')
         for feature_learning in feature_learnings:
+            print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
-                writer.writerow([ "method", "model", "seed" , "avg_score", "worse_score", "time" ])
+                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worse_score", "grid_search_time", "time" ])
 
-            X_mapped = feature_learning.mapping(X)
             for model in models:
+                print(f"Running model: {model}")
                 for seed in range(N_SEEDS):
+                    print(f"{(seed/N_SEEDS) * 100} %", end='\r')
                     start = time.time()
-                    mod = model.model(seed)
+
+                    pipeline = Pipeline(steps=[('feature_learning', feature_learning.method()),
+                                            ('model', model.evaluate(seed))])
+                    estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
+                    
                     with ignore_warnings(category=ConvergenceWarning):
-                        scores = cv_score(mod, X_mapped, y, CROSS_VALIDATION_GROUPS)
+                        best_estimator = estimator.grid_search(X,y)
+                        grid_search_time = time.time() - start
+                        scores = cv_score(best_estimator, X, y, CROSS_VALIDATION_GROUPS)
+                    
                     avg_score = np.mean(scores)
                     worse_score = min(scores)
-                    duration = time.time() - start                
+                    duration = time.time() - start
                     
-                    csv_row = [ str(feature_learning), str(model), seed, avg_score, worse_score, duration ]
-                    print(csv_row)
+                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, worse_score, grid_search_time, duration ]
                     with open(f"./results/{feature_learning}.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
@@ -64,6 +81,7 @@ if __name__ == '__main__':
         print("Plotting data")
         dfs = [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in feature_learnings ]
         df = pd.concat(dfs)
+        # df = df[df["model"]=="SVM"]
         df['avg_score'] = -1 * df['avg_score']
         plot_comparison(df)
     

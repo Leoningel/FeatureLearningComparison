@@ -6,38 +6,47 @@ from sklearn.svm import SVR
 
 
 class Model():
-    def model(self, seed: int):
+    model: object
+
+    def evaluate(self, seed: int):
         ...
     def __str__(self):
         ...
 
 class DecisionTree(Model):
-    def model(self, seed: int):
-        return DecisionTreeRegressor(random_state=seed)
+    model = DecisionTreeRegressor
+    
+    def evaluate(self, seed: int):
+        return self.model(random_state=seed)
 
     def __str__(self):
         return "Decision Tree"
 
 class RandomForest(Model):
-    def model(self, seed: int):
-        return RandomForestRegressor(random_state=seed)
+    model = RandomForestRegressor
+    
+    def evaluate(self, seed: int):
+        return self.model(random_state=seed)
 
     def __str__(self):
         return "Random Forest"
 
 class MLP(Model):
-    def model(self, seed: int):
-        return MLPRegressor(random_state=seed)
+    model = MLPRegressor
+
+    def evaluate(self, seed: int):
+        return self.model(random_state=seed)
 
     def __str__(self):
         return "MLP"
 
 class SVM(Model):
+    model = SVR
     C: float = 1.0
     epsilon: float = 0.2
     
-    def model(self, seed: int):
-        return SVR(C=self.C, epsilon=self.epsilon)
+    def evaluate(self, seed: int):
+        return self.model(C=self.C, epsilon=self.epsilon)
 
     def __str__(self):
         return "SVM"
