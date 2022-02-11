@@ -19,7 +19,7 @@ import pandas as pd
 
 from data_extraction.data_extraction import load
 from evaluation.evaluation_metrics import cv_score
-from evaluation.visualization import plot_comparison
+from evaluation.visualization import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.feature_tools_FS import FeatureToolsFS, RemoveHighlyCorrelatedFeatures
 from feature_preparation.no_feature_construction import NoFeatureLearning
@@ -83,7 +83,8 @@ if __name__ == '__main__':
         df = pd.concat(dfs)
         # df = df[df["model"]=="SVM"]
         df['avg_score'] = -1 * df['avg_score']
-        plot_comparison(df)
+        plot_combined_barplot_comparison(df)
+        plot_separated_violin_comparisons(df)
     
 
     
