@@ -21,9 +21,10 @@ from data_extraction.data_extraction import load
 from evaluation.evaluation_metrics import cv_score
 from evaluation.visualization import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
-from feature_preparation.feature_tools_FS import FeatureToolsFS, RemoveHighlyCorrelatedFeatures
+from feature_preparation.feature_tools_FS import FeatureToolsFS
 from feature_preparation.no_feature_construction import NoFeatureLearning
 from feature_preparation.principle_component_analysis import Principle_CA
+from feature_preparation.random_search import RandomSearchFS
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 
 
@@ -31,7 +32,7 @@ N_SEEDS = 5
 CROSS_VALIDATION_GROUPS = 10
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
+feature_learnings : List[FeatureLearningMethod] = [ RandomSearchFS(), NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
 
 
 
