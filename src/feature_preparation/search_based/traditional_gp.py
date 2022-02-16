@@ -8,7 +8,7 @@ from evaluation.evaluation_metrics import cv_score
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from geneticengine.algorithms.random_search import RandomSearch as RS_alg
+from geneticengine.algorithms.gp.gp import GP as GP_alg
 from geneticengine.core.grammar import extract_grammar
 from geneticengine.core.representations.tree.treebased import treebased_representation
 from geneticengine.metahandlers.vars import VarRange
@@ -19,11 +19,15 @@ from src.feature_preparation.search_based.grammar import (
     FeatureSet, 
     EngineeredFeature, 
     BuildingBlock,
-    Var
+    Var,
+    Plus,
+    Minus,
+    Mult,
 )
+    
 
 def evolve(g, fitness_function, seed:int=0, verbose=0):
-    alg = RS_alg(
+    alg = GP_alg(
         g,
         evaluation_function=fitness_function,
         representation=treebased_representation,
@@ -36,7 +40,7 @@ def evolve(g, fitness_function, seed:int=0, verbose=0):
     (b, bf, bp) = alg.evolve(verbose=verbose)
     return b, bf, bp
 
-class RandomSearch(BaseEstimator, TransformerMixin):
+class GPFL(BaseEstimator, TransformerMixin):
     def __init__(self) -> None:
         self.feature_mapping: Solution = None
 
@@ -45,7 +49,7 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         Var.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
+        grammar = extract_grammar([Var, Plus, Mult, Minus, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)
@@ -63,12 +67,9 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping)
         return Xt
 
-class RandomSearchFS(FeatureLearningMethod):
+class TraditionalGP(FeatureLearningMethod):
     param_grid: Union[dict, list] = {}
-    method = RandomSearch
-    
-    def mapping(self, data):
-        return data
+    method = GPFL
     
     def __str__(self) -> str:
-        return "RandomSearch_FS"
+        return "GP_FL"

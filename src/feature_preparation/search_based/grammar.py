@@ -15,7 +15,7 @@ class FeatureSet(Solution):
     subset: Annotated[List[Solution], ListSizeBetween(1, 2)]
     
     def evaluate(self, **kwargs):
-        return lambda x: [ el.evaluate()(x) for el in self.subset ]
+        return [ el.evaluate(**kwargs) for el in self.subset ]
 
     def __str__(self, **kwargs):
         s = "["
@@ -33,16 +33,69 @@ class EngineeredFeature(Solution):
     blocks: BuildingBlock
     
     def evaluate(self, **kwargs):
-        return lambda x: x.append(self.blocks.evaluate())
+        return self.blocks.evaluate(**kwargs)
+
+    def __str__(self, **kwargs):
+        return f"{self.blocks}"
     
     
 @dataclass
 class Var(BuildingBlock):
     feature_name: Annotated[str, VarRange(["x" , "y"])]
-
+    
     def evaluate(self, **kwargs):
-        return self.feature_name
+        return kwargs[self.feature_name]
     
     def __str__(self, **kwargs):
-        return self.feature_name
+        return f"\"{self.feature_name}\""
+
+@dataclass
+class Plus(BuildingBlock):
+    left: BuildingBlock
+    right: BuildingBlock
+    
+    def evaluate(self, **kwargs):
+        return self.left.evaluate(**kwargs) + self.right.evaluate(**kwargs)
+    
+    def __str__(self, **kwargs):
+        return f"{self.left} + {self.right}"    
+
+@dataclass
+class Minus(BuildingBlock):
+    left: BuildingBlock
+    right: BuildingBlock
+    
+    def evaluate(self, **kwargs):
+        return self.left.evaluate(**kwargs) - self.right.evaluate(**kwargs)
+    
+    def __str__(self, **kwargs):
+        return f"{self.left} - {self.right}"    
+
+@dataclass
+class Mult(BuildingBlock):
+    left: BuildingBlock
+    right: BuildingBlock
+    
+    def evaluate(self, **kwargs):
+        return self.left.evaluate(**kwargs) * self.right.evaluate(**kwargs)
+    
+    def __str__(self, **kwargs):
+        return f"{self.left} * {self.right}"    
+
+@dataclass
+class SafeDiv(BuildingBlock):
+    left: BuildingBlock
+    right: BuildingBlock
+    
+    def keep_safe(self, d2):
+        if d2 == 0:
+            d2 = 0.000001
+        return d2
+    
+    def evaluate(self, **kwargs):
+        return self.left.evaluate(**kwargs) / self.keep_safe(self.right.evaluate(**kwargs))
+    
+    
+    def __str__(self, **kwargs):
+        return f"{self.left} / {self.right}"    
 

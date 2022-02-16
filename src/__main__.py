@@ -33,7 +33,7 @@ N_SEEDS = 5
 CROSS_VALIDATION_GROUPS = 10
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ RandomSearchFS(), NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
+feature_learnings : List[FeatureLearningMethod] = [ TraditionalGP(), RandomSearchFS(), NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
 
 
 
