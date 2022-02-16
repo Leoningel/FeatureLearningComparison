@@ -8,10 +8,10 @@ from evaluation.evaluation_metrics import cv_score
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from GeneticEngine.geneticengine.algorithms.random_search import RandomSearch as RS_alg
-from GeneticEngine.geneticengine.core.grammar import extract_grammar
-from GeneticEngine.geneticengine.core.representations.tree.treebased import treebased_representation
-from GeneticEngine.geneticengine.metahandlers.vars import VarRange
+from geneticengine.algorithms.random_search import RandomSearch as RS_alg
+from geneticengine.core.grammar import extract_grammar
+from geneticengine.core.representations.tree.treebased import treebased_representation
+from geneticengine.metahandlers.vars import VarRange
 
 from src.feature_preparation.search_based.grammar import (
     Solution, 

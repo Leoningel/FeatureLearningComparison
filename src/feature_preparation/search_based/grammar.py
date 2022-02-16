@@ -2,9 +2,9 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Annotated, List
 
-from GeneticEngine.geneticengine.metahandlers.lists import ListSizeBetween
-from GeneticEngine.geneticengine.metahandlers.vars import VarRange
-from GeneticEngine.geneticengine.core.decorators import abstract
+from geneticengine.metahandlers.lists import ListSizeBetween
+from geneticengine.metahandlers.vars import VarRange
+from geneticengine.core.decorators import abstract
 
 class Solution(ABC):
     def evaluate(self, **kwargs) -> float:

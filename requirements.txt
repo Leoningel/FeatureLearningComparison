@@ -4,3 +4,4 @@ sklearn
 featuretools
 seaborn
 matplotlib
+git+https://github.com/alcides/GeneticEngine.git@main#egg=geneticengine
