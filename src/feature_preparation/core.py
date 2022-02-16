@@ -8,10 +8,7 @@ from sklearn.pipeline import Pipeline
 
 class FeatureLearningMethod():
     param_grid: Union[dict, list]
-    
-    def mapping(self, data):
-        ...
-    
+        
     def __str__(self):
         ...
         
