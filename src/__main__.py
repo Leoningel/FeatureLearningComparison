@@ -21,10 +21,11 @@ from data_extraction.data_extraction import load
 from evaluation.evaluation_metrics import cv_score
 from evaluation.visualization import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
-from feature_preparation.feature_tools_FS import FeatureToolsFS
-from feature_preparation.no_feature_construction import NoFeatureLearning
-from feature_preparation.principle_component_analysis import Principle_CA
-from feature_preparation.random_search import RandomSearchFS
+from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
+from feature_preparation.classical_methods.no_feature_construction import NoFeatureLearning
+from feature_preparation.classical_methods.principle_component_analysis import Principle_CA
+from feature_preparation.search_based.random_search import RandomSearchFS
+from feature_preparation.search_based.traditional_gp import TraditionalGP
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 
 
