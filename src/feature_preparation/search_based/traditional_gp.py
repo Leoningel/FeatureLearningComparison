@@ -1,4 +1,5 @@
 from abc import ABC
+import csv
 from dataclasses import dataclass
 from typing import Annotated, List, Union
 import numpy as np
@@ -23,6 +24,7 @@ from src.feature_preparation.search_based.grammar import (
     Plus,
     Minus,
     Mult,
+    SafeDiv
 )
     
 
@@ -49,7 +51,7 @@ class GPFL(BaseEstimator, TransformerMixin):
         Var.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Plus, Mult, Minus, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
+        grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)

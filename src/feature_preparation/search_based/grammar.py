@@ -1,6 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
 from typing import Annotated, List
+import numpy as np
 
 from geneticengine.metahandlers.lists import ListSizeBetween
 from geneticengine.metahandlers.vars import VarRange
@@ -58,7 +59,7 @@ class Plus(BuildingBlock):
         return self.left.evaluate(**kwargs) + self.right.evaluate(**kwargs)
     
     def __str__(self, **kwargs):
-        return f"{self.left} + {self.right}"    
+        return f"({self.left} + {self.right})"    
 
 @dataclass
 class Minus(BuildingBlock):
@@ -69,7 +70,7 @@ class Minus(BuildingBlock):
         return self.left.evaluate(**kwargs) - self.right.evaluate(**kwargs)
     
     def __str__(self, **kwargs):
-        return f"{self.left} - {self.right}"    
+        return f"({self.left} - {self.right})"    
 
 @dataclass
 class Mult(BuildingBlock):
@@ -80,22 +81,25 @@ class Mult(BuildingBlock):
         return self.left.evaluate(**kwargs) * self.right.evaluate(**kwargs)
     
     def __str__(self, **kwargs):
-        return f"{self.left} * {self.right}"    
+        return f"({self.left} * {self.right})"    
 
 @dataclass
 class SafeDiv(BuildingBlock):
     left: BuildingBlock
     right: BuildingBlock
     
-    def keep_safe(self, d2):
-        if d2 == 0:
-            d2 = 0.000001
-        return d2
-    
     def evaluate(self, **kwargs):
-        return self.left.evaluate(**kwargs) / self.keep_safe(self.right.evaluate(**kwargs))
+        d1 = self.left.evaluate(**kwargs)
+        d2 = self.right.evaluate(**kwargs)
+        try:
+            with np.errstate(divide="ignore", invalid="ignore"):
+                return np.where(d2 == 0, np.ones_like(d1), d1 / d2)
+        except ZeroDivisionError:
+            # In this case we are trying to divide two constants, one of which is 0
+            # Return a constant.
+            return 1.0
     
     
     def __str__(self, **kwargs):
-        return f"{self.left} / {self.right}"    
+        return f"({self.left} / {self.right})"    
 
