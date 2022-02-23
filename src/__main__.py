@@ -46,7 +46,7 @@ if __name__ == '__main__':
         print("Warning: Not running models. Using data stored.")
     else:
         print("Running models")
-        X,y = load("data/boom_bikes_14-01-2022.csv",'cnt')
+        X,y = load("data/boom_bikes_14-01-2022_without_casual_and_registered.csv",'cnt')
         for feature_learning in feature_learnings:
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
