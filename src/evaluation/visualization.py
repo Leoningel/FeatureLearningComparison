@@ -52,6 +52,7 @@ def plot_separated_violin_comparisons(
     to_replace = {
         "No_Feature_Learning": "No FL",
         "FeatureTools_FS": "FT FS",
+        "RandomSearch_FS": "RS FS",
     }
     
     plot_name = column
