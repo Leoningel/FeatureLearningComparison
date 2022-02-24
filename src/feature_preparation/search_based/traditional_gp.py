@@ -34,7 +34,7 @@ def evolve(g, fitness_function, seed:int=0, verbose=0):
         evaluation_function=fitness_function,
         representation=treebased_representation,
         seed=seed,
-        population_size=25,
+        population_size=50,
         # max_depth=15,
         number_of_generations=50,
         minimize=True,
