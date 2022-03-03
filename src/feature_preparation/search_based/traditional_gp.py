@@ -55,8 +55,8 @@ class GPFL(BaseEstimator, TransformerMixin):
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
         
         def fitness_function(fs: Solution):
-            Xt = utils.mapping(feature_names, feature_indices, X, fs)
             dt = DecisionTreeRegressor()
+            Xt = utils.mapping(feature_names, feature_indices, X, fs, single_solution=True)
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
@@ -70,7 +70,8 @@ class GPFL(BaseEstimator, TransformerMixin):
     
     def transform(self,X,y=None):
         feature_names, feature_indices = utils.feature_info(X)
-        Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping)
+        Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping, single_solution=True)
+        assert len(Xt) == len(X.values)
         return Xt
 
 class TraditionalGP(FeatureLearningMethod):

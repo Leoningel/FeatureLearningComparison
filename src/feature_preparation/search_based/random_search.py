@@ -61,6 +61,7 @@ class RandomSearch(BaseEstimator, TransformerMixin):
     def transform(self,X,y=None):
         feature_names, feature_indices = utils.feature_info(X)
         Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping)
+        assert len(Xt) == len(X.values)
         return Xt
 
 class RandomSearchFS(FeatureLearningMethod):

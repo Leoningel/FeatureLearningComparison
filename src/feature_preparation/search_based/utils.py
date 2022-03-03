@@ -15,13 +15,17 @@ def flatten_list(list_to_flatten):
     return l
 
 
-def mapping(feature_names, feature_indices, X, fs: Solution):
+def mapping(feature_names, feature_indices, X, fs: Solution, single_solution = False):
     variables = {}
     for x in feature_names:
         i = feature_indices[x]
         variables[x] = X.values[:, i]
     Xt = fs.evaluate(**variables)
-    Xt = np.array(flatten_list(Xt)).transpose()
+    if single_solution:
+        Xt = np.array([flatten_list(Xt)]).transpose()
+    else:
+        Xt = np.array(flatten_list(Xt)).transpose()
+        
     return Xt
 
 def feature_info(X):
