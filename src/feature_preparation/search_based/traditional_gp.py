@@ -62,7 +62,7 @@ class GPFL(BaseEstimator, TransformerMixin):
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 
         self.feature_mapping = fs
-        with open(f"./results/traditional_gp_mappings/2.csv", "a", newline="") as outfile:
+        with open(f"./results/mappings/2_traditional_gp.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow([  (str(fs).count(',') + 1), str(fs) ])
         return self
