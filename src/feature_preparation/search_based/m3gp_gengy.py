@@ -73,9 +73,9 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         assert len(Xt) == len(X.values)
         return Xt
 
-class TraditionalGP(FeatureLearningMethod):
+class M3GP_Gengy(FeatureLearningMethod):
     param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 10, 15 ]}
     method = M3GPFL_Gengy
     
     def __str__(self) -> str:
-        return "M3GP_FL_Gengy"
+        return "M3GP_Gengy_FL"

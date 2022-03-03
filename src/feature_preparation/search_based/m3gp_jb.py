@@ -10,7 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 
-class M3GPFL(BaseEstimator, TransformerMixin):
+class M3GPFL_JB(BaseEstimator, TransformerMixin):
     def __init__(self, max_depth=15) -> None:
         self.feature_mapping = None
         self.max_depth = max_depth
@@ -37,11 +37,11 @@ class M3GPFL(BaseEstimator, TransformerMixin):
         assert len(Xt) == len(X.values)
         return Xt
 
-class M3GP(FeatureLearningMethod):
+class M3GP_JB(FeatureLearningMethod):
     param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 10, 15 ]}
-    method = M3GPFL
+    method = M3GPFL_JB
     
     def __str__(self) -> str:
-        return "M3GP_FL"
+        return "M3GP_JB_FL"
 
 
