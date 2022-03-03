@@ -26,6 +26,7 @@ from feature_preparation.classical_methods.no_feature_construction import NoFeat
 from feature_preparation.classical_methods.principle_component_analysis import Principle_CA
 from feature_preparation.search_based.random_search import RandomSearchFS
 from feature_preparation.search_based.traditional_gp import TraditionalGP
+from feature_preparation.search_based.m3gp_jb import M3GP
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 
 
@@ -33,7 +34,7 @@ N_SEEDS = 5
 CROSS_VALIDATION_GROUPS = 10
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ TraditionalGP(), RandomSearchFS(), NoFeatureLearning(), FeatureToolsFS(), Principle_CA() ]
+feature_learnings : List[FeatureLearningMethod] = [ M3GP(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
 
 
 
