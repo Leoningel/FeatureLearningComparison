@@ -22,23 +22,26 @@ from src.feature_preparation.search_based.grammar import (
     Var
 )
 
-def evolve(g, fitness_function, seed:int=0, verbose=0):
-    alg = RS_alg(
-        g,
-        evaluation_function=fitness_function,
-        representation=treebased_representation,
-        seed=seed,
-        population_size=50,
-        number_of_generations=50,
-        minimize=True,
-        favor_less_deep_trees=True
-        )
-    (b, bf, bp) = alg.evolve(verbose=verbose)
-    return b, bf, bp
 
 class RandomSearch(BaseEstimator, TransformerMixin):
-    def __init__(self) -> None:
+    def __init__(self, max_depth=15) -> None:
         self.feature_mapping: Solution = None
+        self.max_depth = max_depth
+
+    def evolve(self, g, fitness_function, seed:int=0, verbose=0):
+        alg = RS_alg(
+            g,
+            evaluation_function=fitness_function,
+            representation=treebased_representation,
+            seed=seed,
+            population_size=50,
+            number_of_generations=50,
+            max_depth=self.max_depth,
+            minimize=True,
+            favor_less_deep_trees=True
+            )
+        (b, bf, bp) = alg.evolve(verbose=verbose)
+        return b, bf, bp
 
     def fit(self,X,y=None):
         feature_names, feature_indices = utils.feature_info(X)
@@ -49,11 +52,11 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)
-            dt = DecisionTreeRegressor()
+            dt = DecisionTreeRegressor(max_depth=15)
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
-        _, _, fs = evolve(grammar, fitness_function=fitness_function, seed=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 
         self.feature_mapping = fs
         return self
@@ -65,7 +68,7 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         return Xt
 
 class RandomSearchFS(FeatureLearningMethod):
-    param_grid: Union[dict, list] = {}
+    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 10, 15 ]}
     method = RandomSearch
     
     def mapping(self, data):
