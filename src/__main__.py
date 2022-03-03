@@ -53,7 +53,7 @@ if __name__ == '__main__':
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
-                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worse_score", "grid_search_time", "time" ])
+                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worst_score", "grid_search_time", "time" ])
 
             for model in models:
                 print(f"Running model: {model}")
