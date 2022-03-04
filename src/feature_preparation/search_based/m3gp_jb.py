@@ -17,8 +17,8 @@ class M3GPFL_JB(BaseEstimator, TransformerMixin):
 
     def fit(self,X,y=None,seed=42):
         m3gp = M3GP_alg(
-                    max_generation=50, 
-                    population_size=50, 
+                    population_size=500,
+                    max_generation=500,
                     limit_depth=self.max_depth,
                     elitism_size=5,
                     max_initial_depth=self.max_depth,
@@ -38,7 +38,7 @@ class M3GPFL_JB(BaseEstimator, TransformerMixin):
         return Xt
 
 class M3GP_JB(FeatureLearningMethod):
-    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 10, 15 ]}
+    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
     method = M3GPFL_JB
     
     def __str__(self) -> str:

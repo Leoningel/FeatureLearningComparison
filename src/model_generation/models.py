@@ -17,7 +17,7 @@ class DecisionTree(Model):
     model = DecisionTreeRegressor
     
     def evaluate(self, seed: int):
-        return self.model(random_state=seed)
+        return self.model(random_state=seed, max_depth=5)
 
     def __str__(self):
         return "Decision Tree"
@@ -26,7 +26,7 @@ class RandomForest(Model):
     model = RandomForestRegressor
     
     def evaluate(self, seed: int):
-        return self.model(random_state=seed)
+        return self.model(random_state=seed, max_depth=5)
 
     def __str__(self):
         return "Random Forest"

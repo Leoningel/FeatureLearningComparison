@@ -32,8 +32,8 @@ class RandomSearch(BaseEstimator, TransformerMixin):
             evaluation_function=fitness_function,
             representation=treebased_representation,
             seed=seed,
-            population_size=50,
-            number_of_generations=50,
+            population_size=500,
+            number_of_generations=500,
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True
@@ -66,7 +66,7 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         return Xt
 
 class RandomSearchFS(FeatureLearningMethod):
-    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 10, 15 ]}
+    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
     method = RandomSearch
     
     def mapping(self, data):
