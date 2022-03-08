@@ -23,6 +23,8 @@ class M3GPFL_JB(BaseEstimator, TransformerMixin):
                     limit_depth=self.max_depth,
                     elitism_size=self.elitism_size,
                     max_initial_depth=self.max_depth,
+                    # dim_min=11,
+                    # dim_max=12,
                     model_name="DecisionTreeRegressor", 
                     fitnessType="MSE",
                     random_state=seed,
