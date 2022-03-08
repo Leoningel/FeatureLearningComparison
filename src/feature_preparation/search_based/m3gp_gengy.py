@@ -51,7 +51,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         Var.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, FeatureSet, EngineeredFeature, Solution], Solution)
+        grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)
@@ -75,6 +75,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
 
 class M3GP_Gengy(FeatureLearningMethod):
     param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
+    # param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 5, 10 ]}
     method = M3GPFL_Gengy
     
     def __str__(self) -> str:
