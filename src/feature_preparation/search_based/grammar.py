@@ -13,7 +13,7 @@ class Solution(ABC):
 
 @dataclass
 class FeatureSet(Solution):
-    subset: Annotated[List[Solution], ListSizeBetween(1, 2)]
+    subset: Annotated[List[Solution], ListSizeBetween(1,3)]
     
     def evaluate(self, **kwargs):
         return [ el.evaluate(**kwargs) for el in self.subset ]
