@@ -23,7 +23,7 @@ class M3GPFL_JB(BaseEstimator, TransformerMixin):
                     elitism_size=5,
                     max_initial_depth=self.max_depth,
                     model_name="DecisionTreeRegressor", 
-                    fitnessType="mse",
+                    fitnessType="MSE",
                     random_state=seed,
                     verbose=False)
         m3gp.fit(X,y)
