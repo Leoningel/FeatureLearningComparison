@@ -77,7 +77,10 @@ class GPFL(BaseEstimator, TransformerMixin):
         return Xt
 
 class TraditionalGP(FeatureLearningMethod):
-    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
+    param_grid: Union[dict, list] = { 
+                            "feature_learning__max_depth": [ 5, 10, 15, 20 ],
+                            "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
+                            }
     method = GPFL
     
     def __str__(self) -> str:
