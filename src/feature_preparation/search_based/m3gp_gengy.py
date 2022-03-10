@@ -27,9 +27,10 @@ from src.feature_preparation.search_based.grammar import (
     
 
 class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
-    def __init__(self, max_depth=15, n_generations=500) -> None:
+    def __init__(self, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.max_depth = max_depth
+        self.elitism_size = elitism_size
         self.n_generations = n_generations
 
     def evolve(self, g, fitness_function, seed:int=0, verbose=0):
@@ -40,6 +41,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
             seed=seed,
             population_size=500,
             number_of_generations=self.n_generations,
+            n_elites=self.elitism_size,
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True
@@ -75,8 +77,10 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         return Xt
 
 class M3GP_Gengy(FeatureLearningMethod):
-    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
-    # param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 5, 10 ]}
+    param_grid: Union[dict, list] = { 
+                            "feature_learning__max_depth": [ 5, 10, 15, 20 ],
+                            "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
+                            }
     method = M3GPFL_Gengy
     
     def __str__(self) -> str:
