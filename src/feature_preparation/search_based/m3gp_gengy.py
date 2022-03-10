@@ -27,9 +27,10 @@ from src.feature_preparation.search_based.grammar import (
     
 
 class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
-    def __init__(self, max_depth=15) -> None:
+    def __init__(self, max_depth=15, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.max_depth = max_depth
+        self.n_generations = n_generations
 
     def evolve(self, g, fitness_function, seed:int=0, verbose=0):
         alg = GP_alg(
@@ -38,7 +39,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
             representation=treebased_representation,
             seed=seed,
             population_size=500,
-            number_of_generations=500,
+            number_of_generations=self.n_generations,
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True

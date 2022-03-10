@@ -29,7 +29,7 @@ from feature_preparation.search_based.traditional_gp import TraditionalGP
 from feature_preparation.search_based.m3gp_jb import M3GP_JB
 from feature_preparation.search_based.m3gp_gengy import M3GP_Gengy
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
-
+import utils
 
 N_SEEDS = 5   
 CROSS_VALIDATION_GROUPS = 10
@@ -66,8 +66,10 @@ if __name__ == '__main__':
                     estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
                     
                     with ignore_warnings(category=ConvergenceWarning):
+                        utils.make_grid_search_ready(estimator.pipeline)
                         best_estimator = estimator.grid_search(X,y)
                         grid_search_time = time.time() - start
+                        utils.make_evaluation_ready(estimator.pipeline)
                         scores = cv_score(best_estimator, X, y, CROSS_VALIDATION_GROUPS)
                     
                     avg_score = np.mean(scores)

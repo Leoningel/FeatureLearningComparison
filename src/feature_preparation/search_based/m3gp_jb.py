@@ -11,15 +11,16 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class M3GPFL_JB(BaseEstimator, TransformerMixin):
-    def __init__(self, max_depth=15, elitism_size=5) -> None:
+    def __init__(self, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping = None
         self.max_depth = max_depth
         self.elitism_size = elitism_size
+        self.n_generations = n_generations
 
     def fit(self,X,y=None,seed=42):
         m3gp = M3GP_alg(
                     population_size=500,
-                    max_generation=500,
+                    max_generation=self.n_generations,
                     limit_depth=self.max_depth,
                     elitism_size=self.elitism_size,
                     max_initial_depth=self.max_depth,
