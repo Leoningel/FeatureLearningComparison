@@ -8,6 +8,7 @@ from sklearn.pipeline import Pipeline
 
 class FeatureLearningMethod():
     param_grid: Union[dict, list]
+    data_file: str = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
         
     def __str__(self):
         ...

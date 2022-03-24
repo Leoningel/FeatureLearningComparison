@@ -1,5 +1,5 @@
 from typing import List
-from src.feature_preparation.search_based.grammar import Solution
+from src.feature_preparation.search_based.grammar.basic_grammar import Solution
 import numpy as np
 
 
@@ -28,10 +28,12 @@ def mapping(feature_names, feature_indices, X, fs: Solution, single_solution = F
         
     return Xt
 
-def feature_info(X):
+def feature_info(X, exclude = []):
     feature_names = list(X.columns)
     feature_indices = {}
     for i, n in enumerate(feature_names):
-        feature_indices[n] = i
+        if n not in exclude:
+            feature_indices[n] = i
+    feature_names = [ fn for fn in feature_names if fn not in exclude ]
     return feature_names, feature_indices
 

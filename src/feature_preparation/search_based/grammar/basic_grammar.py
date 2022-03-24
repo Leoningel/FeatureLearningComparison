@@ -1,11 +1,14 @@
 from abc import ABC
 from dataclasses import dataclass
+from textwrap import indent
 from typing import Annotated, List
 import numpy as np
 
 from geneticengine.metahandlers.lists import ListSizeBetween
 from geneticengine.metahandlers.vars import VarRange
 from geneticengine.core.decorators import abstract
+
+from feature_preparation.search_based.grammar.conditions import Condition
 
 class Solution(ABC):
     def evaluate(self, **kwargs) -> float:
@@ -91,6 +94,10 @@ class SafeDiv(BuildingBlock):
     def evaluate(self, **kwargs):
         d1 = self.left.evaluate(**kwargs)
         d2 = self.right.evaluate(**kwargs)
+        if d1.dtype == 'O':
+            d1 = d1.astype(float)
+        if d2.dtype == 'O':
+            d2 = d2.astype(float)
         try:
             with np.errstate(divide="ignore", invalid="ignore"):
                 return np.where(d2 == 0, np.ones_like(d1), d1 / d2)
@@ -103,3 +110,23 @@ class SafeDiv(BuildingBlock):
     def __str__(self, **kwargs):
         return f"({self.left} / {self.right})"    
 
+
+
+
+@dataclass
+class IfThenElse(BuildingBlock):
+    cond: Condition
+    then: BuildingBlock
+    elze: BuildingBlock
+
+    def evaluate(self, **kwargs):
+        if self.cond.evaluate(**kwargs):
+            x = self.then.evaluate(**kwargs)
+        else:
+            x = self.elze.evaluate(**kwargs)
+        return x
+    
+    def __str__(self):
+        return "if {}:\n{}\nelse:\n{}".format(
+            self.cond, indent(str(self.then), "\t"), indent(str(self.elze), "\t")
+        )
