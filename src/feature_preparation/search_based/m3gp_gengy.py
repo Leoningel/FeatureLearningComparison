@@ -51,7 +51,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
 
     def fit(self,X,y=None):
         feature_names, feature_indices = utils.feature_info(X)
-        Var.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
+        Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
