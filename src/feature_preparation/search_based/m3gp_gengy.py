@@ -78,7 +78,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
 
 class M3GP_Gengy(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__max_depth": [ 5, 10, 15, 20 ],
+                            "feature_learning__max_depth": [ 10, 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
     method = M3GPFL_Gengy
