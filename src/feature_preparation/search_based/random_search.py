@@ -12,7 +12,7 @@ from geneticengine.core.representations.tree.treebased import treebased_represen
 from geneticengine.metahandlers.vars import VarRange
 
 import src.feature_preparation.search_based.utils as utils
-from src.feature_preparation.search_based.grammar import (
+from src.feature_preparation.search_based.grammar.basic_grammar import (
     Solution, 
     FeatureSet, 
     EngineeredFeature, 
