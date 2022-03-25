@@ -118,13 +118,25 @@ class IfThenElse(BuildingBlock):
     cond: Condition
     then: BuildingBlock
     elze: BuildingBlock
-
-    def evaluate(self, **kwargs):
-        if self.cond.evaluate(**kwargs):
-            x = self.then.evaluate(**kwargs)
+    
+    def if_statement(self,x):
+        if x[0]:
+            y = x[1]
         else:
-            x = self.elze.evaluate(**kwargs)
-        return x
+            y = x[2]
+        return y
+    
+    def evaluate(self, **kwargs):
+        y = np.apply_along_axis(
+                self.if_statement,
+                0,
+                np.array([
+                    self.cond.evaluate(**kwargs),
+                    self.then.evaluate(**kwargs),
+                    self.elze.evaluate(**kwargs)
+                    ])
+                )
+        return y
     
     def __str__(self):
         return "if {}:\n{}\nelse:\n{}".format(

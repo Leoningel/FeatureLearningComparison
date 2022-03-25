@@ -1,107 +1,33 @@
 from abc import ABC
 from dataclasses import dataclass
+
+import numpy as np
 from src.feature_preparation.search_based.grammar.categories import (
     Category
 )
 
 class Condition(ABC):
-    pass
+    def evaluate(self, **kwargs):
+        return False
 
 @dataclass
 class Equals(Condition):
     input: Category
 
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] == self.input.category
+    def evaluate(self, **kwargs):
+        return np.apply_along_axis(lambda x: x == self.input.category,0,kwargs[self.input.column])
 
     def __str__(self):
-        return f"({self.input.column.upper()} == {self.input.category})"
+        return f"({self.input.column} == {self.input.category})"
 
 
 @dataclass
 class NotEquals(Condition):
     input: Category
 
-    def evaluate(self, **kwargs) -> bool:
+    def evaluate(self, **kwargs):
         return kwargs[self.input.column] != self.input.category
 
     def __str__(self):
-        return f"({self.input.column.upper()} != {self.input.category})"
+        return f"({self.input.column} != {self.input.category})"
 
-
-@dataclass
-class GreaterThan(Condition):
-    input: Category
-
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] > self.input.category
-
-    def __str__(self):
-        return f"({self.input.column.upper()} > {self.input.category})"
-
-
-@dataclass
-class GreaterOrEqualThan(Condition):
-    input: Category
-
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] >= self.input.category
-
-    def __str__(self):
-        return f"({self.input.column.upper()} >= {self.input.category})"
-
-
-@dataclass
-class LessThan(Condition):
-    input: Category
-
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] < self.input.category
-
-    def __str__(self):
-        return f"({self.input.column.upper()} < {self.input.category})"
-
-
-@dataclass
-class LessOrEqualThan(Condition):
-    input: Category
-
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] <= self.input.category
-
-    def __str__(self):
-        return f"({self.input.column.upper()} <= {self.input.category})"
-
-
-@dataclass
-class Is(Condition):
-    input: Category
-
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] is self.input.category
-
-    def __str__(self):
-        return f"({self.input.column.upper()} is {self.input.category})"
-
-
-@dataclass
-class IsNot(Condition):
-    input: Category
-
-    def evaluate(self, **kwargs) -> bool:
-        return kwargs[self.input.column] is not self.input.category
-
-    def __str__(self):
-        return f"({self.input.column.upper()} is not {self.input.category})"
-
-
-all_operators = [
-    Equals,
-    NotEquals,
-    GreaterOrEqualThan,
-    GreaterThan,
-    LessOrEqualThan,
-    LessThan,
-    Is,
-    IsNot,
-]
