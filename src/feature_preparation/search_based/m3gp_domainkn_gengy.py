@@ -65,7 +65,6 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
                                    IfThenElse, Season, Equals, NotEquals
                                    ], FeatureSet)
-        print(grammar)
         
         def fitness_function(fs: Solution):
             feature_names, feature_indices = utils.feature_info(X)
@@ -74,7 +73,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=2)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=0)
 
         self.feature_mapping = fs
         with open(f"./results/mappings/2_m3gp_gengy.csv", "a", newline="") as outfile:
