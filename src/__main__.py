@@ -28,6 +28,7 @@ from feature_preparation.search_based.random_search import RandomSearchFS
 from feature_preparation.search_based.traditional_gp import TraditionalGP
 from feature_preparation.search_based.m3gp_jb import M3GP_JB
 from feature_preparation.search_based.m3gp_gengy import M3GP_Gengy
+from feature_preparation.search_based.m3gp_domainkn_gengy import M3GP_DK_Gengy
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 import utils
 
@@ -36,6 +37,7 @@ CROSS_VALIDATION_GROUPS = 2
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
+feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy() ]
 
 
 
@@ -48,8 +50,8 @@ if __name__ == '__main__':
         print("Warning: Not running models. Using data stored.")
     else:
         print("Running models")
-        X,y = load("data/boom_bikes_14-01-2022_without_casual_and_registered.csv",'cnt')
         for feature_learning in feature_learnings:
+            X,y = load(feature_learning.data_file,'cnt')
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)

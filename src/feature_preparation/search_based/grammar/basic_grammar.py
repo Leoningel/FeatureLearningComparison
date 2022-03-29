@@ -8,11 +8,11 @@ from geneticengine.metahandlers.lists import ListSizeBetween
 from geneticengine.metahandlers.vars import VarRange
 from geneticengine.core.decorators import abstract
 
-from feature_preparation.search_based.grammar.conditions import Condition
+from src.feature_preparation.search_based.grammar.conditions import Condition
 
 class Solution(ABC):
     def evaluate(self, **kwargs) -> float:
-        return lambda _: 0
+        raise NotImplementedError()
 
 @dataclass
 class FeatureSet(Solution):
@@ -30,7 +30,7 @@ class FeatureSet(Solution):
 
 class BuildingBlock(ABC):
     def evaluate(self, **kwargs):
-        return 0
+        raise NotImplementedError()
 
 @dataclass
 class EngineeredFeature(Solution):

@@ -74,7 +74,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=3)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=2)
 
         self.feature_mapping = fs
         with open(f"./results/mappings/2_m3gp_gengy.csv", "a", newline="") as outfile:
@@ -90,7 +90,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
 
 class M3GP_DK_Gengy(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__max_depth": [ 10, 15, 20 ],
+                            "feature_learning__max_depth": [ 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
     method = M3GP_DK_FL_Gengy

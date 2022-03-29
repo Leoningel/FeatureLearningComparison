@@ -15,7 +15,7 @@ class Equals(Condition):
     input: Category
 
     def evaluate(self, **kwargs):
-        return np.apply_along_axis(lambda x: x == self.input.category,0,kwargs[self.input.column])
+        return np.apply_along_axis(lambda x: x == self.input.category,0,self.input.column.evaluate(**kwargs))
 
     def __str__(self):
         return f"({self.input.column} == {self.input.category})"
@@ -26,7 +26,7 @@ class NotEquals(Condition):
     input: Category
 
     def evaluate(self, **kwargs):
-        return kwargs[self.input.column] != self.input.category
+        return np.apply_along_axis(lambda x: x != self.input.category,0,self.input.column.evaluate(**kwargs))
 
     def __str__(self):
         return f"({self.input.column} != {self.input.category})"
