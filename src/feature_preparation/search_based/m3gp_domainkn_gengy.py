@@ -65,7 +65,6 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
                                    IfThenElse, Season, Equals, NotEquals
                                    ], FeatureSet)
-        # print(grammar)
         
         def fitness_function(fs: Solution):
             feature_names, feature_indices = utils.feature_info(X)
