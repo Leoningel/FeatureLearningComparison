@@ -28,7 +28,11 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
 )
 from src.feature_preparation.search_based.grammar.categories import (
     Season,
-    Holiday
+    Year,
+    Month,
+    Holiday,
+    Weekday,
+    WorkingDay
 )
 # from src.feature_preparation.search_based.grammar.logical_ops import IfThenElse
 from src.feature_preparation.search_based.grammar.conditions import (
@@ -45,8 +49,12 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         self.n_generations = n_generations
 
     special_features = {
-        "season" : Season,
-        "holiday" : Holiday
+        "season"    : Season,
+        "yr"        : Year,
+        "mnth"      : Month,
+        "holiday"   : Holiday,
+        "weekday"   : Weekday,
+        "workingday": WorkingDay,
     }
 
     def evolve(self, g, fitness_function, seed:int=0, verbose=0):
@@ -81,7 +89,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=0)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=2)
 
         self.feature_mapping = fs
         with open(f"./results/mappings/2_m3gp_gengy.csv", "a", newline="") as outfile:
@@ -101,7 +109,7 @@ class M3GP_DK_Gengy(FeatureLearningMethod):
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
     method = M3GP_DK_FL_Gengy
-    data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered_season_as_string.csv"
+    data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     
     def __str__(self) -> str:
         return "M3GP_Gengy_FL_Domain_Knowledge"
