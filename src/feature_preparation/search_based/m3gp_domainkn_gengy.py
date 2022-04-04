@@ -26,7 +26,10 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     SafeDiv,
     IfThenElse
 )
-from src.feature_preparation.search_based.grammar.categories import Season
+from src.feature_preparation.search_based.grammar.categories import (
+    Season,
+    Holiday
+)
 # from src.feature_preparation.search_based.grammar.logical_ops import IfThenElse
 from src.feature_preparation.search_based.grammar.conditions import (
     Equals,
@@ -40,6 +43,11 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         self.max_depth = max_depth
         self.elitism_size = elitism_size
         self.n_generations = n_generations
+
+    special_features = {
+        "season" : Season,
+        "holiday" : Holiday
+    }
 
     def evolve(self, g, fitness_function, seed:int=0, verbose=0):
         alg = GP_alg(
@@ -58,13 +66,13 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         return b, bf, bp
 
     def fit(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X, exclude=['season'])
+        feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()))
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
-                                   IfThenElse, Season, Equals, NotEquals
-                                   ], FeatureSet)
+                                   IfThenElse, Equals, NotEquals
+                                   ] + list(self.special_features.values()), FeatureSet)
         
         def fitness_function(fs: Solution):
             feature_names, feature_indices = utils.feature_info(X)
@@ -82,7 +90,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X, exclude=['season'])
+        feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()))
         Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping)
         assert len(Xt) == len(X.values)
         return Xt
