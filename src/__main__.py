@@ -36,7 +36,7 @@ N_SEEDS = 5
 CROSS_VALIDATION_GROUPS = 2
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
+feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy() ]
 
 
