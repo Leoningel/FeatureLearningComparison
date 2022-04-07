@@ -27,6 +27,10 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     IfThenElse
 )
 from src.feature_preparation.search_based.grammar.categories import (
+    Category,
+    BoolCategory,
+    Col,
+    IntCategory,
     Season,
     Year,
     Month,
@@ -79,8 +83,13 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         Var.feature_indices = feature_indices
         
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
-                                   IfThenElse, Equals, NotEquals
+                                   IfThenElse, Equals, NotEquals,
+                                   Category, IntCategory, BoolCategory, Col
                                    ] + list(self.special_features.values()), FeatureSet)
+        # import IPython as ip
+        # ip.embed()
+        
+        print(grammar)
         
         def fitness_function(fs: Solution):
             feature_names, feature_indices = utils.feature_info(X)

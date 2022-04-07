@@ -9,13 +9,19 @@ from geneticengine.metahandlers.ints import IntRange
 class Col(ABC):
     def evaluate(self, **kwargs):
         return "\"x\""
-
+    
 class Category(ABC):
-    category: Union[int, bool]
+    pass
+
+class IntCategory(Category):
+    category: int
     column: Col
 
-# class Category(Category):
-#     category: int
+class BoolCategory(Category):
+    category: int
+    column: Col
+
+
 
 @dataclass
 class SeasonCol(Col):
@@ -26,7 +32,7 @@ class SeasonCol(Col):
         return "\"season\""
 
 @dataclass
-class Season(Category):
+class Season(IntCategory):
     category: Annotated[int, IntRange( 1, 4 )]
     column: SeasonCol
 
@@ -40,7 +46,7 @@ class YearCol(Col):
         return "\"yr\""
 
 @dataclass
-class Year(Category):
+class Year(IntCategory):
     category: Annotated[int, IntRange( 0, 2 )]
     column: YearCol
 
@@ -54,7 +60,7 @@ class MonthCol(Col):
         return "\"mnth\""
 
 @dataclass
-class Month(Category):
+class Month(IntCategory):
     category: Annotated[int, IntRange( 1, 12 )]
     column: MonthCol
 
@@ -68,7 +74,7 @@ class HolidayCol(Col):
         return "\"holiday\""
 
 @dataclass
-class Holiday(Category):
+class Holiday(BoolCategory):
     category: Annotated[int, IntRange( 0, 1 )]
     column: HolidayCol
 
@@ -82,7 +88,7 @@ class WeekdayCol(Col):
         return "\"weekday\""
 
 @dataclass
-class Weekday(Category):
+class Weekday(IntCategory):
     category: Annotated[int, IntRange( 0, 6 )]
     column: WeekdayCol
 
@@ -96,7 +102,7 @@ class WorkingDayCol(Col):
         return "\"workingday\""
 
 @dataclass
-class WorkingDay(Category):
+class WorkingDay(BoolCategory):
     category: Annotated[int, IntRange( 0, 1 )]
     column: WorkingDayCol
 
