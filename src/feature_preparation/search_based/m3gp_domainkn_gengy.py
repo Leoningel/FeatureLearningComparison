@@ -30,17 +30,23 @@ from src.feature_preparation.search_based.grammar.categories import (
     Category,
     BoolCategory,
     Col,
+    IBCategory,
     IntCategory,
+    MonthIB,
     Season,
+    SeasonIB,
+    WeekdayIB,
     Year,
     Month,
     Holiday,
     Weekday,
-    WorkingDay
+    WorkingDay,
+    YearIB
 )
 # from src.feature_preparation.search_based.grammar.logical_ops import IfThenElse
 from src.feature_preparation.search_based.grammar.conditions import (
     Equals,
+    InBetween,
     NotEquals
     )
 
@@ -60,6 +66,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         "weekday"   : Weekday,
         "workingday": WorkingDay,
     }
+    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB ]
 
     def evolve(self, g, fitness_function, seed:int=0, verbose=0):
         alg = GP_alg(
@@ -83,9 +90,10 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         Var.feature_indices = feature_indices
         
         grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
-                                   IfThenElse, Equals, NotEquals,
-                                   Category, IntCategory, BoolCategory, Col
-                                   ] + list(self.special_features.values()), FeatureSet)
+                                   IfThenElse, 
+                                   Equals, NotEquals, InBetween,
+                                   Category, IntCategory, BoolCategory, IBCategory, Col
+                                   ] + list(self.special_features.values()) + self.ibs, FeatureSet)
         
         def fitness_function(fs: Solution):
             feature_names, feature_indices = utils.feature_info(X)
@@ -94,7 +102,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=3)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=2)
 
         self.feature_mapping = fs
         with open(f"./results/mappings/2_m3gp_gengy.csv", "a", newline="") as outfile:

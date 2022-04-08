@@ -34,11 +34,6 @@ class SeasonCol(Col):
     
     def __str__(self, **kwargs):
         return "\"season\""
-
-@dataclass
-class Season(IntCategory):
-    category: Annotated[int, IntRange( 1, 4 )]
-    column: SeasonCol
     
     number_map = {
         1 : "winter",
@@ -46,6 +41,11 @@ class Season(IntCategory):
         3 : "summer",
         4 : "fall"
     }
+
+@dataclass
+class Season(IntCategory):
+    category: Annotated[int, IntRange( 1, 4 )]
+    column: SeasonCol
 
     
 @dataclass
@@ -70,11 +70,6 @@ class MonthCol(Col):
     def __str__(self, **kwargs):
         return "\"mnth\""
 
-@dataclass
-class Month(IntCategory):
-    category: Annotated[int, IntRange( 1, 12 )]
-    column: MonthCol
-
     number_map = {
         1   : "January",
         2   : "February",
@@ -89,6 +84,11 @@ class Month(IntCategory):
         11  : "November",
         12  : "December",
     }
+
+@dataclass
+class Month(IntCategory):
+    category: Annotated[int, IntRange( 1, 12 )]
+    column: MonthCol
 
 @dataclass
 class HolidayCol(Col):
@@ -112,11 +112,6 @@ class WeekdayCol(Col):
     def __str__(self, **kwargs):
         return "\"weekday\""
 
-@dataclass
-class Weekday(IntCategory):
-    category: Annotated[int, IntRange( 0, 6 )]
-    column: WeekdayCol
-
     number_map = {
         0 : "Sunday",
         1 : "Monday",
@@ -126,6 +121,11 @@ class Weekday(IntCategory):
         5 : "Friday",
         6 : "Saturday",
     }
+
+@dataclass
+class Weekday(IntCategory):
+    category: Annotated[int, IntRange( 0, 6 )]
+    column: WeekdayCol
 
 @dataclass
 class WorkingDayCol(Col):
@@ -141,3 +141,40 @@ class WorkingDay(BoolCategory):
     column: WorkingDayCol
 
     
+ 
+##-------------------------
+# Should be implemented differently once dependent types are included in Genetic Engine
+##-------------------------
+    
+class IBCategory(ABC):
+    category1: int
+    category2: int
+    column: Col
+
+@dataclass
+class SeasonIB(IBCategory):
+    category1: Annotated[int, IntRange( 1, 4 )]
+    category2: Annotated[int, IntRange( 1, 4 )]
+    column: SeasonCol
+
+    
+@dataclass
+class YearIB(IBCategory):
+    category1: Annotated[int, IntRange( 0, 2 )]
+    category2: Annotated[int, IntRange( 0, 2 )]
+    column: YearCol
+
+
+@dataclass
+class MonthIB(IBCategory):
+    category1: Annotated[int, IntRange( 1, 12 )]
+    category2: Annotated[int, IntRange( 1, 12 )]
+    column: MonthCol
+
+
+@dataclass
+class WeekdayIB(IBCategory):
+    category1: Annotated[int, IntRange( 0, 6 )]
+    category2: Annotated[int, IntRange( 0, 6 )]
+    column: WeekdayCol
+
