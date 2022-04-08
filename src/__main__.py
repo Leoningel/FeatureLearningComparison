@@ -89,7 +89,6 @@ if __name__ == '__main__':
         print("Plotting data")
         dfs = [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in feature_learnings ]
         df = pd.concat(dfs)
-        # df = df[df["model"]=="SVM"]
         df['avg_score'] = -1 * df['avg_score']
         plot_combined_barplot_comparison(df)
         plot_separated_violin_comparisons(df)
