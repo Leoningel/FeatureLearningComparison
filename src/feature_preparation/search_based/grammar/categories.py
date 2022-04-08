@@ -39,6 +39,13 @@ class SeasonCol(Col):
 class Season(IntCategory):
     category: Annotated[int, IntRange( 1, 4 )]
     column: SeasonCol
+    
+    number_map = {
+        1 : "winter",
+        2 : "spring",
+        3 : "summer",
+        4 : "fall"
+    }
 
     
 @dataclass
@@ -68,6 +75,20 @@ class Month(IntCategory):
     category: Annotated[int, IntRange( 1, 12 )]
     column: MonthCol
 
+    number_map = {
+        1   : "January",
+        2   : "February",
+        3   : "March",
+        4   : "April",
+        5   : "May",
+        6   : "June",
+        7   : "July",
+        8   : "August",
+        9   : "September",
+        10  : "October",
+        11  : "November",
+        12  : "December",
+    }
 
 @dataclass
 class HolidayCol(Col):
@@ -96,6 +117,15 @@ class Weekday(IntCategory):
     category: Annotated[int, IntRange( 0, 6 )]
     column: WeekdayCol
 
+    number_map = {
+        0 : "Sunday",
+        1 : "Monday",
+        2 : "Tueday",
+        3 : "Wednesday",
+        4 : "Thursday",
+        5 : "Friday",
+        6 : "Saturday",
+    }
 
 @dataclass
 class WorkingDayCol(Col):

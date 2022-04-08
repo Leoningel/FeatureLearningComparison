@@ -20,7 +20,10 @@ class Equals(Condition):
         return np.apply_along_axis(lambda x: x == self.input.category,0,self.input.column.evaluate(**kwargs))
 
     def __str__(self):
-        return f"({self.input.column} == {self.input.category})"
+        cat = self.input.category
+        if hasattr(self.input,"number_map"):
+            cat = self.input.number_map[cat]
+        return f"({self.input.column} == {cat})"
 
 
 @dataclass
@@ -31,5 +34,8 @@ class NotEquals(Condition):
         return np.apply_along_axis(lambda x: x != self.input.category,0,self.input.column.evaluate(**kwargs))
 
     def __str__(self):
-        return f"({self.input.column} != {self.input.category})"
+        cat = self.input.category
+        if hasattr(self.input,"number_map"):
+            cat = self.input.number_map[cat]
+        return f"({self.input.column} != {cat})"
 
