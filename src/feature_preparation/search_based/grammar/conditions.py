@@ -46,13 +46,9 @@ class InBetween(Condition):
 
     def evaluate(self, **kwargs):
         if self.input.category1 <= self.input.category2:
-            a = np.apply_along_axis(lambda x: x >= self.input.category1,0,self.input.column.evaluate(**kwargs))
-            b = np.apply_along_axis(lambda x: x <= self.input.category2,0,self.input.column.evaluate(**kwargs))
-            return [ t and s for (t,s) in zip(a,b)]
+            return np.apply_along_axis(lambda x: (x >= self.input.category1) & (x <= self.input.category2),0,self.input.column.evaluate(**kwargs))
         else:
-            a = np.apply_along_axis(lambda x: x <= self.input.category1,0,self.input.column.evaluate(**kwargs))
-            b = np.apply_along_axis(lambda x: x >= self.input.category2,0,self.input.column.evaluate(**kwargs))
-            return [ t and s for (t,s) in zip(a,b)]
+            return np.apply_along_axis(lambda x: (x <= self.input.category1) & (x >= self.input.category2),0,self.input.column.evaluate(**kwargs))
 
     def __str__(self):
         cat1 = self.input.category1
