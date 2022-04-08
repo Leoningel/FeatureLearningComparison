@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Annotated, Union
 from geneticengine.metahandlers.vars import VarRange
 from geneticengine.metahandlers.ints import IntRange
+from geneticengine.core.decorators import abstract
 
 
 class Col(ABC):
@@ -11,12 +12,15 @@ class Col(ABC):
         return "\"x\""
     
 class Category(ABC):
-    pass
+    category: Union[int,bool]
+    column: Col
 
+@abstract
 class IntCategory(Category):
     category: int
     column: Col
 
+@abstract
 class BoolCategory(Category):
     category: int
     column: Col
