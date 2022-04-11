@@ -58,7 +58,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)
-            dt = DecisionTreeRegressor(max_depth=15)
+            dt = DecisionTreeRegressor(max_depth=4)
             scores = -1 * cv_score(dt,Xt,y,2)
             return np.mean(scores)
         
