@@ -37,7 +37,7 @@ CROSS_VALIDATION_GROUPS = 2
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
-feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy() ]
+# feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy() ]
 
 
 
@@ -87,7 +87,9 @@ if __name__ == '__main__':
         print("Warning: Not plotting data. Using data stored.")
     else:
         print("Plotting data")
+        other_feature_learnings = ["M3GP_Gengy_FL_Domain_Knowledge-only-season", "M3GP_Gengy_FL_Domain_Knowledge-with-in-between"]
         dfs = [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in feature_learnings ]
+        dfs += [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in other_feature_learnings ]
         df = pd.concat(dfs)
         df['avg_score'] = -1 * df['avg_score']
         plot_combined_barplot_comparison(df)
