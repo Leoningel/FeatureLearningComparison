@@ -39,7 +39,7 @@ models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
 # feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy() ]
 
-
+addition = ""
 
 if __name__ == '__main__':
     args = sys.argv
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         for feature_learning in feature_learnings:
             X,y = load(feature_learning.data_file,'cnt')
             print(f"=================\n{feature_learning}.\n--------")
-            with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
+            with open(f"./results/{feature_learning}{addition}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
                 writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worst_score", "grid_search_time", "time" ])
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
                     duration = time.time() - start
                     
                     csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, worse_score, grid_search_time, duration ]
-                    with open(f"./results/{feature_learning}.csv", "a", newline="") as outfile:
+                    with open(f"./results/{feature_learning}{addition}.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
     
