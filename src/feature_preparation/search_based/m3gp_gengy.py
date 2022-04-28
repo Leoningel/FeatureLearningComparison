@@ -14,6 +14,7 @@ from geneticengine.metahandlers.vars import VarRange
 
 import src.feature_preparation.search_based.utils as utils
 from src.feature_preparation.search_based.grammar.basic_grammar import (
+    Literal,
     Solution, 
     FeatureSet, 
     EngineeredFeature, 
@@ -54,7 +55,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
+        grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)

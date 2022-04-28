@@ -6,6 +6,7 @@ import numpy as np
 
 from geneticengine.metahandlers.lists import ListSizeBetween
 from geneticengine.metahandlers.vars import VarRange
+from geneticengine.metahandlers.ints import IntRange
 from geneticengine.core.decorators import abstract
 
 from src.feature_preparation.search_based.grammar.conditions import Condition
@@ -110,7 +111,17 @@ class SafeDiv(BuildingBlock):
     def __str__(self, **kwargs):
         return f"({self.left} / {self.right})"    
 
-
+@dataclass
+class Literal(BuildingBlock):
+    val: Annotated[int, IntRange(0,100)]
+    
+    def evaluate(self, **kwargs):
+        return self.val
+    
+    def __str__(self, **kwargs):
+        return f"{self.val}"
+    
+    
 
 
 @dataclass

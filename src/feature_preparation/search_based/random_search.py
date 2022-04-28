@@ -13,6 +13,7 @@ from geneticengine.metahandlers.vars import VarRange
 
 import src.feature_preparation.search_based.utils as utils
 from src.feature_preparation.search_based.grammar.basic_grammar import (
+    Literal,
     Solution, 
     FeatureSet, 
     EngineeredFeature, 
@@ -47,7 +48,7 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
+        grammar = extract_grammar([Var, Literal, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
         
         def fitness_function(fs: Solution):
             Xt = utils.mapping(feature_names, feature_indices, X, fs)
