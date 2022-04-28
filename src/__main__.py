@@ -29,6 +29,7 @@ from feature_preparation.search_based.traditional_gp import TraditionalGP
 from feature_preparation.search_based.m3gp_jb import M3GP_JB
 from feature_preparation.search_based.m3gp_gengy import M3GP_Gengy
 from feature_preparation.search_based.m3gp_domainkn_gengy import M3GP_DK_Gengy
+from feature_preparation.search_based.dka_m3gp import DKA_M3GP
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 import utils
 
@@ -36,8 +37,8 @@ N_SEEDS = 5
 CROSS_VALIDATION_GROUPS = 2
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
-# feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy() ]
+# feature_learnings : List[FeatureLearningMethod] = [ M3GP_DK_Gengy(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), Principle_CA(), FeatureToolsFS(), NoFeatureLearning() ]
+feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP() ]
 
 
 
