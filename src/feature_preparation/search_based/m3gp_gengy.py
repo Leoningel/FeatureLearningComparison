@@ -53,7 +53,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
         
-        fitness_function = utils.cv_fitness_function(X,y,2,feature_names,feature_indices)
+        fitness_function = utils.cv_fitness_function(X,y,2)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 
