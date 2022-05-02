@@ -1,9 +1,6 @@
 import csv
 from typing import Annotated, List, Union
-import numpy as np
 
-from sklearn.tree import DecisionTreeRegressor
-from evaluation.evaluation_metrics import cv_score
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -16,8 +13,6 @@ import src.feature_preparation.search_based.utils as utils
 from src.feature_preparation.search_based.grammar.basic_grammar import (
     Literal,
     Solution, 
-    FeatureSet, 
-    EngineeredFeature, 
     BuildingBlock,
     Var,
     Plus,
@@ -57,11 +52,7 @@ class GPFL(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock], BuildingBlock)
         
-        def fitness_function(fs: Solution):
-            Xt = utils.mapping(feature_names, feature_indices, X, fs, single_solution=True)
-            dt = DecisionTreeRegressor(max_depth=4)
-            scores = -1 * cv_score(dt,Xt,y,2)
-            return np.mean(scores)
+        fitness_function = utils.cv_fitness_function(X,y,2,feature_names,feature_indices,single_solution=True)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 

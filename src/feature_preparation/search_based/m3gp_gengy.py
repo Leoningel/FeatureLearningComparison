@@ -1,9 +1,5 @@
-import csv
 from typing import Annotated, List, Union
-import numpy as np
 
-from sklearn.tree import DecisionTreeRegressor
-from evaluation.evaluation_metrics import cv_score
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -57,11 +53,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
         
-        def fitness_function(fs: Solution):
-            Xt = utils.mapping(feature_names, feature_indices, X, fs)
-            dt = DecisionTreeRegressor(max_depth=4)
-            scores = -1 * cv_score(dt,Xt,y,2)
-            return np.mean(scores)
+        fitness_function = utils.cv_fitness_function(X,y,2,feature_names,feature_indices)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 

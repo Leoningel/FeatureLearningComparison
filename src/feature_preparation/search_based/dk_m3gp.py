@@ -1,5 +1,3 @@
-from abc import ABC
-import csv
 from typing import Annotated, List, Union
 import numpy as np
 
@@ -95,15 +93,11 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
                                    Equals, NotEquals, InBetween,
                                    Category, IntCategory, BoolCategory, IBCategory, Col
                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
+        print(grammar)
         
-        def fitness_function(fs: Solution):
-            feature_names, feature_indices = utils.feature_info(X)
-            Xt = utils.mapping(feature_names, feature_indices, X, fs)
-            dt = DecisionTreeRegressor(max_depth=4)
-            scores = -1 * cv_score(dt,Xt,y,2)
-            return np.mean(scores)
+        fitness_function = utils.cv_fitness_function(X,y,2,feature_names,feature_indices)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=2)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 
         self.feature_mapping = fs
         return self
