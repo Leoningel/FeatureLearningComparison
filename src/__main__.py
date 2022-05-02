@@ -52,7 +52,7 @@ if __name__ == '__main__':
     else:
         print("Running models")
         for feature_learning in feature_learnings:
-            X,y = load(feature_learning.data_file,'cnt',drop=["instant"])
+            X_train, y_train, X_test, y_test = load(feature_learning.data_file,'cnt',drop=["instant"])
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
@@ -70,10 +70,10 @@ if __name__ == '__main__':
                     
                     with ignore_warnings(category=ConvergenceWarning):
                         utils.make_grid_search_ready(estimator.pipeline)
-                        best_estimator = estimator.grid_search(X,y)
+                        best_estimator = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
                         utils.make_evaluation_ready(estimator.pipeline)
-                        scores = cv_score(best_estimator, X, y, CROSS_VALIDATION_GROUPS)
+                        scores = cv_score(best_estimator, X_train, y_train, CROSS_VALIDATION_GROUPS)
                     
                     avg_score = np.mean(scores)
                     worse_score = min(scores)

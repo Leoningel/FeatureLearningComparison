@@ -2,7 +2,7 @@ import pandas as pd
 
 
 
-def load(path, target_column, delimiter=',',drop=[]):
+def load_no_split(path, target_column, delimiter=',',drop=[]):
     data = pd.read_csv(path, delimiter=delimiter)
     
     target = data[target_column]
@@ -12,5 +12,20 @@ def load(path, target_column, delimiter=',',drop=[]):
     return data, target
 
 
+def load(path, target_column, delimiter=',',drop=[], train_proportion: float = 0.75):
+    '''
+    Returns X_train, y_train, X_test, y_test
+    '''
+    
+    
+    data = pd.read_csv(path, delimiter=delimiter)
+    
+    target = data[target_column]
+    data = data.drop([target_column], axis=1)
+    data = data.drop(drop, axis=1)
+    
+    train_length = int(len(target) * train_proportion)
+    
+    return (data[:train_length], target[:train_length], data[train_length:], target[train_length:])
 
 
