@@ -44,10 +44,11 @@ def feature_info(X, exclude = []):
 
 
 
-def cv_fitness_function(X, y, cv_percent, feature_names, feature_indices, single_solution=False):
+def cv_fitness_function(X, y, cv_percent, single_solution=False):
     scoring: str = 'neg_mean_squared_error'
     
     def fitness_function(fs: Solution):
+            feature_names, feature_indices = feature_info(X)
             Xt = mapping(feature_names, feature_indices, X, fs, single_solution=single_solution)
             dt = DecisionTreeRegressor(max_depth=4)
             scores = -1 * cross_val_score(dt, Xt, y , cv=cv_percent, scoring=scoring)
