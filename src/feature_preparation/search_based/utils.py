@@ -1,5 +1,6 @@
 from typing import List
 import numpy as np
+from sklearn.metrics import mean_squared_error
 
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeRegressor
@@ -51,7 +52,48 @@ def cv_fitness_function(X, y, cv_percent, single_solution=False):
             feature_names, feature_indices = feature_info(X)
             Xt = mapping(feature_names, feature_indices, X, fs, single_solution=single_solution)
             dt = DecisionTreeRegressor(max_depth=4)
-            scores = -1 * cross_val_score(dt, Xt, y , cv=cv_percent, scoring=scoring)
+            scores = -1 * cross_val_score(dt, Xt, y, cv=cv_percent, scoring=scoring)
             return np.mean(scores)
     
     return fitness_function
+
+def cv_ff_time_series(X, y, single_solution=False):
+    scoring: str = 'mean_squared_error'
+    
+    def fitness_function(fs: Solution):
+            feature_names, feature_indices = feature_info(X)
+            Xt = mapping(feature_names, feature_indices, X, fs, single_solution=single_solution)
+            dt = DecisionTreeRegressor(max_depth=4)
+            scores = cv_time_series(dt, Xt, y, scoring=scoring)
+            return np.mean(scores)
+    
+    return fitness_function
+
+def cv_time_series(est, Xt, y, scoring, splits = [ 0.5, 0.66, 0.83 ]):
+    if scoring == 'mean_squared_error':
+        scoring = mean_squared_error
+    else:
+        scoring = mean_squared_error
+    
+    scores = list()
+    
+    data_length = len(y)
+    
+    for i in range(len(splits)):
+        end_training = int(splits[i] * data_length)
+        if i + 1 == len(splits):
+            end_testing = data_length
+        else:
+            end_testing = int(splits[i + 1] * data_length)
+        train_data = Xt[:end_training]
+        train_target = y[:end_training]
+        test_data = Xt[end_training:end_testing]
+        test_target = y[end_training:end_testing]
+
+        model = est.fit(train_data,train_target)
+        predictions = model.predict(test_data)
+
+        score = scoring(predictions,test_target)
+        scores.append(score)
+        
+    return scores

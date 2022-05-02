@@ -99,7 +99,7 @@ class DKA_M3GP_FL(BaseEstimator, TransformerMixin):
 
         print(grammar)
         
-        fitness_function = utils.cv_fitness_function(X,y,2)
+        fitness_function = utils.cv_ff_time_series(X,y)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
 

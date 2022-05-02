@@ -94,9 +94,9 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
                                    Category, IntCategory, BoolCategory, IBCategory, Col
                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
         
-        fitness_function = utils.cv_fitness_function(X,y,2)
+        fitness_function = utils.cv_ff_time_series(X,y)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=1)
 
         self.feature_mapping = fs
         return self

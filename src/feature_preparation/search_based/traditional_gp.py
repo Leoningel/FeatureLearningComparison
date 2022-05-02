@@ -52,9 +52,9 @@ class GPFL(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock], BuildingBlock)
         
-        fitness_function = utils.cv_fitness_function(X,y,2,feature_names,feature_indices,single_solution=True)
+        fitness_function = utils.cv_ff_time_series(X, y, single_solution=True)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1, verbose=1)
 
         self.feature_mapping = fs
         with open(f"./results/mappings/2_traditional_gp.csv", "a", newline="") as outfile:
