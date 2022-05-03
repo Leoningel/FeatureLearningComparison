@@ -18,18 +18,19 @@ class Average(BuildingBlock):
     aggregation_col: Annotated[str, VarRange(["target"])]
     
     file_path = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
+    time_column = "instant"
     delimiter = ','
     
     def get_relevant_vals(self, data, instant, col_val):
-        cond = (data["instant"] < instant) & (data[self.col.col_name] == col_val)
+        cond = (data[self.time_column] < instant) & (data[self.col.col_name] == col_val)
         relevant_vals = data[cond]
         
         return relevant_vals[self.aggregation_col].values
     
     def evaluate(self, **kwargs):
         data = pd.read_csv(self.file_path, delimiter=self.delimiter)
-        data = data[["instant", self.aggregation_col, self.col.col_name]]
-        instants = zip(kwargs["instant"], self.col.evaluate(**kwargs))
+        data = data[[self.time_column, self.aggregation_col, self.col.col_name]]
+        instants = zip(kwargs[self.time_column], self.col.evaluate(**kwargs))
         
         aggregates = [ np.mean(self.get_relevant_vals(data,instant,col_val)) for (instant, col_val) in instants ]
         aggregates = np.array(aggregates)
