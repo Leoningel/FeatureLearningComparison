@@ -52,7 +52,7 @@ if __name__ == '__main__':
     else:
         print("Running models")
         for feature_learning in feature_learnings:
-            X_train, y_train, X_test, y_test = load(feature_learning.data_file,'cnt',drop=["instant"])
+            X_train, y_train, X_test, y_test = load(feature_learning.data_file,'cnt',drop=[])
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)

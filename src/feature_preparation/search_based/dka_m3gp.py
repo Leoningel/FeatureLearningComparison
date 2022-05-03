@@ -88,6 +88,7 @@ class DKA_M3GP_FL(BaseEstimator, TransformerMixin):
     def fit(self,X,y=None):
         feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()))
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
+        Average.__init__.__annotations__["aggregation_col"] = Annotated[str, VarRange(["cnt"])]
         Var.feature_indices = feature_indices
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
@@ -97,8 +98,6 @@ class DKA_M3GP_FL(BaseEstimator, TransformerMixin):
                                    Average,
                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
 
-        print(grammar)
-        
         fitness_function = utils.cv_ff_time_series(X,y)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
