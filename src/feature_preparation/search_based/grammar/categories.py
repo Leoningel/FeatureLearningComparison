@@ -8,8 +8,13 @@ from geneticengine.core.decorators import abstract
 
 
 class Col(ABC):
+    col_name = "No column name defined"
+    
     def evaluate(self, **kwargs):
-        return "\"x\""
+        return kwargs[self.col_name]
+    
+    def __str__(self, **kwargs):
+        return f"\"{self.col_name}\""
     
 class Category(ABC):
     category: Union[int,bool]
@@ -29,11 +34,7 @@ class BoolCategory(Category):
 
 @dataclass
 class SeasonCol(Col):
-    def evaluate(self, **kwargs):
-        return kwargs["season"]
-    
-    def __str__(self, **kwargs):
-        return "\"season\""
+    col_name = "season"
     
     number_map = {
         1 : "winter",
@@ -50,12 +51,8 @@ class Season(IntCategory):
     
 @dataclass
 class YearCol(Col):
-    def evaluate(self, **kwargs):
-        return kwargs["yr"]
+    col_name = "yr"
     
-    def __str__(self, **kwargs):
-        return "\"yr\""
-
 @dataclass
 class Year(IntCategory):
     category: Annotated[int, IntRange( 0, 2 )]
@@ -64,12 +61,8 @@ class Year(IntCategory):
 
 @dataclass
 class MonthCol(Col):
-    def evaluate(self, **kwargs):
-        return kwargs["mnth"]
+    col_name = "mnth"
     
-    def __str__(self, **kwargs):
-        return "\"mnth\""
-
     number_map = {
         1   : "January",
         2   : "February",
@@ -92,12 +85,8 @@ class Month(IntCategory):
 
 @dataclass
 class HolidayCol(Col):
-    def evaluate(self, **kwargs):
-        return kwargs["holiday"]
+    col_name = "holiday"
     
-    def __str__(self, **kwargs):
-        return "\"holiday\""
-
 @dataclass
 class Holiday(BoolCategory):
     category: Annotated[int, IntRange( 0, 1 )]
@@ -106,12 +95,8 @@ class Holiday(BoolCategory):
 
 @dataclass
 class WeekdayCol(Col):
-    def evaluate(self, **kwargs):
-        return kwargs["weekday"]
+    col_name = "weekday"
     
-    def __str__(self, **kwargs):
-        return "\"weekday\""
-
     number_map = {
         0 : "Sunday",
         1 : "Monday",
@@ -129,12 +114,8 @@ class Weekday(IntCategory):
 
 @dataclass
 class WorkingDayCol(Col):
-    def evaluate(self, **kwargs):
-        return kwargs["workingday"]
+    col_name = "workingday"
     
-    def __str__(self, **kwargs):
-        return "\"workingday\""
-
 @dataclass
 class WorkingDay(BoolCategory):
     category: Annotated[int, IntRange( 0, 1 )]
