@@ -46,7 +46,7 @@ class GPFL(BaseEstimator, TransformerMixin):
         return b, bf, bp
 
     def fit(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X)
+        feature_names, feature_indices = utils.feature_info(X, exclude = ["instant"])
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
