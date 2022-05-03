@@ -17,19 +17,25 @@ class FeatureLearningMethod():
 class FeatureLearningOptimization():
     param_grid: Union[dict, list]
     pipeline: Pipeline
-    cv: int = 4
+    splits = [ 0.5, 0.66, 0.83 ]
     
-    def __init__(self, param_grid: Union[dict, list], pipeline: Pipeline, cv : int = 4) -> None:
+    def __init__(self, param_grid: Union[dict, list], pipeline: Pipeline, splits = [ 0.5, 0.66, 0.83 ]) -> None:
         self.param_grid = param_grid
         self.pipeline = pipeline
-        self.cv = cv
+        self.splits = splits
         
     
     def grid_search(self, data, target):
+        split_data = list()
+        data_ids = list(range(len(target)))
+        for split in self.splits:
+            cut = int(split * len(target))
+            split_data.append((data_ids[:cut],data_ids[cut:]))
+        
         grid_search = GridSearchCV(self.pipeline,
                                    self.param_grid,
                                    scoring ='neg_mean_squared_error',
-                                   cv = self.cv,
+                                   cv = split_data,
                                    n_jobs=1
                                    )
         grid_search.fit(data,target)
