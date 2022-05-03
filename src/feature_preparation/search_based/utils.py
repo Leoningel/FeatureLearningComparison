@@ -77,8 +77,6 @@ def cv_time_series(est, Xt, y, scoring, splits = [ 0.5, 0.66, 0.83 ]):
     
     scores = list()
     
-    data_length = len(y)
-    
     for split in splits:
         cut = int(split * len(Xt))
         train_X = Xt[:cut]
