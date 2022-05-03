@@ -34,6 +34,9 @@ def mapping(feature_names, feature_indices, X, fs: Solution, single_solution = F
     return Xt
 
 def feature_info(X, exclude = []):
+    '''
+    Returns feature_names, feature_indices.
+    '''
     feature_names = list(X.columns)
     feature_indices = {}
     for i, n in enumerate(feature_names):
