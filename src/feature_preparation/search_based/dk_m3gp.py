@@ -84,7 +84,7 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         return b, bf, bp
 
     def fit(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()))
+        feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()) + ["instant"])
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         

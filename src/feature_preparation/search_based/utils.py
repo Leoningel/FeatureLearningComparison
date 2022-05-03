@@ -33,7 +33,7 @@ def mapping(feature_names, feature_indices, X, fs: Solution, single_solution = F
         
     return Xt
 
-def feature_info(X, exclude = []):
+def feature_info(X, exclude = ["instant"]):
     '''
     Returns feature_names, feature_indices.
     '''
