@@ -79,21 +79,17 @@ def cv_time_series(est, Xt, y, scoring, splits = [ 0.5, 0.66, 0.83 ]):
     
     data_length = len(y)
     
-    for i in range(len(splits)):
-        end_training = int(splits[i] * data_length)
-        if i + 1 == len(splits):
-            end_testing = data_length
-        else:
-            end_testing = int(splits[i + 1] * data_length)
-        train_data = Xt[:end_training]
-        train_target = y[:end_training]
-        test_data = Xt[end_training:end_testing]
-        test_target = y[end_training:end_testing]
+    for split in splits:
+        cut = int(split * len(Xt))
+        train_X = Xt[:cut]
+        train_y = y[:cut]
+        test_X = Xt[cut:]
+        test_y = y[cut:]
 
-        model = est.fit(train_data,train_target)
-        predictions = model.predict(test_data)
+        model = est.fit(train_X,train_y)
+        predictions = model.predict(test_X)
 
-        score = scoring(predictions,test_target)
+        score = scoring(predictions,test_y)
         scores.append(score)
         
     return scores
