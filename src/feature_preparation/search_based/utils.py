@@ -1,10 +1,10 @@
 from typing import List
 import numpy as np
-from sklearn.metrics import mean_squared_error
 
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeRegressor
 
+from src.evaluation.evaluation_metrics import cv_time_series
 from src.feature_preparation.search_based.grammar.basic_grammar import Solution
 
 
@@ -72,25 +72,3 @@ def cv_ff_time_series(X, y, single_solution=False):
     
     return fitness_function
 
-def cv_time_series(est, Xt, y, scoring, splits = [ 0.5, 0.66, 0.83 ]):
-    if scoring == 'mean_squared_error':
-        scoring = mean_squared_error
-    else:
-        scoring = mean_squared_error
-    
-    scores = list()
-    
-    for split in splits:
-        cut = int(split * len(Xt))
-        train_X = Xt[:cut]
-        train_y = y[:cut]
-        test_X = Xt[cut:]
-        test_y = y[cut:]
-
-        model = est.fit(train_X,train_y)
-        predictions = model.predict(test_X)
-
-        score = scoring(predictions,test_y)
-        scores.append(score)
-        
-    return scores

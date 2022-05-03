@@ -5,12 +5,7 @@ import sys
 import warnings
 warnings.filterwarnings('ignore')
 
-from sklearn.decomposition import PCA
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.neural_network import MLPRegressor
 from sklearn.pipeline import Pipeline
-from sklearn.svm import SVR
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
@@ -18,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 from data_extraction.data_extraction import load
-from evaluation.evaluation_metrics import cv_score
+from evaluation.evaluation_metrics import cv_time_series
 from evaluation.visualization import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
@@ -73,7 +68,7 @@ if __name__ == '__main__':
                         best_estimator = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
                         utils.make_evaluation_ready(estimator.pipeline)
-                        scores = cv_score(best_estimator, X_train, y_train, CROSS_VALIDATION_GROUPS)
+                        scores = cv_time_series(best_estimator, X_train, y_train)
                     
                     avg_score = np.mean(scores)
                     worse_score = min(scores)
