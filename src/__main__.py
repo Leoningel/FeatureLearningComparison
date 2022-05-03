@@ -30,6 +30,7 @@ import utils
 
 N_SEEDS = 5   
 CROSS_VALIDATION_GROUPS = 2
+TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP() ]
@@ -47,11 +48,11 @@ if __name__ == '__main__':
     else:
         print("Running models")
         for feature_learning in feature_learnings:
-            X_train, y_train, X_test, y_test = load(feature_learning.data_file,'cnt',drop=[])
+            X, y, X_train, y_train = load(feature_learning.data_file, 'cnt', drop=[], train_proportion=TRAIN_PROPORTION)
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
-                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worst_score", "grid_search_time", "time" ])
+                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worst_score", "test_score", "grid_search_time", "time" ])
 
             for model in models:
                 print(f"Running model: {model}")
@@ -69,12 +70,13 @@ if __name__ == '__main__':
                         grid_search_time = time.time() - start
                         utils.make_evaluation_ready(estimator.pipeline)
                         scores = cv_time_series(best_estimator, X_train, y_train)
+                        test_score = cv_time_series(best_estimator, X, y, splits = [TRAIN_PROPORTION])
                     
                     avg_score = np.mean(scores)
                     worse_score = min(scores)
                     duration = time.time() - start
                     
-                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, worse_score, grid_search_time, duration ]
+                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, worse_score, test_score, grid_search_time, duration ]
                     with open(f"./results/{feature_learning}.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
@@ -85,11 +87,14 @@ if __name__ == '__main__':
         print("Plotting data")
         other_feature_learnings = ["M3GP_Gengy_FL_Domain_Knowledge-only-season", "M3GP_Gengy_FL_Domain_Knowledge-with-in-between"]
         dfs = [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in feature_learnings ]
-        dfs += [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in other_feature_learnings ]
+        # dfs += [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in other_feature_learnings ]
         df = pd.concat(dfs)
         df['avg_score'] = -1 * df['avg_score']
         plot_combined_barplot_comparison(df)
         plot_separated_violin_comparisons(df)
+        df['test_score'] = -1 * df['test_score']
+        plot_combined_barplot_comparison(df, column="test_score")
+        plot_separated_violin_comparisons(df, column="test_score")
     
 
     

@@ -14,7 +14,7 @@ def load_no_split(path, target_column, delimiter=',',drop=[]):
 
 def load(path, target_column, delimiter=',',drop=[], train_proportion: float = 0.75):
     '''
-    Returns X_train, y_train, X_test, y_test
+    Returns X, y, X_train, y_train
     '''
     
     
@@ -26,6 +26,6 @@ def load(path, target_column, delimiter=',',drop=[], train_proportion: float = 0
     
     train_length = int(len(target) * train_proportion)
     
-    return (data[:train_length], target[:train_length], data[train_length:], target[train_length:])
+    return (data, target, data[:train_length], target[:train_length])
 
 
