@@ -1,6 +1,11 @@
 from typing import List
-from src.feature_preparation.search_based.grammar.basic_grammar import Solution
 import numpy as np
+
+from sklearn.model_selection import cross_val_score
+from sklearn.tree import DecisionTreeRegressor
+
+from src.evaluation.evaluation_metrics import cv_time_series
+from src.feature_preparation.search_based.grammar.basic_grammar import Solution
 
 
 
@@ -29,6 +34,9 @@ def mapping(feature_names, feature_indices, X, fs: Solution, single_solution = F
     return Xt
 
 def feature_info(X, exclude = []):
+    '''
+    Returns feature_names, feature_indices.
+    '''
     feature_names = list(X.columns)
     feature_indices = {}
     for i, n in enumerate(feature_names):
@@ -36,4 +44,31 @@ def feature_info(X, exclude = []):
             feature_indices[n] = i
     feature_names = [ fn for fn in feature_names if fn not in exclude ]
     return feature_names, feature_indices
+
+
+
+
+def cv_fitness_function(X, y, cv_percent, single_solution=False):
+    scoring: str = 'neg_mean_squared_error'
+    
+    def fitness_function(fs: Solution):
+            feature_names, feature_indices = feature_info(X)
+            Xt = mapping(feature_names, feature_indices, X, fs, single_solution=single_solution)
+            dt = DecisionTreeRegressor(max_depth=4)
+            scores = -1 * cross_val_score(dt, Xt, y, cv=cv_percent, scoring=scoring)
+            return np.mean(scores)
+    
+    return fitness_function
+
+def cv_ff_time_series(X, y, single_solution=False):
+    scoring: str = 'mean_squared_error'
+    
+    def fitness_function(fs: Solution):
+            feature_names, feature_indices = feature_info(X)
+            Xt = mapping(feature_names, feature_indices, X, fs, single_solution=single_solution)
+            dt = DecisionTreeRegressor(max_depth=4)
+            scores = cv_time_series(dt, Xt, y, scoring=scoring)
+            return np.mean(scores)
+    
+    return fitness_function
 

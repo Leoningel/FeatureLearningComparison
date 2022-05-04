@@ -4,9 +4,10 @@ import featuretools as ft
 from featuretools.selection import remove_highly_correlated_features
 from sklearn.base import BaseEstimator, TransformerMixin
 
-class RemoveHighlyCorrelatedFeatures(BaseEstimator, TransformerMixin):
-    def __init__(self,pct_corr_threshold=0.95) -> None:
+class FeatureToolsFS_Method(BaseEstimator, TransformerMixin):
+    def __init__(self, seed = 0, pct_corr_threshold=0.95) -> None:
         self.pct_corr_threshold = pct_corr_threshold
+        self.seed = seed
         self.feature_mapping = []
     
     def fit(self,X,y=None):
@@ -28,7 +29,7 @@ class RemoveHighlyCorrelatedFeatures(BaseEstimator, TransformerMixin):
 
 class FeatureToolsFS(FeatureLearningMethod):
     param_grid: Union[dict, list] = { "feature_learning__pct_corr_threshold": [ .6, .7, .8, .9, .95 ]}
-    method = RemoveHighlyCorrelatedFeatures
+    method = FeatureToolsFS_Method
         
     def __str__(self) -> str:
-        return "FeatureTools_FS"
+        return "FeatureToolsFS"

@@ -1,5 +1,8 @@
 from typing import Annotated, List, Union
+import numpy as np
 
+from sklearn.tree import DecisionTreeRegressor
+from evaluation.evaluation_metrics import cv_score
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -19,17 +22,51 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     Plus,
     Minus,
     Mult,
-    SafeDiv
+    SafeDiv,
+    IfThenElse
 )
-    
+from src.feature_preparation.search_based.grammar.categories import (
+    Category,
+    BoolCategory,
+    Col,
+    IBCategory,
+    IntCategory,
+    MonthIB,
+    Season,
+    SeasonIB,
+    WeekdayIB,
+    Year,
+    Month,
+    Holiday,
+    Weekday,
+    WorkingDay,
+    YearIB
+)
+# from src.feature_preparation.search_based.grammar.logical_ops import IfThenElse
+from src.feature_preparation.search_based.grammar.conditions import (
+    Equals,
+    InBetween,
+    NotEquals
+    )
 
-class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
+
+class DK_M3GP_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
         self.elitism_size = elitism_size
         self.n_generations = n_generations
+
+    special_features = {
+        "season"    : Season,
+        "yr"        : Year,
+        "mnth"      : Month,
+        "holiday"   : Holiday,
+        "weekday"   : Weekday,
+        "workingday": WorkingDay,
+    }
+    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB ]
 
     def evolve(self, g, fitness_function, verbose=0):
         alg = GP_alg(
@@ -48,15 +85,20 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
         return b, bf, bp
 
     def fit(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X, exclude = ["instant"])
+        feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()) + ["instant"])
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
+        grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
+                                   IfThenElse, 
+                                   Equals, NotEquals, InBetween,
+                                   Category, IntCategory, BoolCategory, IBCategory, Col
+                                   ] + list(self.special_features.values()) + self.ibs, FeatureSet)
         
         fitness_function = utils.cv_ff_time_series(X,y)
+        print(grammar)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, verbose=1)
 
         self.feature_mapping = fs
         return self
@@ -67,12 +109,13 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
         assert len(Xt) == len(X.values)
         return Xt
 
-class M3GP_Gengy(FeatureLearningMethod):
+class DK_M3GP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
                             "feature_learning__max_depth": [ 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
-    method = M3GP_Gengy_Method
+    method = DK_M3GP_Method
+    data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     
     def __str__(self) -> str:
-        return "M3GP_Gengy"
+        return "DK_M3GP"

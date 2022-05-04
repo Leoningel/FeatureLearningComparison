@@ -33,7 +33,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
         
     plt.title(f"Feature Learning {column}{extra}")
     plt.tight_layout()
-    plt.savefig(f"plots/{plot_name}{outbasename}.pdf")
+    plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
     plt.close()
 
 def plot_separated_violin_comparisons(
@@ -81,5 +81,5 @@ def plot_separated_violin_comparisons(
     
     g.fig.suptitle(f"Feature Learning {column}")
     plt.tight_layout()
-    plt.savefig(f"plots/{plot_name}{outbasename}.pdf")
+    plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
     sns.set(font_scale=1) 

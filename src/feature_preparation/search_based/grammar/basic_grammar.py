@@ -6,6 +6,7 @@ import numpy as np
 
 from geneticengine.metahandlers.lists import ListSizeBetween
 from geneticengine.metahandlers.vars import VarRange
+from geneticengine.metahandlers.ints import IntRange
 from geneticengine.core.decorators import abstract
 
 from src.feature_preparation.search_based.grammar.conditions import Condition
@@ -94,10 +95,12 @@ class SafeDiv(BuildingBlock):
     def evaluate(self, **kwargs):
         d1 = self.left.evaluate(**kwargs)
         d2 = self.right.evaluate(**kwargs)
-        if d1.dtype == 'O':
-            d1 = d1.astype(float)
-        if d2.dtype == 'O':
-            d2 = d2.astype(float)
+        if hasattr(d1,"dtype"):
+            if d1.dtype == "O":
+                d1 = d1.astype(float)
+        if hasattr(d2,"dtype"):
+            if d2.dtype == "O":
+                d2 = d2.astype(float)
         try:
             with np.errstate(divide="ignore", invalid="ignore"):
                 return np.where(d2 == 0, np.ones_like(d1), d1 / d2)
@@ -110,7 +113,18 @@ class SafeDiv(BuildingBlock):
     def __str__(self, **kwargs):
         return f"({self.left} / {self.right})"    
 
-
+@dataclass
+class Literal(BuildingBlock):
+    val: Annotated[int, IntRange(0,100)]
+    
+    def evaluate(self, **kwargs):
+        data_size = len(list(kwargs.items())[0][1])
+        return np.full(data_size,self.val)
+    
+    def __str__(self, **kwargs):
+        return f"{self.val}"
+    
+    
 
 
 @dataclass
