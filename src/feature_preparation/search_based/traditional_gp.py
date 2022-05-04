@@ -55,7 +55,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         
         fitness_function = utils.cv_ff_time_series(X, y, single_solution=True)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, verbose=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 
         self.feature_mapping = fs
         with open(f"./results/mappings/2_traditional_gp.csv", "a", newline="") as outfile:

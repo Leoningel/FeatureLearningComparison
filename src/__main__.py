@@ -29,7 +29,6 @@ from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 import utils
 
 N_SEEDS = 5   
-CROSS_VALIDATION_GROUPS = 2
 TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
