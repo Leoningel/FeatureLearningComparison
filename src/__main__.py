@@ -36,7 +36,7 @@ models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ FeatureToolsFS() ]
 # feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
 
-
+addition = ""
 
 if __name__ == '__main__':
     args = sys.argv
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         for feature_learning in feature_learnings:
             X, y, X_train, y_train = load(feature_learning.data_file, 'cnt', drop=[], train_proportion=TRAIN_PROPORTION)
             print(f"=================\n{feature_learning}.\n--------")
-            with open(f"./results/{feature_learning}.csv", "w", newline="") as outfile:
+            with open(f"./results/{feature_learning}{addition}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
                 writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worst_score", "test_score", "grid_search_time", "time" ])
 
