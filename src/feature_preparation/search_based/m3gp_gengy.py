@@ -24,18 +24,19 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     
 
 class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
-    def __init__(self, max_depth=15, elitism_size=5, n_generations=500) -> None:
+    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping: Solution = None
+        self.seed = seed
         self.max_depth = max_depth
         self.elitism_size = elitism_size
         self.n_generations = n_generations
 
-    def evolve(self, g, fitness_function, seed:int=0, verbose=0):
+    def evolve(self, g, fitness_function, verbose=0):
         alg = GP_alg(
             g,
             evaluation_function=fitness_function,
             representation=treebased_representation,
-            seed=seed,
+            seed=self.seed,
             population_size=500,
             number_of_generations=self.n_generations,
             n_elites=self.elitism_size,
@@ -55,7 +56,7 @@ class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
         
         fitness_function = utils.cv_ff_time_series(X,y)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 
         self.feature_mapping = fs
         return self

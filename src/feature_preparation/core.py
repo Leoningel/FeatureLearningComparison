@@ -1,14 +1,16 @@
-from multiprocessing import Pipe
-from typing import Union
-from matplotlib.pyplot import grid
-from sklearn.model_selection import GridSearchCV
+from typing import Any, Callable, Union
 
+from matplotlib.pyplot import grid
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
 
 class FeatureLearningMethod():
     param_grid: Union[dict, list]
     data_file: str = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
+    # method: Union[BaseEstimator, Callable[[Any], str]]
         
     def __str__(self):
         ...

@@ -11,13 +11,14 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class M3GPFL_JB(BaseEstimator, TransformerMixin):
-    def __init__(self, max_depth=15, elitism_size=5, n_generations=500) -> None:
+    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping = None
+        self.seed = seed
         self.max_depth = max_depth
         self.elitism_size = elitism_size
         self.n_generations = n_generations
 
-    def fit(self,X,y=None,seed=42):
+    def fit(self,X,y=None):
         m3gp = M3GP_alg(
                     population_size=500,
                     max_generation=self.n_generations,
@@ -28,7 +29,7 @@ class M3GPFL_JB(BaseEstimator, TransformerMixin):
                     # dim_max=12,
                     model_name="DecisionTreeRegressor", 
                     fitnessType="MSE",
-                    random_state=seed,
+                    random_state=self.seed,
                     verbose=False)
         m3gp.fit(X,y)
 

@@ -20,17 +20,18 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
 
 
 class RandomSearch(BaseEstimator, TransformerMixin):
-    def __init__(self, max_depth=15, n_generations=500) -> None:
+    def __init__(self, seed = 0, max_depth=15, n_generations=500) -> None:
         self.feature_mapping: Solution = None
+        self.seed = seed
         self.max_depth = max_depth
         self.n_generations = n_generations
 
-    def evolve(self, g, fitness_function, seed:int=0, verbose=0):
+    def evolve(self, g, fitness_function, verbose=0):
         alg = RS_alg(
             g,
             evaluation_function=fitness_function,
             representation=treebased_representation,
-            seed=seed,
+            seed=self.seed,
             population_size=500,
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
@@ -49,7 +50,7 @@ class RandomSearch(BaseEstimator, TransformerMixin):
         
         fitness_function = utils.cv_ff_time_series(X,y)
                 
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, seed=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 
         self.feature_mapping = fs
         return self

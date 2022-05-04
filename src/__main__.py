@@ -60,7 +60,7 @@ if __name__ == '__main__':
                     print(f"{(seed/N_SEEDS) * 100} %", end='\r')
                     start = time.time()
 
-                    pipeline = Pipeline(steps=[('feature_learning', feature_learning.method()),
+                    pipeline = Pipeline(steps=[('feature_learning', feature_learning.method(seed = seed)),
                                             ('model', model.evaluate(seed))])
                     estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
                     
