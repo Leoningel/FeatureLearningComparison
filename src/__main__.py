@@ -33,7 +33,7 @@ CROSS_VALIDATION_GROUPS = 2
 TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ FeatureToolsFS() ]
+feature_learnings : List[FeatureLearningMethod] = [ RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
 # feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
 
 addition = ""
@@ -77,7 +77,7 @@ if __name__ == '__main__':
                     duration = time.time() - start
                     
                     csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, worse_score, test_score, grid_search_time, duration ]
-                    with open(f"./results/{feature_learning}.csv", "a", newline="") as outfile:
+                    with open(f"./results/{feature_learning}{addition}.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
     
