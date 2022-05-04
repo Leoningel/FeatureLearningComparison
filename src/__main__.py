@@ -82,7 +82,7 @@ if __name__ == '__main__':
                         writer.writerow(csv_row)
     
     if not PLOT_DATA:
-        print("Warning: Not plotting data. Using data stored.")
+        print("Warning: Not plotting data.")
     else:
         print("Plotting data")
         other_feature_learnings = ["M3GP_Gengy_FL_Domain_Knowledge-only-season", "M3GP_Gengy_FL_Domain_Knowledge-with-in-between"]
