@@ -6,4 +6,4 @@ class NoFeatureLearning(FeatureLearningMethod):
     method = lambda _: "passthrough"
         
     def __str__(self) -> str:
-        return "No_Feature_Learning"
+        return "No_FL"

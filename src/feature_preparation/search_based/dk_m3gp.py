@@ -50,7 +50,7 @@ from src.feature_preparation.search_based.grammar.conditions import (
     )
 
 
-class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
+class DK_M3GP_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
@@ -109,13 +109,13 @@ class M3GP_DK_FL_Gengy(BaseEstimator, TransformerMixin):
         assert len(Xt) == len(X.values)
         return Xt
 
-class M3GP_DK_Gengy(FeatureLearningMethod):
+class DK_M3GP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
                             "feature_learning__max_depth": [ 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
-    method = M3GP_DK_FL_Gengy
+    method = DK_M3GP_Method
     data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     
     def __str__(self) -> str:
-        return "M3GP_Gengy_FL_Domain_Knowledge"
+        return "DK_M3GP"

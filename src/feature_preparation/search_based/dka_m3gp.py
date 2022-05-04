@@ -52,7 +52,7 @@ from src.feature_preparation.search_based.grammar.conditions import (
     )
 
 
-class DKA_M3GP_FL(BaseEstimator, TransformerMixin):
+class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
@@ -117,8 +117,8 @@ class DKA_M3GP(FeatureLearningMethod):
                             "feature_learning__max_depth": [ 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
-    method = DKA_M3GP_FL
+    method = DKA_M3GP_Method
     data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     
     def __str__(self) -> str:
-        return "dka-m3gp"
+        return "DKA_M3GP"

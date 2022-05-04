@@ -19,7 +19,7 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
 )
 
 
-class RandomSearch(BaseEstimator, TransformerMixin):
+class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
@@ -63,10 +63,10 @@ class RandomSearch(BaseEstimator, TransformerMixin):
 
 class RandomSearchFS(FeatureLearningMethod):
     param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
-    method = RandomSearch
+    method = RandomSearchFS_Method
     
     def mapping(self, data):
         return data
     
     def __str__(self) -> str:
-        return "RandomSearch_FS"
+        return "RandomSearchFS"

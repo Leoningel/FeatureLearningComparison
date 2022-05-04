@@ -10,7 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 
-class M3GPFL_JB(BaseEstimator, TransformerMixin):
+class M3GP_JB_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping = None
         self.seed = seed
@@ -47,9 +47,9 @@ class M3GP_JB(FeatureLearningMethod):
                             "feature_learning__max_depth": [ 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
-    method = M3GPFL_JB
+    method = M3GP_JB_Method
     
     def __str__(self) -> str:
-        return "M3GP_JB_FL"
+        return "M3GP_JB"
 
 

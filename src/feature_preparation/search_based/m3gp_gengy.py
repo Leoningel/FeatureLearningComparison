@@ -23,7 +23,7 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
 )
     
 
-class M3GPFL_Gengy(BaseEstimator, TransformerMixin):
+class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
@@ -72,7 +72,7 @@ class M3GP_Gengy(FeatureLearningMethod):
                             "feature_learning__max_depth": [ 15, 20 ],
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
-    method = M3GPFL_Gengy
+    method = M3GP_Gengy_Method
     
     def __str__(self) -> str:
-        return "M3GP_Gengy_FL"
+        return "M3GP_Gengy"
