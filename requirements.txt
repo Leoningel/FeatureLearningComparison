@@ -5,4 +5,4 @@ featuretools
 seaborn
 matplotlib
 geneticengine
-git+https://github.com/jespb/Python-M3GP.git@master#egg=m3gp
+git+https://github.com/Leoningel/Python-M3GP.git@master#egg=m3gp

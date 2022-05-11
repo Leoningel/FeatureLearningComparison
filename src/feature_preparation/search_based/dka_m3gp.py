@@ -93,15 +93,15 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         Var.feature_indices = feature_indices
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
-                                   IfThenElse, 
+                                   IfThenElse,
                                    Equals, NotEquals, InBetween,
                                    Category, IntCategory, BoolCategory, IBCategory, Col,
                                    Average,
                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
 
-        fitness_function = utils.cv_ff_time_series(X,y)
+        fitness_function = utils.cv_ff_time_series(X,y,include_all_data=True)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function,verbose=1)
 
         self.feature_mapping = fs
         return self
@@ -118,7 +118,6 @@ class DKA_M3GP(FeatureLearningMethod):
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
     method = DKA_M3GP_Method
-    data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     
     def __str__(self) -> str:
         return "DKA_M3GP"

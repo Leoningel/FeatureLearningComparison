@@ -1,38 +1,34 @@
 from dataclasses import dataclass
-from itertools import compress
 from typing import Annotated
 
 import numpy as np
-import pandas as pd
 
 from geneticengine.metahandlers.vars import VarRange
 
 from src.feature_preparation.search_based.grammar.basic_grammar import BuildingBlock, Var
 from src.feature_preparation.search_based.grammar.categories import Col
-import src.feature_preparation.search_based.utils as utils
-
+import src.global_vars as gv
 
 @dataclass
 class Average(BuildingBlock):
     col: Col
     aggregation_col: Annotated[str, VarRange(["target"])]
     
-    file_path = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     time_column = "instant"
-    delimiter = ','
     
-    def get_relevant_vals(self, data, instant, col_val):
-        cond = (data[self.time_column] < instant) & (data[self.col.col_name] == col_val)
-        relevant_vals = data[cond]
-        
-        return relevant_vals[self.aggregation_col].values
+    def get_relevant_vals(self, historical_data, instant, col_val):
+        cond = (historical_data[self.time_column] < instant) & (historical_data[self.col.col_name] == col_val)
+        relevant_vals = historical_data[cond]
+        relevant_vals = relevant_vals[self.aggregation_col].values
+                
+        return relevant_vals
     
     def evaluate(self, **kwargs):
-        data = pd.read_csv(self.file_path, delimiter=self.delimiter)
-        data = data[[self.time_column, self.aggregation_col, self.col.col_name]]
+        historical_data = kwargs['data']
+        historical_data = historical_data[[self.time_column, self.aggregation_col, self.col.col_name]]
         instants = zip(kwargs[self.time_column], self.col.evaluate(**kwargs))
         
-        aggregates = [ np.mean(self.get_relevant_vals(data,instant,col_val)) for (instant, col_val) in instants ]
+        aggregates = [ np.mean(self.get_relevant_vals(historical_data,instant,col_val)) for (instant, col_val) in instants ]
         aggregates = np.array(aggregates)
         aggregates = np.nan_to_num(aggregates)
         

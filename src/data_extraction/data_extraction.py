@@ -1,8 +1,8 @@
 import pandas as pd
+import global_vars as gv
 
 
-
-def load_no_split(path, target_column, delimiter=',',drop=[]):
+def load_no_split(path, target_column, delimiter=gv.DELIMITER,drop=[]):
     data = pd.read_csv(path, delimiter=delimiter)
     
     target = data[target_column]
@@ -12,7 +12,7 @@ def load_no_split(path, target_column, delimiter=',',drop=[]):
     return data, target
 
 
-def load(path, target_column, delimiter=',',drop=[], train_proportion: float = 0.75):
+def load(path, target_column, delimiter=gv.DELIMITER,drop=[], train_proportion: float = 0.75):
     '''
     Returns X, y, X_train, y_train
     '''

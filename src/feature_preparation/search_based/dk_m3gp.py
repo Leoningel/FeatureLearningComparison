@@ -114,7 +114,6 @@ class DK_M3GP(FeatureLearningMethod):
                             "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
                             }
     method = DK_M3GP_Method
-    data_file = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
     
     def __str__(self) -> str:
         return "DK_M3GP"
