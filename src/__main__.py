@@ -52,7 +52,7 @@ if __name__ == '__main__':
             print(f"=================\n{feature_learning}.\n--------")
             with open(f"./results/{feature_learning}{addition}.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
-                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "worst_score", "test_score", "grid_search_time", "time" ])
+                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "best_score", "test_score", "grid_search_time", "time" ])
 
             for model in models:
                 print(f"Running model: {model}")
@@ -73,10 +73,10 @@ if __name__ == '__main__':
                         test_score = cv_time_series(best_estimator, X, y, splits = [TRAIN_PROPORTION])
                     
                     avg_score = np.mean(scores)
-                    worse_score = min(scores)
+                    best_score = min(scores)
                     duration = time.time() - start
                     
-                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, worse_score, test_score, grid_search_time, duration ]
+                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, best_score, test_score, grid_search_time, duration ]
                     with open(f"./results/{feature_learning}{addition}.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
