@@ -33,7 +33,7 @@ N_SEEDS = 5
 TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
+feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP() ]
 # feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
 
 addition = ""
