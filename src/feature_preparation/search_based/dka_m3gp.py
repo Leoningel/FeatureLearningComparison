@@ -108,7 +108,7 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
     
     def transform(self,X,y=None):
         feature_names, feature_indices = utils.feature_info(X)
-        Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping)
+        Xt = utils.mapping(feature_names, feature_indices, X, self.feature_mapping, include_all_data = True)
         assert len(Xt) == len(X.values)
         return Xt
 

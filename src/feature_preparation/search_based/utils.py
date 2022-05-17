@@ -21,7 +21,7 @@ def flatten_list(list_to_flatten):
     return l
 
 
-def mapping(feature_names, feature_indices, X, fs: Solution, include_all_data, single_solution = False):
+def mapping(feature_names, feature_indices, X, fs: Solution, include_all_data = False, single_solution = False):
     variables = {}
     for x in feature_names:
         i = feature_indices[x]
