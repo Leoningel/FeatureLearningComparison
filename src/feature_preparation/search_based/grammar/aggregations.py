@@ -42,7 +42,7 @@ class Average(BuildingBlock):
         aggs = [ missing_mean_zero(un) for un in uns ]
         mapping = dict(zip(uns,aggs))
         def fill_nans(row):
-            if row[self.aggregation_col] == np.nan:
+            if np.isnan(row[self.aggregation_col]):
                 return mapping[row[self.col.col_name]]
             else:
                 return row[self.aggregation_col]
