@@ -1,4 +1,6 @@
 import csv
+import os
+import shutil
 import time
 from typing import List
 import sys
@@ -34,7 +36,7 @@ TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP() ]
-# feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
+feature_learnings : List[FeatureLearningMethod] = [ PrincipleCA(), DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), FeatureToolsFS(), NoFeatureLearning() ]
 
 addition = ""
 
@@ -42,10 +44,31 @@ if __name__ == '__main__':
     args = sys.argv
     RUN_MODELS = "--run_models" in args
     PLOT_DATA = "--plot_data" in args
+    CLEAN_RESULTS = "--clean_results" in args
     seeds = [ int(arg.split("=")[1]) for arg in args if "--seed=" in arg ]
     if not seeds:
         seeds = range(N_SEEDS)
-        
+    
+    if CLEAN_RESULTS:
+        try:
+            dest_folder = next((gv.RESULTS_FOLDER + arg.split("=")[1]) for arg in args if '--dest=' in arg)
+        except:
+            raise ValueError("No destination is given. Add --dest=<destination_folder> to the arguments.")
+        try:
+            os.mkdir(dest_folder)
+        except:
+            raise ValueError(f"The destination folder {dest_folder} already exist. Please specify another destination folder as argument.")
+        src_files = os.listdir(gv.RESULTS_FOLDER)
+        for file_name in src_files:
+            full_file_name = os.path.join(gv.RESULTS_FOLDER, file_name)
+            if os.path.isfile(full_file_name):
+                shutil.copy(full_file_name, dest_folder)
+        for feature_learning in feature_learnings:
+            with open(f"{gv.RESULTS_FOLDER}{feature_learning}{addition}.csv", "w", newline="") as outfile:
+                writer = csv.writer(outfile)
+                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "best_score", "test_score", "grid_search_time", "time" ])
+
+    
     if not RUN_MODELS:
         print("Warning: Not running models. Using data stored.")
     else:
@@ -53,14 +76,11 @@ if __name__ == '__main__':
         for feature_learning in feature_learnings:
             X, y, X_train, y_train = load(gv.DATA_FILE, 'cnt', drop=[], train_proportion=TRAIN_PROPORTION)
             print(f"=================\n{feature_learning}.\n--------")
-            with open(f"./results/{feature_learning}{addition}.csv", "w", newline="") as outfile:
-                writer = csv.writer(outfile)
-                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "best_score", "test_score", "grid_search_time", "time" ])
-
+            
             for model in models:
                 print(f"Running model: {model}")
                 for idx, seed in enumerate(seeds):
-                    print(f"{(idx/len(seeds)) * 100} %", end='\r')
+                    print(f"{round((idx/len(seeds)) * 100,1)} %", end='\r')
                     start = time.time()
 
                     pipeline = Pipeline(steps=[('feature_learning', feature_learning.method(seed = seed)),
@@ -80,7 +100,7 @@ if __name__ == '__main__':
                     duration = time.time() - start
                     
                     csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, best_score, test_score, grid_search_time, duration ]
-                    with open(f"./results/{feature_learning}{addition}.csv", "a", newline="") as outfile:
+                    with open(f"{gv.RESULTS_FOLDER}{feature_learning}{addition}.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
     
@@ -89,8 +109,8 @@ if __name__ == '__main__':
     else:
         print("Plotting data")
         other_feature_learnings = ["M3GP_Gengy_FL_Domain_Knowledge-only-season", "M3GP_Gengy_FL_Domain_Knowledge-with-in-between"]
-        dfs = [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in feature_learnings ]
-        # dfs += [ pd.read_csv(f"./results/{feature_learning}.csv") for feature_learning in other_feature_learnings ]
+        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}.csv") for feature_learning in feature_learnings ]
+        # dfs += [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}.csv") for feature_learning in other_feature_learnings ]
         df = pd.concat(dfs)
         df['avg_score'] = -1 * df['avg_score']
         plot_combined_barplot_comparison(df)
