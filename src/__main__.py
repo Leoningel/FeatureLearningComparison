@@ -42,7 +42,7 @@ if __name__ == '__main__':
     args = sys.argv
     RUN_MODELS = "--run_models" in args
     PLOT_DATA = "--plot_data" in args
-    seeds = [ arg for arg in args if "--seed=" in arg ]
+    seeds = [ arg.split("=")[1] for arg in args if "--seed=" in arg ]
     if not seeds:
         seeds = range(N_SEEDS)
         
