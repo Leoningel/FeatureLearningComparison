@@ -29,7 +29,7 @@ from src.feature_preparation.search_based.dka_m3gp import DKA_M3GP
 from src.model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 import src.utils as utils
 
-N_SEEDS = 5   
+N_SEEDS = 30   
 TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
@@ -42,6 +42,9 @@ if __name__ == '__main__':
     args = sys.argv
     RUN_MODELS = "--run_models" in args
     PLOT_DATA = "--plot_data" in args
+    seeds = [ arg for arg in args if "--seed=" in arg ]
+    if not seeds:
+        seeds = range(N_SEEDS)
         
     if not RUN_MODELS:
         print("Warning: Not running models. Using data stored.")
@@ -56,8 +59,8 @@ if __name__ == '__main__':
 
             for model in models:
                 print(f"Running model: {model}")
-                for seed in range(N_SEEDS):
-                    print(f"{(seed/N_SEEDS) * 100} %", end='\r')
+                for idx, seed in enumerate(seeds):
+                    print(f"{(idx/len(seeds)) * 100} %", end='\r')
                     start = time.time()
 
                     pipeline = Pipeline(steps=[('feature_learning', feature_learning.method(seed = seed)),
