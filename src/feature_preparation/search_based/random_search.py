@@ -17,7 +17,9 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     BuildingBlock,
     Var
 )
+import global_vars as gv
 
+name = __name__.split(".")[-1]
 
 class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, n_generations=500) -> None:
@@ -36,7 +38,8 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
             minimize=True,
-            favor_less_deep_trees=True
+            favor_less_deep_trees=True,
+            save_to_csv=f"{gv.TEMP_RESULTS_FOLDER}/{name}/extended_{self.seed}.csv"
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
@@ -69,4 +72,4 @@ class RandomSearchFS(FeatureLearningMethod):
         return data
     
     def __str__(self) -> str:
-        return "RandomSearchFS"
+        return name

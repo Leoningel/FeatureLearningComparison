@@ -21,7 +21,9 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     Mult,
     SafeDiv
 )
-    
+import global_vars as gv
+
+name = __name__.split(".")[-1]
 
 class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
@@ -42,7 +44,8 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
             n_elites=self.elitism_size,
             max_depth=self.max_depth,
             minimize=True,
-            favor_less_deep_trees=True
+            favor_less_deep_trees=True,
+            save_to_csv=f"{gv.TEMP_RESULTS_FOLDER}/{name}/extended_{self.seed}.csv"
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
@@ -75,4 +78,4 @@ class M3GP_Gengy(FeatureLearningMethod):
     method = M3GP_Gengy_Method
     
     def __str__(self) -> str:
-        return "M3GP_Gengy"
+        return name

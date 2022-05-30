@@ -1,6 +1,7 @@
 plots
 GeneticEngine
 results
+results_temp
 .vscode
 *.pdf
 *.csv
