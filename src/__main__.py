@@ -38,8 +38,6 @@ models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP() ]
 feature_learnings : List[FeatureLearningMethod] = [ PrincipleCA(), DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), M3GP_JB(), TraditionalGP(), RandomSearchFS(), FeatureToolsFS(), NoFeatureLearning() ]
 
-addition = ""
-
 if __name__ == '__main__':
     args = sys.argv
     RUN_MODELS = "--run_models" in args
@@ -60,7 +58,7 @@ if __name__ == '__main__':
         os.mkdir(f"{gv.TEMP_RESULTS_FOLDER}")
         for feature_learning in feature_learnings:
             os.mkdir(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}")
-            with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main{addition}.csv", "w", newline="") as outfile:
+            with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
                 writer.writerow([ "method", "params", "model", "seed" , "avg_score", "best_score", "test_score", "grid_search_time", "time" ])
 
@@ -96,7 +94,7 @@ if __name__ == '__main__':
                     duration = time.time() - start
                     
                     csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, best_score, test_score, grid_search_time, duration ]
-                    with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}{addition}.csv", "a", newline="") as outfile:
+                    with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)
     
@@ -105,7 +103,7 @@ if __name__ == '__main__':
     else:
         print("Plotting data")
         other_feature_learnings = ["M3GP_Gengy_FL_Domain_Knowledge-only-season", "M3GP_Gengy_FL_Domain_Knowledge-with-in-between"]
-        dfs = [ pd.read_csv(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}.csv") for feature_learning in feature_learnings ]
+        dfs = [ pd.read_csv(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
         # dfs += [ pd.read_csv(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}.csv") for feature_learning in other_feature_learnings ]
         df = pd.concat(dfs)
         df['avg_score'] = -1 * df['avg_score']
