@@ -45,7 +45,7 @@ class FeatureLearningOptimization():
         
         self.param_grid = grid_search.best_params_
         self.pipeline = grid_search.best_estimator_
-        return grid_search.best_estimator_
+        return grid_search.best_estimator_, grid_search.best_params_
     
     
     def __str__(self):

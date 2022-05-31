@@ -78,17 +78,16 @@ if __name__ == '__main__':
                     print(f"{round((idx/len(seeds)) * 100,1)} %", end='\r')
                     start = time.time()
 
-                    pipeline = Pipeline(steps=[('feature_learning', feature_learning.method(seed = seed)),
-                                            ('model', model.evaluate(seed))])
+                    pipeline = utils.make_pipeline(feature_learning, model, seed)
                     estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
                     
                     with ignore_warnings(category=ConvergenceWarning):
                         utils.make_grid_search_ready(estimator.pipeline)
-                        best_estimator = estimator.grid_search(X_train, y_train)
+                        best_estimator, best_params = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
                         utils.make_evaluation_ready(estimator.pipeline)
-                        scores = cv_time_series(best_estimator, X_train, y_train)
-                        test_score = cv_time_series(best_estimator, X, y, splits = [TRAIN_PROPORTION])
+                        scores = utils.cv_time_series(feature_learning, model, seed, best_params, X_train, y_train)
+                        test_score = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], additional_text='test_data_')
                     
                     avg_score = np.mean(scores)
                     best_score = min(scores)
