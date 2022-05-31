@@ -22,11 +22,15 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=15, n_generations=500) -> None:
+    def __init__(self, seed = 0, max_depth=15, n_generations=500, save_to_csv=False) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
         self.n_generations = n_generations
+        if save_to_csv:
+            self.save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/extended_{self.seed}.csv"
+        else:
+            save_to_csv=None
 
     def evolve(self, g, fitness_function, verbose=0):
         alg = RS_alg(
@@ -39,7 +43,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True,
-            save_to_csv=f"{gv.TEMP_RESULTS_FOLDER}/{name}/extended_{self.seed}.csv"
+            save_to_csv=self.save_to_csv,
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp

@@ -25,14 +25,19 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class TraditionalGP_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
+    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500, save_to_csv='') -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
         self.elitism_size = elitism_size
         self.n_generations = n_generations
+        self.save_to_csv = save_to_csv
 
     def evolve(self, g, fitness_function, verbose=0):
+        if self.save_to_csv != '':
+            save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
+        else:
+            save_to_csv=None
         alg = GP_alg(
             g,
             evaluation_function=fitness_function,
@@ -44,7 +49,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True,
-            save_to_csv=f"{gv.TEMP_RESULTS_FOLDER}/{name}/extended_{self.seed}.csv"
+            save_to_csv=save_to_csv
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
@@ -58,7 +63,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         
         fitness_function = utils.cv_ff_time_series(X, y, single_solution=True)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function,verbose=1)
 
         self.feature_mapping = fs
         
@@ -72,8 +77,8 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
 
 class TraditionalGP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__max_depth": [ 15, 20 ],
-                            "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
+                            "feature_learning__max_depth": [ 20 ],
+                            "feature_learning__elitism_size": [ 100 ]
                             }
     method = TraditionalGP_Method
     
