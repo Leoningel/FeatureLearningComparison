@@ -20,9 +20,9 @@ class FeatureLearningMethod():
 class FeatureLearningOptimization():
     param_grid: Union[dict, list]
     pipeline: Pipeline
-    splits = [ 0.5, 0.66, 0.83 ]
+    splits = gv.SPLITS
     
-    def __init__(self, param_grid: Union[dict, list], pipeline: Pipeline, splits = [ 0.5, 0.66, 0.83 ]) -> None:
+    def __init__(self, param_grid: Union[dict, list], pipeline: Pipeline, splits = gv.SPLITS) -> None:
         self.param_grid = param_grid
         self.pipeline = pipeline
         self.splits = splits

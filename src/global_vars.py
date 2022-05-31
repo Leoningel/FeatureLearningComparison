@@ -3,3 +3,4 @@ DELIMITER = ','
 TIME_COLUMN = "instant"
 RESULTS_FOLDER = "./results/"
 TEMP_RESULTS_FOLDER = "./results_temp/"
+SPLITS = [ 0.5, 0.66, 0.83 ]

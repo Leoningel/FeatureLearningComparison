@@ -1,8 +1,10 @@
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import mean_squared_error
 
+import global_vars as gv
 
-def cv_time_series(est, Xt, y, scoring = 'mean_squared_error', splits = [ 0.5, 0.66, 0.83 ]):
+
+def cv_time_series(est, Xt, y, scoring = 'mean_squared_error', splits = gv.SPLITS):
     if scoring == 'mean_squared_error':
         scoring = mean_squared_error
     else:
