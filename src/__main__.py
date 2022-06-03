@@ -7,7 +7,6 @@ import sys
 import warnings
 warnings.filterwarnings('ignore')
 
-from sklearn.pipeline import Pipeline
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
@@ -16,7 +15,6 @@ import pandas as pd
 
 import src.global_vars as gv
 from src.data_extraction.data_extraction import load
-from src.evaluation.evaluation_metrics import cv_time_series
 from src.evaluation.visualization import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from src.feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from src.feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
