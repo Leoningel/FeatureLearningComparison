@@ -20,7 +20,7 @@ class DecisionTree(Model):
         return self.model(random_state=seed, max_depth=4)
 
     def __str__(self):
-        return "Decision Tree"
+        return "DT"
 
 class RandomForest(Model):
     model = RandomForestRegressor
@@ -29,7 +29,7 @@ class RandomForest(Model):
         return self.model(random_state=seed, max_depth=4)
 
     def __str__(self):
-        return "Random Forest"
+        return "RF"
 
 class MLP(Model):
     model = MLPRegressor
