@@ -5,9 +5,9 @@ import pandas as pd
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeRegressor
 
-from src.evaluation.evaluation_metrics import cv_time_series
-from src.feature_preparation.search_based.grammar.basic_grammar import Solution
-import src.global_vars as gv
+from evaluation.evaluation_metrics import cv_time_series
+from feature_preparation.search_based.grammar.basic_grammar import Solution
+import global_vars as gv
 
 
 def flatten_list(list_to_flatten):

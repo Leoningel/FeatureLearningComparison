@@ -7,9 +7,9 @@ import numpy as np
 from geneticengine.metahandlers.vars import VarRange
 import pandas as pd
 
-from src.feature_preparation.search_based.grammar.basic_grammar import BuildingBlock, Var
-from src.feature_preparation.search_based.grammar.categories import Col
-import src.global_vars as gv
+from feature_preparation.search_based.grammar.basic_grammar import BuildingBlock, Var
+from feature_preparation.search_based.grammar.categories import Col
+import global_vars as gv
 
 @dataclass
 class Average(BuildingBlock):

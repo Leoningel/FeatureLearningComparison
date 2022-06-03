@@ -10,20 +10,20 @@ from sklearn.exceptions import ConvergenceWarning
 
 import numpy as np
 
-import src.global_vars as gv
-from src.data_extraction.data_extraction import load
-from src.feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
-from src.feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
-from src.feature_preparation.classical_methods.no_feature_construction import NoFeatureLearning
-from src.feature_preparation.classical_methods.principle_component_analysis import PrincipleCA
-from src.feature_preparation.search_based.random_search import RandomSearchFS
-from src.feature_preparation.search_based.traditional_gp import TraditionalGP
-from src.feature_preparation.search_based.m3gp_jb import M3GP_JB
-from src.feature_preparation.search_based.m3gp_gengy import M3GP_Gengy
-from src.feature_preparation.search_based.dk_m3gp import DK_M3GP
-from src.feature_preparation.search_based.dka_m3gp import DKA_M3GP
-from src.model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
-import src.utils as utils
+import global_vars as gv
+from data_extraction.data_extraction import load
+from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
+from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
+from feature_preparation.classical_methods.no_feature_construction import NoFeatureLearning
+from feature_preparation.classical_methods.principle_component_analysis import PrincipleCA
+from feature_preparation.search_based.random_search import RandomSearchFS
+from feature_preparation.search_based.traditional_gp import TraditionalGP
+from feature_preparation.search_based.m3gp_jb import M3GP_JB
+from feature_preparation.search_based.m3gp_gengy import M3GP_Gengy
+from feature_preparation.search_based.dk_m3gp import DK_M3GP
+from feature_preparation.search_based.dka_m3gp import DKA_M3GP
+from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
+import utils as utils
 
 N_SEEDS = 30   
 TRAIN_PROPORTION = 0.75

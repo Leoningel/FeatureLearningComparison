@@ -6,7 +6,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.base import BaseEstimator
 from sklearn.pipeline import Pipeline
 
-import src.global_vars as gv
+import global_vars as gv
 
 class FeatureLearningMethod():
     param_grid: Union[dict, list]

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Union
 
 import numpy as np
-from src.feature_preparation.search_based.grammar.categories import (
+from feature_preparation.search_based.grammar.categories import (
     Category,
     IBCategory,
 )

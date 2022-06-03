@@ -1,9 +1,9 @@
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
 
-from src.feature_preparation.core import FeatureLearningMethod
-from src.model_generation.models import Model
-import src.global_vars as gv
+from feature_preparation.core import FeatureLearningMethod
+from model_generation.models import Model
+import global_vars as gv
 
 
 def make_grid_search_ready(pipeline:Pipeline):

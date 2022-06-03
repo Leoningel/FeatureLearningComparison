@@ -8,8 +8,8 @@ from geneticengine.core.grammar import extract_grammar
 from geneticengine.core.representations.tree.treebased import treebased_representation
 from geneticengine.metahandlers.vars import VarRange
 
-import src.feature_preparation.search_based.utils as utils
-from src.feature_preparation.search_based.grammar.basic_grammar import (
+import feature_preparation.search_based.utils as utils
+from feature_preparation.search_based.grammar.basic_grammar import (
     Literal,
     Solution, 
     FeatureSet, 

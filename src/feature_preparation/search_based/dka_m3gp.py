@@ -12,9 +12,9 @@ from geneticengine.core.grammar import extract_grammar
 from geneticengine.core.representations.tree.treebased import treebased_representation
 from geneticengine.metahandlers.vars import VarRange
 
-import src.feature_preparation.search_based.utils as utils
-from src.feature_preparation.search_based.grammar.aggregations import Average
-from src.feature_preparation.search_based.grammar.basic_grammar import (
+import feature_preparation.search_based.utils as utils
+from feature_preparation.search_based.grammar.aggregations import Average
+from feature_preparation.search_based.grammar.basic_grammar import (
     Literal,
     Solution, 
     FeatureSet, 
@@ -27,7 +27,7 @@ from src.feature_preparation.search_based.grammar.basic_grammar import (
     SafeDiv,
     IfThenElse
 )
-from src.feature_preparation.search_based.grammar.categories import (
+from feature_preparation.search_based.grammar.categories import (
     Category,
     BoolCategory,
     Col,
@@ -44,8 +44,8 @@ from src.feature_preparation.search_based.grammar.categories import (
     WorkingDay,
     YearIB
 )
-# from src.feature_preparation.search_based.grammar.logical_ops import IfThenElse
-from src.feature_preparation.search_based.grammar.conditions import (
+# from feature_preparation.search_based.grammar.logical_ops import IfThenElse
+from feature_preparation.search_based.grammar.conditions import (
     Equals,
     InBetween,
     NotEquals

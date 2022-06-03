@@ -9,7 +9,7 @@ from geneticengine.metahandlers.vars import VarRange
 from geneticengine.metahandlers.ints import IntRange
 from geneticengine.core.decorators import abstract
 
-from src.feature_preparation.search_based.grammar.conditions import Condition
+from feature_preparation.search_based.grammar.conditions import Condition
 
 class Solution(ABC):
     def evaluate(self, **kwargs) -> float:
