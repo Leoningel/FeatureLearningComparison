@@ -46,7 +46,7 @@ def cv_time_series(
     
     for split in splits:
         est = make_pipeline(feature_learning, model, seed, params)
-        est = make_evaluation_ready(est, f"{additional_text}split={split}")
+        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}")
         
         cut = int(split * len(Xt))
         train_X = Xt[:cut]
