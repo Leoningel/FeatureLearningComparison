@@ -15,7 +15,7 @@ import pandas as pd
 
 import global_vars as gv
 from data_extraction.data_extraction import load
-from evaluation.visualization import plot_combined_barplot_comparison, plot_separated_violin_comparisons
+from evaluation.visualization.complete import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
 from feature_preparation.classical_methods.no_feature_construction import NoFeatureLearning
