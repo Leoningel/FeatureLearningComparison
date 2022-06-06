@@ -37,12 +37,13 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
     models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-    # feature_learnings : List[FeatureLearningMethod] = [ PrincipleCA(), FeatureToolsFS(), NoFeatureLearning(), M3GP_JB(), TraditionalGP(), DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), RandomSearchFS() ]
+    feature_learnings : List[FeatureLearningMethod] = [ TraditionalGP(), M3GP_Gengy(), RandomSearchFS(), NoFeatureLearning(), DK_M3GP(), PrincipleCA(), DKA_M3GP(), FeatureToolsFS() ]
+    # feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB() ]
 
     seed = options.seed
     model = models[options.model]
-    # feature_learning = feature_learnings[options.flm]
-    feature_learning = PrincipleCA()
+    feature_learning = feature_learnings[options.flm]
+    # feature_learning = PrincipleCA()
     
     X, y, X_train, y_train = load(gv.DATA_FILE, 'cnt', drop=[], train_proportion=TRAIN_PROPORTION)
     
