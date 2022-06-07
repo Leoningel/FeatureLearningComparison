@@ -34,7 +34,7 @@ N_SEEDS = 30
 TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB() ]
+# feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), DKA_M3GP(), DK_M3GP(), TraditionalGP(), RandomSearchFS() ]
 # feature_learnings : List[FeatureLearningMethod] = [ PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
 # feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), DKA_M3GP(), DK_M3GP(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
