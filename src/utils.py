@@ -43,6 +43,7 @@ def cv_time_series(
         scoring = mean_squared_error
     
     scores = list()
+    fittest_inds = list()
     
     for split in splits:
         est = make_pipeline(feature_learning, model, seed, params)
@@ -59,6 +60,9 @@ def cv_time_series(
 
         score = scoring(predictions,test_y)
         scores.append(score)
+        if hasattr(est.steps[0][1], "feature_mapping"):
+            fittest_ind = str(est.steps[0][1].feature_mapping)
+            fittest_inds.append(fittest_ind)
         
-    return scores
+    return scores, fittest_inds
 
