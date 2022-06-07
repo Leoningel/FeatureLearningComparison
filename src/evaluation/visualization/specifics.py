@@ -50,6 +50,31 @@ def visualise_all_seeds(feature_learning: FeatureLearningMethod, split: float, m
     a.set_title(f"{feature_learning} {column}")
     plt.savefig(f"plots/test_single_file/all_seeds_model={model}_split={split}.pdf")
     print(f"Done!!!")
+
+def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, model: Model, column: str = 'fitness'):
+
+    all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed=*_model={model}_split=*.csv")
+
+    li = []
+
+    for idx, filename in enumerate(all_files):
+        print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
+        df = pd.read_csv(filename, index_col=None, header=0)
+        df = df[[column, "number_of_the_generation"]]
+        df.groupby(['number_of_the_generation']).min()
+        li.append(df)
+    
+    df = pd.concat(li, axis=0, ignore_index=True)
+    
+    plt.close()
+    sns.set_style({"font.family": "serif"})
+    sns.set(font_scale=0.75)
+
+    a = sns.lineplot(data=df, x = "number_of_the_generation", y = column)
+
+    a.set_title(f"{feature_learning} {column}")
+    plt.savefig(f"plots/test_single_file/seed=all_model={model}_split=all.pdf")
+    print(f"Done!!!")
     
 
 

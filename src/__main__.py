@@ -15,7 +15,7 @@ import pandas as pd
 
 import global_vars as gv
 from data_extraction.data_extraction import load
-from evaluation.visualization.single_evo import visualise_single_file, visualise_all_seeds
+from evaluation.visualization.specifics import visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
 from evaluation.visualization.complete import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
@@ -111,10 +111,8 @@ if __name__ == '__main__':
         # plot_separated_violin_comparisons(df, column="test_score")
     
         # visualise_single_file(TraditionalGP(), 0, gv.SPLITS[2], DecisionTree(), column = 'fitness')
-        visualise_all_seeds(TraditionalGP(), gv.SPLITS[0], DecisionTree(), column = 'fitness')
+        visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
 
 
     
-
-
 
