@@ -52,7 +52,8 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True,
-            save_to_csv=save_to_csv
+            save_to_csv=save_to_csv,
+            save_genotype_as_string=False,
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
