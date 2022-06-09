@@ -35,13 +35,13 @@ class BuildingBlock(ABC):
 
 @dataclass
 class EngineeredFeature(Solution):
-    blocks: BuildingBlock
+    block: BuildingBlock
     
     def evaluate(self, **kwargs):
-        return self.blocks.evaluate(**kwargs)
+        return self.block.evaluate(**kwargs)
 
     def __str__(self, **kwargs):
-        return f"{self.blocks}"
+        return f"{self.block}"
     
     
 @dataclass
