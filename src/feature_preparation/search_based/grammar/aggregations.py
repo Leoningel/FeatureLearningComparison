@@ -16,7 +16,7 @@ import global_vars as gv
 class Average(BuildingBlock):
     col: Col
     aggregation_col: Annotated[str, VarRange(["target"])]
-    window_length: Annotated[int, IntList([10, 100, 200, 400, 800])]
+    window_length: Annotated[int, IntList([10, 25, 50, 75, 100, 150, 200, 300, 400, 600, 800])]
     
     
     def get_relevant_vals(self, data, historical_data, instants, window_length):
