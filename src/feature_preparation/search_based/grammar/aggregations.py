@@ -28,6 +28,7 @@ class Average(BuildingBlock):
 
         means = historical_data.groupby(self.col.col_name).mean()[self.aggregation_col]
         uns = data[self.col.col_name].unique()
+        
         def missing_mean_zero(un):
             try:
                 return means[un]
@@ -54,12 +55,6 @@ class Average(BuildingBlock):
         historical_data = kwargs['data']
         historical_data = historical_data[[gv.TIME_COLUMN, self.col.col_name, self.aggregation_col]]
         instants = kwargs[gv.TIME_COLUMN].astype(int)
-        
-        # data = zip(instants,self.col.evaluate(**kwargs))
-
-        # aggregates = [ np.mean(self.get_relevant_vals_old(historical_data,instant,col_val)) for (instant, col_val) in data ]
-        # aggregates = np.array(aggregates)
-        # aggregates_old = np.nan_to_num(aggregates)
         
         data = pd.DataFrame({gv.TIME_COLUMN:instants, self.col.col_name: self.col.evaluate(**kwargs)}).astype('int64')
 
