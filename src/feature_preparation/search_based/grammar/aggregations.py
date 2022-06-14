@@ -16,12 +16,6 @@ class Average(BuildingBlock):
     col: Col
     aggregation_col: Annotated[str, VarRange(["target"])]
     
-    # def get_relevant_vals_old(self, historical_data, dp, col_val):
-    #     cond = (historical_data[gv.TIME_COLUMN] < dp) & (historical_data[self.col.col_name] == col_val)
-    #     relevant_vals = historical_data[cond]
-    #     relevant_vals = relevant_vals[self.aggregation_col].values
-                
-    #     return relevant_vals
     
     def get_relevant_vals(self, data, historical_data,instants):
         data = data.merge(historical_data,how='left')
