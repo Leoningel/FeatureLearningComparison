@@ -5,6 +5,7 @@ import time
 import numpy as np
 
 from geneticengine.metahandlers.vars import VarRange
+from geneticengine.metahandlers.ints import IntList
 import pandas as pd
 
 from feature_preparation.search_based.grammar.basic_grammar import BuildingBlock, Var
@@ -15,9 +16,10 @@ import global_vars as gv
 class Average(BuildingBlock):
     col: Col
     aggregation_col: Annotated[str, VarRange(["target"])]
+    window_length: Annotated[int, IntList([10, 100, 200, 400, 800])]
     
     
-    def get_relevant_vals(self, data, historical_data,instants):
+    def get_relevant_vals(self, data, historical_data, instants, window_length):
         data = data.merge(historical_data,how='left')
 
         first_data_instant = data[gv.TIME_COLUMN].min()
@@ -45,7 +47,8 @@ class Average(BuildingBlock):
 
         combined_data = pd.concat([historical_data,data])
         
-        relevant_vals = combined_data.set_index(gv.TIME_COLUMN).sort_index().groupby(self.col.col_name).rolling(window=len(combined_data), min_periods=1, closed='left').mean()
+        window_length = min(len(combined_data), window_length)
+        relevant_vals = combined_data.set_index(gv.TIME_COLUMN).sort_index().groupby(self.col.col_name).rolling(window=window_length, min_periods=1, closed='left').mean()
         relevant_vals = relevant_vals.reset_index().set_index(gv.TIME_COLUMN).sort_index()
         relevant_vals = relevant_vals[self.aggregation_col].filter(instants)
                 
@@ -58,7 +61,8 @@ class Average(BuildingBlock):
         
         data = pd.DataFrame({gv.TIME_COLUMN:instants, self.col.col_name: self.col.evaluate(**kwargs)}).astype('int64')
 
-        aggregates = self.get_relevant_vals(data=data, historical_data=historical_data, instants=instants)
+        aggregates = self.get_relevant_vals(data=data, historical_data=historical_data, instants=instants, window_length= self.window_length)
+        
         aggregates = np.nan_to_num(aggregates)
 
         return aggregates
