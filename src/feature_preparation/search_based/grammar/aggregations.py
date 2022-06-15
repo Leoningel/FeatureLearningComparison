@@ -18,10 +18,8 @@ class Average(BuildingBlock):
     aggregation_col: Annotated[str, VarRange(["target"])]
     window_length: Annotated[int, IntList([10, 25, 50, 75, 100, 150, 200, 300, 400, 600, 800])]
     
-    
-    def get_relevant_vals(self, data, historical_data, instants, window_length):
+    def assign_target_values_to_data(self, data, historical_data):
         data = data.merge(historical_data,how='left')
-
         first_data_instant = data[gv.TIME_COLUMN].min()
         historical_data = historical_data[historical_data[gv.TIME_COLUMN] < first_data_instant] # TODO: Only historical data from here on
         a = [ inst not in data[gv.TIME_COLUMN].values for inst in historical_data[gv.TIME_COLUMN]]
@@ -44,7 +42,10 @@ class Average(BuildingBlock):
             else:
                 return row[self.aggregation_col]
         data[self.aggregation_col] = data.apply(lambda row: fill_nans(row), axis=1)
-
+        # -----------
+        return data, historical_data
+    
+    def get_relevant_vals(self, data, historical_data, instants, window_length):
         combined_data = pd.concat([historical_data,data])
         
         window_length = min(len(combined_data), window_length)
@@ -61,7 +62,8 @@ class Average(BuildingBlock):
         
         data = pd.DataFrame({gv.TIME_COLUMN:instants, self.col.col_name: self.col.evaluate(**kwargs)}).astype('int64')
 
-        aggregates = self.get_relevant_vals(data=data, historical_data=historical_data, instants=instants, window_length= self.window_length)
+        data, historical_data = self.assign_target_values_to_data(data, historical_data)
+        aggregates = self.get_relevant_vals(data, historical_data, instants, self.window_length)
         
         aggregates = np.nan_to_num(aggregates)
 
