@@ -43,17 +43,17 @@ class Average(BuildingBlock):
                 return row[self.aggregation_col]
         data[self.aggregation_col] = data.apply(lambda row: fill_nans(row), axis=1)
         # -----------
-        return data, historical_data
-    
-    def get_relevant_vals(self, data, historical_data, instants, window_length):
         combined_data = pd.concat([historical_data,data])
-        
+
+        return combined_data
+    
+    def aggregate(self, combined_data, instants, window_length):
         window_length = min(len(combined_data), window_length)
-        relevant_vals = combined_data.set_index(gv.TIME_COLUMN).sort_index().groupby(self.col.col_name).rolling(window=window_length, min_periods=1, closed='left').mean()
-        relevant_vals = relevant_vals.reset_index().set_index(gv.TIME_COLUMN).sort_index()
-        relevant_vals = relevant_vals[self.aggregation_col].filter(instants)
+        aggregated_vals = combined_data.set_index(gv.TIME_COLUMN).sort_index().groupby(self.col.col_name).rolling(window=window_length, min_periods=1, closed='left').mean()
+        aggregated_vals = aggregated_vals.reset_index().set_index(gv.TIME_COLUMN).sort_index()
+        aggregated_vals = aggregated_vals[self.aggregation_col].filter(instants)
                 
-        return relevant_vals
+        return aggregated_vals
     
     def evaluate(self, **kwargs):
         historical_data = kwargs['data']
@@ -62,8 +62,8 @@ class Average(BuildingBlock):
         
         data = pd.DataFrame({gv.TIME_COLUMN:instants, self.col.col_name: self.col.evaluate(**kwargs)}).astype('int64')
 
-        data, historical_data = self.assign_target_values_to_data(data, historical_data)
-        aggregates = self.get_relevant_vals(data, historical_data, instants, self.window_length)
+        combined_data = self.assign_target_values_to_data(data, historical_data)
+        aggregates = self.aggregate(combined_data, instants, self.window_length)
         
         aggregates = np.nan_to_num(aggregates)
 
