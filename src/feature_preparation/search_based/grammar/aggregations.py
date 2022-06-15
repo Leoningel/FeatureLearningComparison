@@ -47,7 +47,6 @@ class Average(BuildingBlock):
         return combined_data
     
     def aggregate(self, combined_data, instants, window_length):
-        window_length = min(len(combined_data), window_length)
         aggregated_vals = combined_data.set_index(gv.TIME_COLUMN).sort_index().groupby(self.col.col_name).rolling(window=window_length, min_periods=1, closed='left').mean()
         aggregated_vals = aggregated_vals.reset_index().set_index(gv.TIME_COLUMN).sort_index()
         aggregated_vals = aggregated_vals[self.aggregation_col].filter(instants)
