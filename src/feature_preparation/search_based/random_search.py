@@ -70,7 +70,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         return Xt
 
 class RandomSearchFS(FeatureLearningMethod):
-    param_grid: Union[dict, list] = { "feature_learning__max_depth": [ 15, 20 ]}
+    param_grid: Union[dict, list] = { "feature_learning__max_depth": gv.MAX_DEPTHS}
     method = RandomSearchFS_Method
     
     def mapping(self, data):

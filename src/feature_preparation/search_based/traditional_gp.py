@@ -78,8 +78,8 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
 
 class TraditionalGP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__max_depth": [ 15, 20 ],
-                            "feature_learning__elitism_size": [ 1, 5, 25, 100 ]
+                            "feature_learning__max_depth": gv.MAX_DEPTHS,
+                            "feature_learning__elitism_size": gv.ELITISMS
                             }
     method = TraditionalGP_Method
     
