@@ -21,10 +21,7 @@ class Average(BuildingBlock):
     def assign_target_values_to_data(self, data, historical_data):
         data = data.merge(historical_data,how='left')
         first_data_instant = data[gv.TIME_COLUMN].min()
-        historical_data = historical_data[historical_data[gv.TIME_COLUMN] < first_data_instant] # TODO: Only historical data from here on
-        a = [ inst not in data[gv.TIME_COLUMN].values for inst in historical_data[gv.TIME_COLUMN]]
-        if a:
-            historical_data = historical_data[a]
+        historical_data = historical_data[historical_data[gv.TIME_COLUMN] < first_data_instant]
 
         means = historical_data.groupby(self.col.col_name).mean()[self.aggregation_col]
         uns = data[self.col.col_name].unique()
