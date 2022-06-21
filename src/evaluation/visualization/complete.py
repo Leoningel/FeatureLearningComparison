@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", column : str = 'avg_score', log_scale=True):
+def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", column : str = 'best_score', log_scale=True):
     if type(df) == str:
         df = pd.read_csv(df)
     
@@ -19,6 +19,12 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     if column == "avg_score":
         df['avg score (MSE)'] = df.avg_score
         column = "avg score (MSE)"
+    elif column == "best_score":
+        df['best score (MSE)'] = df.avg_score
+        column = "best score (MSE)"
+    elif column == "test_score":
+        df['test score (MSE)'] = df.avg_score
+        column = "test score (MSE)"
     
     axis = sns.barplot(data=df, x='model', y=column, hue='method',palette='Dark2')
     if log_scale:
@@ -37,7 +43,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     plt.close()
 
 def plot_separated_violin_comparisons(
-    df: pd.DataFrame, outbasename: str = "_separated_violins", column : str = 'avg_score',
+    df: pd.DataFrame, outbasename: str = "_separated_violins", column : str = 'best_score',
 ):
     """
     Draws violin plots for all examples.
@@ -59,6 +65,12 @@ def plot_separated_violin_comparisons(
     if column == "avg_score":
         df['avg score (MSE)'] = df.avg_score
         column = "avg score (MSE)"
+    elif column == "best_score":
+        df['best score (MSE)'] = df.avg_score
+        column = "best score (MSE)"
+    elif column == "test_score":
+        df['test score (MSE)'] = df.avg_score
+        column = "test score (MSE)"
     
     df = df.replace(to_replace)
     

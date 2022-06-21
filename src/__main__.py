@@ -15,7 +15,7 @@ import pandas as pd
 
 import global_vars as gv
 from data_extraction.data_extraction import load
-from evaluation.visualization.specifics import visualise_all_seeds_compare_splits, visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
+from evaluation.visualization.specifics import visualise_all_seeds_compare_splits, visualise_compare_fls, visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
 from evaluation.visualization.complete import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
@@ -101,19 +101,17 @@ if __name__ == '__main__':
     if not PLOT_DATA:
         print("Warning: Not plotting data.")
     else:
-        # print("Plotting data")
-        # dfs = [ pd.read_csv(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
-        # df = pd.concat(dfs)
-        # df['avg_score'] = -1 * df['avg_score']
-        # plot_combined_barplot_comparison(df)
-        # plot_separated_violin_comparisons(df)
-        # df['test_score'] = -1 * df['test_score']
-        # plot_combined_barplot_comparison(df, column="test_score")
-        # plot_separated_violin_comparisons(df, column="test_score")
+        print("Plotting data")
+        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
+        df = pd.concat(dfs)
+        df['best_score'] = -1 * df['best_score']
+        plot_combined_barplot_comparison(df)
+        plot_separated_violin_comparisons(df)
     
         # visualise_single_file(DKA_M3GP(), 0, gv.SPLITS[2], DecisionTree(), column = 'fitness')
         # visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
-        visualise_all_seeds_compare_splits(DKA_M3GP(),splits = [ 0.5, 0.66, 0.83, 0.75 ], model = DecisionTree())
+        # visualise_all_seeds_compare_splits(TraditionalGP(),splits = [ 0.5, 0.66, 0.83, 0.75 ], model = DecisionTree())
+        # visualise_compare_fls([TraditionalGP(), DK_M3GP(), DKA_M3GP(), RandomSearchFS()],splits = [ 0.5, 0.66, 0.83, 0.75 ], model = DecisionTree())
 
     
 

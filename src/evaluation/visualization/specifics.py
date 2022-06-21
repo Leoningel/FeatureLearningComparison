@@ -121,5 +121,43 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], splits: List[float], model: Model, column: str = 'fitness'):
+
+    li = []
+
+    for feature_learning in feature_learnings:
+        for split in splits:
+            all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed=*_model={model}_split={split}.csv")
+
+            if split == 0.75:
+                split = 'whole dataset'
+            
+            for idx, filename in enumerate(all_files):
+                print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
+                df = pd.read_csv(filename, index_col=None, header=0)
+                df = df[[column, "number_of_the_generation"]]
+                df = df.groupby(['number_of_the_generation']).min()
+                df['fl'] = str(feature_learning)
+                df = df.reset_index()
+                li.append(df)
+        
+    df = pd.concat(li, axis=0, ignore_index=True)
+    
+    plt.close()
+    sns.set_style({"font.family": "serif"})
+    sns.set(font_scale=0.75)
+
+    a = sns.lineplot(
+            data=df,
+            x = "number_of_the_generation",
+            y = column,
+            hue = 'fl'
+            )
+
+    a.set_title(f"{feature_learning} {column}")
+    path = f"plots/compare_fls_model={model}.pdf"
+    plt.savefig(path)
+    print(f"Saved figure to {path}.")
+
 
     
