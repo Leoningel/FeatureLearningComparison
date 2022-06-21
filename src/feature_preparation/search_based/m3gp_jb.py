@@ -8,6 +8,8 @@ from m3gp.M3GP import M3GP as M3GP_alg
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
+import global_vars as gv
+
 
 
 class M3GP_JB_Method(BaseEstimator, TransformerMixin):
