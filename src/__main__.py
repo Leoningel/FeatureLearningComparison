@@ -98,17 +98,17 @@ if __name__ == '__main__':
     if not PLOT_DATA:
         print("Warning: Not plotting data.")
     else:
-        print("Plotting data")
-        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
-        df = pd.concat(dfs)
-        df['best_score'] = -1 * df['best_score']
-        plot_combined_barplot_comparison(df)
-        plot_separated_violin_comparisons(df)
+        # print("Plotting data")
+        # dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
+        # df = pd.concat(dfs)
+        # df['best_score'] = -1 * df['best_score']
+        # plot_combined_barplot_comparison(df)
+        # plot_separated_violin_comparisons(df)
     
         # visualise_single_file(DKA_M3GP(), 0, gv.SPLITS[2], DecisionTree(), column = 'fitness')
-        # visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
+        visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
         # visualise_all_seeds_compare_splits(TraditionalGP(),splits = [ 0.5, 0.66, 0.83, 0.75 ], model = DecisionTree())
-        # visualise_compare_fls([TraditionalGP(), DK_M3GP(), DKA_M3GP(), RandomSearchFS()],splits = [ 0.5, 0.66, 0.83, 0.75 ], model = DecisionTree())
+        visualise_compare_fls([TraditionalGP(), DK_M3GP(), DKA_M3GP(), RandomSearchFS()],splits = [ 0.5, 0.66, 0.83, 0.75 ], model = DecisionTree())
 
     
 
