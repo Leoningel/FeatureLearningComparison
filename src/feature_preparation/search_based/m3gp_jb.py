@@ -11,16 +11,22 @@ from sklearn.base import BaseEstimator, TransformerMixin
 import global_vars as gv
 
 
+name = __name__.split(".")[-1]
 
 class M3GP_JB_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500) -> None:
+    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500, save_to_csv='') -> None:
         self.feature_mapping = None
         self.seed = seed
         self.max_depth = max_depth
         self.elitism_size = elitism_size
         self.n_generations = n_generations
+        self.save_to_csv = save_to_csv
 
     def fit(self,X,y=None):
+        if self.save_to_csv != '':
+            save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
+        else:
+            save_to_csv = ''
         m3gp = M3GP_alg(
                     population_size=500,
                     max_generation=self.n_generations,
@@ -31,6 +37,7 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
                     # dim_max=12,
                     model_name="DecisionTreeRegressor", 
                     fitnessType="MSE",
+                    csv_file=save_to_csv,
                     random_state=self.seed,
                     verbose=False)
         m3gp.fit(X,y)
@@ -52,6 +59,6 @@ class M3GP_JB(FeatureLearningMethod):
     method = M3GP_JB_Method
     
     def __str__(self) -> str:
-        return "M3GP_JB"
+        return "m3gp_jb"
 
 
