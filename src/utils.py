@@ -31,7 +31,7 @@ def cv_time_series(
         model: Model,
         seed: int,
         params,
-        Xt,
+        X,
         y,
         scoring = 'mean_squared_error',
         splits = gv.SPLITS,
@@ -42,27 +42,31 @@ def cv_time_series(
     else:
         scoring = mean_squared_error
     
-    scores = list()
+    test_scores = list()
+    train_scores = list()
     fittest_inds = list()
     
     for split in splits:
         est = make_pipeline(feature_learning, model, seed, params)
         est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}")
         
-        cut = int(split * len(Xt))
-        train_X = Xt[:cut]
+        cut = int(split * len(X))
+        train_X = X[:cut]
         train_y = y[:cut]
-        test_X = Xt[cut:]
+        test_X = X[cut:]
         test_y = y[cut:]
 
         est = est.fit(train_X,train_y)
-        predictions = est.predict(test_X)
+        test_predictions = est.predict(test_X)
+        train_predictions = est.predict(train_X)
 
-        score = scoring(predictions,test_y)
-        scores.append(score)
+        test_score = scoring(test_predictions,test_y)
+        train_score = scoring(train_predictions,train_y)
+        test_scores.append(test_score)
+        train_scores.append(train_score)
         if hasattr(est.steps[0][1], "feature_mapping"):
             fittest_ind = str(est.steps[0][1].feature_mapping)
             fittest_inds.append(fittest_ind)
         
-    return scores, fittest_inds
+    return test_scores, train_scores, fittest_inds
 

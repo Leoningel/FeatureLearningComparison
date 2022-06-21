@@ -108,7 +108,7 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
                                    Average,
                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
 
-        fitness_function = utils.cv_ff_time_series(X,y,include_all_data=True)
+        fitness_function = utils.ff_time_series(X,y,include_all_data=True)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 

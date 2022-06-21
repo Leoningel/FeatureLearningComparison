@@ -65,7 +65,7 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
         
-        fitness_function = utils.cv_ff_time_series(X,y)
+        fitness_function = utils.ff_time_series(X,y)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 

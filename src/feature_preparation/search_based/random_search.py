@@ -56,7 +56,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
         
-        fitness_function = utils.cv_ff_time_series(X,y)
+        fitness_function = utils.ff_time_series(X,y)
                 
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 

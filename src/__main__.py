@@ -61,7 +61,7 @@ if __name__ == '__main__':
             os.mkdir(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}")
             with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv", "w", newline="") as outfile:
                 writer = csv.writer(outfile)
-                writer.writerow([ "method", "params", "model", "seed" , "avg_score", "best_score", "test_score", "grid_search_time", "time", "fittest_inds", "test_ind" ])
+                writer.writerow([ "method", "params", "model", "seed", "train_score", "test_score", "grid_search_time", "time", "test_ind" ])
 
     
     if not RUN_MODELS:
@@ -86,14 +86,11 @@ if __name__ == '__main__':
                         best_estimator, best_params = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
                         utils.make_evaluation_ready(estimator.pipeline)
-                        scores, fittest_inds = utils.cv_time_series(feature_learning, model, seed, best_params, X_train, y_train)
-                        test_score, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], additional_text='test_data_')
+                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION])
                     
-                    avg_score = np.mean(scores)
-                    best_score = min(scores)
                     duration = time.time() - start
                     
-                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, avg_score, best_score, test_score, grid_search_time, duration, fittest_inds, test_ind ]
+                    csv_row = [ str(feature_learning), str(estimator.param_grid), str(model), seed, train_scores[0], test_scores[0], grid_search_time, duration, test_ind ]
                     with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv", "a", newline="") as outfile:
                         writer = csv.writer(outfile)
                         writer.writerow(csv_row)

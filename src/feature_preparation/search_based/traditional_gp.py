@@ -62,7 +62,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock], BuildingBlock)
         
-        fitness_function = utils.cv_ff_time_series(X, y, single_solution=True)
+        fitness_function = utils.ff_time_series(X, y, single_solution=True)
         
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
 
