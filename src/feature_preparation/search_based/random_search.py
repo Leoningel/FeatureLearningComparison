@@ -21,7 +21,7 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=15, n_generations=500, save_to_csv='') -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, n_generations=500, save_to_csv='') -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
@@ -70,7 +70,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         return Xt
 
 class RandomSearchFS(FeatureLearningMethod):
-    param_grid: Union[dict, list] = { "feature_learning__max_depth": gv.MAX_DEPTHS}
+    param_grid: Union[dict, list] = {}
     method = RandomSearchFS_Method
     
     def mapping(self, data):

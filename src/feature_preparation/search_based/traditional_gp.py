@@ -25,11 +25,14 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class TraditionalGP_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500, save_to_csv='') -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH - 3, elitism_size=5, novelties_size=5, prob_mutation=0.01, prob_crossover=0.9, n_generations=500, save_to_csv='') -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
         self.elitism_size = elitism_size
+        self.novelties_size = novelties_size
+        self.prob_mutation = prob_mutation
+        self.prob_crossover = prob_crossover
         self.n_generations = n_generations
         self.save_to_csv = save_to_csv
 
@@ -46,6 +49,9 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             population_size=500,
             number_of_generations=self.n_generations,
             n_elites=self.elitism_size,
+            n_novelties=self.novelties_size,
+            probability_mutation=self.prob_mutation,
+            probability_crossover=self.prob_crossover,
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True,
@@ -78,8 +84,10 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
 
 class TraditionalGP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__max_depth": gv.MAX_DEPTHS,
-                            "feature_learning__elitism_size": gv.ELITISMS
+                            "feature_learning__elitism_size": gv.ELITISMS,
+                            "feature_learning__novelties_size": gv.NOVELTIES,
+                            "feature_learning__prob_mutation": gv.MUTATION_PROBS,
+                            "feature_learning__prob_crossover": gv.CROSSOVER_PROBS,
                             }
     method = TraditionalGP_Method
     

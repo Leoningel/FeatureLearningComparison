@@ -14,7 +14,7 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class M3GP_JB_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=15, elitism_size=5, n_generations=500, save_to_csv='') -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, elitism_size=5, n_generations=500, save_to_csv='') -> None:
         self.feature_mapping = None
         self.seed = seed
         self.max_depth = max_depth
@@ -53,8 +53,10 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
 
 class M3GP_JB(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__max_depth": gv.MAX_DEPTHS,
-                            "feature_learning__elitism_size": gv.ELITISMS
+                            "feature_learning__elitism_size": gv.ELITISMS,
+                            "feature_learning__novelties_size": gv.NOVELTIES,
+                            "feature_learning__prob_mutation": gv.MUTATION_PROBS,
+                            "feature_learning__prob_crossover": gv.CROSSOVER_PROBS,
                             }
     method = M3GP_JB_Method
     
