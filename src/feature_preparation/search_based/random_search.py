@@ -12,7 +12,6 @@ import feature_preparation.search_based.utils as utils
 from feature_preparation.search_based.grammar.basic_grammar import (
     Solution, 
     FeatureSet, 
-    EngineeredFeature, 
     BuildingBlock,
     Var,
 )
@@ -54,7 +53,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, EngineeredFeature, FeatureSet, BuildingBlock], Solution)
+        grammar = extract_grammar([Var,  FeatureSet, BuildingBlock], Solution)
         
         fitness_function = utils.ff_time_series(X,y)
                 

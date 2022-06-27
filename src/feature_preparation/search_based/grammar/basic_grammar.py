@@ -15,9 +15,13 @@ class Solution(ABC):
     def evaluate(self, **kwargs) -> float:
         raise NotImplementedError()
 
+class BuildingBlock(ABC):
+    def evaluate(self, **kwargs):
+        raise NotImplementedError()
+
 @dataclass
 class FeatureSet(Solution):
-    subset: Annotated[List[Solution], ListSizeBetween(1,3)]
+    subset: Annotated[list[BuildingBlock], ListSizeBetween(1,10)]
     
     def evaluate(self, **kwargs):
         return [ el.evaluate(**kwargs) for el in self.subset ]
@@ -28,20 +32,6 @@ class FeatureSet(Solution):
             s += str(feat) + ","
         s = s[:-1] + "]"
         return s
-
-class BuildingBlock(ABC):
-    def evaluate(self, **kwargs):
-        raise NotImplementedError()
-
-@dataclass
-class EngineeredFeature(Solution):
-    block: BuildingBlock
-    
-    def evaluate(self, **kwargs):
-        return self.block.evaluate(**kwargs)
-
-    def __str__(self, **kwargs):
-        return f"{self.block}"
     
     
 @dataclass
@@ -156,3 +146,5 @@ class IfThenElse(BuildingBlock):
         return "if {}:\n{}\nelse:\n{}".format(
             self.cond, indent(str(self.then), "\t"), indent(str(self.elze), "\t")
         )
+
+standard_gp_grammar = [Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock]

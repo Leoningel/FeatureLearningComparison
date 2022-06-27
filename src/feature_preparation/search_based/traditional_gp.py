@@ -11,14 +11,10 @@ from geneticengine.metahandlers.vars import VarRange
 
 import feature_preparation.search_based.utils as utils
 from feature_preparation.search_based.grammar.basic_grammar import (
-    Literal,
     Solution, 
     BuildingBlock,
+    standard_gp_grammar,
     Var,
-    Plus,
-    Minus,
-    Mult,
-    SafeDiv
 )
 import global_vars as gv
     
@@ -66,7 +62,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock], BuildingBlock)
+        grammar = extract_grammar(standard_gp_grammar + [Var], BuildingBlock)
         
         fitness_function = utils.ff_time_series(X, y, single_solution=True)
         

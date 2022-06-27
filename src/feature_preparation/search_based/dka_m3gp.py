@@ -15,16 +15,10 @@ from geneticengine.metahandlers.vars import VarRange
 import feature_preparation.search_based.utils as utils
 from feature_preparation.search_based.grammar.aggregations import Average
 from feature_preparation.search_based.grammar.basic_grammar import (
-    Literal,
     Solution, 
     FeatureSet, 
-    EngineeredFeature, 
-    BuildingBlock,
     Var,
-    Plus,
-    Minus,
-    Mult,
-    SafeDiv,
+    standard_gp_grammar,
     IfThenElse
 )
 from feature_preparation.search_based.grammar.categories import (
@@ -107,8 +101,9 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         Average.__init__.__annotations__["aggregation_col"] = Annotated[str, VarRange(["cnt"])]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature,
-                                   IfThenElse,
+        grammar = extract_grammar(standard_gp_grammar + 
+                                  [ Var,
+                                    IfThenElse,
                                    Equals, NotEquals, InBetween,
                                    Category, IntCategory, BoolCategory, IBCategory, Col,
                                    Average,

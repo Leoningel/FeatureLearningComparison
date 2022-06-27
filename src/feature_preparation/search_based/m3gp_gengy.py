@@ -1,7 +1,5 @@
 from typing import Annotated, List, Union
 
-from numpy import save
-
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -12,16 +10,10 @@ from geneticengine.metahandlers.vars import VarRange
 
 import feature_preparation.search_based.utils as utils
 from feature_preparation.search_based.grammar.basic_grammar import (
-    Literal,
     Solution, 
     FeatureSet, 
-    EngineeredFeature, 
-    BuildingBlock,
-    Var,
-    Plus,
-    Minus,
-    Mult,
-    SafeDiv
+    standard_gp_grammar,
+    Var
 )
 import global_vars as gv
 
@@ -69,7 +61,7 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
-        grammar = extract_grammar([Var, Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock, Solution, FeatureSet, EngineeredFeature], FeatureSet)
+        grammar = extract_grammar(standard_gp_grammar + [Var], FeatureSet)
         
         fitness_function = utils.ff_time_series(X,y)
         
