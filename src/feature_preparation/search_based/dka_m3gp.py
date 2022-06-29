@@ -30,6 +30,8 @@ from feature_preparation.search_based.grammar.categories import (
     MonthIB,
     Season,
     SeasonIB,
+    WeatherSit,
+    WeatherSitIB,
     WeekdayIB,
     Year,
     Month,
@@ -67,8 +69,9 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         "holiday"   : Holiday,
         "weekday"   : Weekday,
         "workingday": WorkingDay,
+        "weathersit": WeatherSit,
     }
-    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB ]
+    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
 
     def evolve(self, g, fitness_function, verbose=0):
         if self.save_to_csv != '':

@@ -121,7 +121,24 @@ class WorkingDay(BoolCategory):
     category: Annotated[int, IntRange( 0, 1 )]
     column: WorkingDayCol
 
+@dataclass
+class WeatherSitCol(Col):
+    col_name = "weathersit"
     
+    number_map = {
+        1 : "Clear",
+        2 : "Misty",
+        3 : "Light rain",
+        4 : "Heavy rain",
+    }
+
+@dataclass
+class WeatherSit(IntCategory):
+    category: Annotated[int, IntRange( 1, 4 )]
+    column: WeatherSitCol
+
+categories = [ Col, Category, BoolCategory, IntCategory, Season, SeasonCol, Year, YearCol, Month, MonthCol, Weekday, WeekdayCol, WeatherSit, WeatherSitCol, Holiday, HolidayCol, WorkingDay, WorkingDayCol ]
+
  
 ##-------------------------
 # Should be implemented differently once dependent types are included in Genetic Engine
@@ -158,4 +175,12 @@ class WeekdayIB(IBCategory):
     category1: Annotated[int, IntRange( 0, 6 )]
     category2: Annotated[int, IntRange( 0, 6 )]
     column: WeekdayCol
+
+@dataclass
+class WeatherSitIB(IBCategory):
+    category1: Annotated[int, IntRange( 0, 6 )]
+    category2: Annotated[int, IntRange( 0, 6 )]
+    column: WeatherSitCol
+
+inbetween_categories = [ IBCategory, SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
 

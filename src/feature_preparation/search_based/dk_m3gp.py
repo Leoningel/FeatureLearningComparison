@@ -28,6 +28,8 @@ from feature_preparation.search_based.grammar.categories import (
     MonthIB,
     Season,
     SeasonIB,
+    WeatherSit,
+    WeatherSitIB,
     WeekdayIB,
     Year,
     Month,
@@ -65,8 +67,9 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         "holiday"   : Holiday,
         "weekday"   : Weekday,
         "workingday": WorkingDay,
+        "weathersit": WeatherSit,
     }
-    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB ]
+    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
 
     
     def evolve(self, g, fitness_function, verbose=0):
@@ -108,7 +111,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         
         fitness_function = utils.ff_time_series(X,y)
         
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, verbose=3)
 
         self.feature_mapping = fs
         return self
