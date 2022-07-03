@@ -129,12 +129,11 @@ class WeatherSitCol(Col):
         1 : "Clear",
         2 : "Misty",
         3 : "Light rain",
-        4 : "Heavy rain",
     }
 
 @dataclass
 class WeatherSit(IntCategory):
-    category: Annotated[int, IntRange( 1, 4 )]
+    category: Annotated[int, IntRange( 1, 3 )]
     column: WeatherSitCol
 
 categories = [ Col, Category, BoolCategory, IntCategory, Season, SeasonCol, Year, YearCol, Month, MonthCol, Weekday, WeekdayCol, WeatherSit, WeatherSitCol, Holiday, HolidayCol, WorkingDay, WorkingDayCol ]
@@ -178,8 +177,8 @@ class WeekdayIB(IBCategory):
 
 @dataclass
 class WeatherSitIB(IBCategory):
-    category1: Annotated[int, IntRange( 0, 6 )]
-    category2: Annotated[int, IntRange( 0, 6 )]
+    category1: Annotated[int, IntRange( 1, 3 )]
+    category2: Annotated[int, IntRange( 1, 3 )]
     column: WeatherSitCol
 
 inbetween_categories = [ IBCategory, SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
