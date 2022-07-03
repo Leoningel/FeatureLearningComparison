@@ -57,9 +57,6 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
 class M3GP_JB(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
                             "feature_learning__elitism_size": gv.ELITISMS,
-                            "feature_learning__novelties_size": gv.NOVELTIES,
-                            "feature_learning__prob_mutation": gv.MUTATION_PROBS,
-                            "feature_learning__prob_crossover": gv.CROSSOVER_PROBS,
                             }
     method = M3GP_JB_Method
     
