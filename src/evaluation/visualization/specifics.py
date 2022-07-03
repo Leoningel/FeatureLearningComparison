@@ -55,7 +55,7 @@ def visualise_all_seeds(feature_learning: FeatureLearningMethod, split: float, m
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 
-def visualise_all_seeds_compare_splits(feature_learning: FeatureLearningMethod, splits: List[float], model: Model, column: str = 'fitness'):
+def visualise_all_seeds_compare_splits(feature_learning: FeatureLearningMethod, model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ]):
 
     li = []
 
@@ -121,7 +121,7 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], splits: List[float], model: Model, column: str = 'fitness'):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ], added_text = ''):
 
     li = []
 
@@ -154,8 +154,8 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], splits
             hue = 'fl'
             )
 
-    a.set_title(f"{feature_learning} {column}")
-    path = f"plots/compare_fls_model={model}.pdf"
+    a.set_title(f"{column} comparison")
+    path = f"plots/compare_fls_model={model}{added_text}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 
