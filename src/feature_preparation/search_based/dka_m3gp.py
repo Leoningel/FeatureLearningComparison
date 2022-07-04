@@ -89,6 +89,8 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
             n_novelties=self.novelties_size,
             probability_mutation=self.prob_mutation,
             probability_crossover=self.prob_crossover,
+            specific_type_mutation=FeatureSet,
+            specific_type_crossover=FeatureSet,
             max_depth=self.max_depth,
             minimize=True,
             favor_less_deep_trees=True,
