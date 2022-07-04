@@ -21,7 +21,7 @@ class BuildingBlock(ABC):
 
 @dataclass
 class FeatureSet(Solution):
-    subset: Annotated[list[BuildingBlock], ListSizeBetween(1,10)]
+    subset: Annotated[list[BuildingBlock], ListSizeBetween(1,16)]
     
     def evaluate(self, **kwargs):
         return [ el.evaluate(**kwargs) for el in self.subset ]
