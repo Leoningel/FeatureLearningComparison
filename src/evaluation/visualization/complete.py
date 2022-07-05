@@ -1,7 +1,10 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
 
+from scipy import stats
+from statannotations.Annotator import Annotator
 
 def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", column : str = 'test_score', log_scale=True):
     if type(df) == str:
@@ -43,7 +46,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     plt.close()
 
 def plot_separated_violin_comparisons(
-    df: pd.DataFrame, outbasename: str = "_separated_violins", column : str = 'test_score',
+    df: pd.DataFrame, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False,
 ):
     """
     Draws violin plots for all examples.
@@ -73,25 +76,37 @@ def plot_separated_violin_comparisons(
         column = "test score (MSE)"
     
     df = df.replace(to_replace)
+    if take_out_outliers:
+        df = df[np.abs(df[column]-df[column].median()) <= (10*df[column].median())]
     
-    g = sns.catplot(x="method",
-                    y=column,
-                    sharey=False,
-                    sharex=False,
+    x = "model"
+    y = column
+    hue = 'method'
+    
+    g = sns.boxplot(x=x,
+                    y=y,
+                    # sharey=False,
+                    # sharex=False,
                     palette='Dark2',
-                    height=3.5,
+                    # height=3.5,
                     # aspect=1, 
-                    kind="violin",
-                    col="model",
-                    col_wrap=2,
+                    # kind="violin",
+                    hue=hue,
+                    # col_wrap=2,
                     # cut=0,
                     # fmt='.2',
                     data=df)
 
-    g.set_axis_labels("", column).set_titles("{col_name}").despine(left=True)
-    [plt.setp(ax.get_xticklabels(), rotation=45) for ax in g.axes.flat]
+    # g.set_axis_labels("", column).set_titles("{col_name}").despine(left=True)
+    # [plt.setp(ax.get_xticklabels(), rotation=45) for ax in g.axes.flat]
     
-    g.fig.suptitle(f"Feature Learning {column}")
+    if stat_test_pairs:
+        print(stat_test_pairs)
+        annotator = Annotator(g, stat_test_pairs, data=df, x=x, y=y, hue=hue, plot='boxplot')
+        annotator.configure(test='Mann-Whitney', text_format='full', loc='outside')
+        annotator.apply_and_annotate()
+    
+    # g.fig.suptitle(f"Feature Learning {column}")
     plt.tight_layout()
     plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
     sns.set(font_scale=1) 
