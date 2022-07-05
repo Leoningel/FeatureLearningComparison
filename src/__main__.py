@@ -15,6 +15,7 @@ import pandas as pd
 
 import global_vars as gv
 from data_extraction.data_extraction import load
+from evaluation.statistical_tests.simple_tests import kolmogorov_smirnov
 from evaluation.visualization.specifics import visualise_all_seeds_compare_splits, visualise_compare_fls, visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
 from evaluation.visualization.complete import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
@@ -43,6 +44,7 @@ if __name__ == '__main__':
     args = sys.argv
     RUN_MODELS = "--run_models" in args
     PLOT_DATA = "--plot_data" in args
+    STAT_TESTS = "--stat_tests" in args
     CLEAN_RESULTS = "--clean_results" in args
     seeds = [ int(arg.split("=")[1]) for arg in args if "--seed=" in arg ]
     if not seeds:
@@ -100,16 +102,27 @@ if __name__ == '__main__':
     else:
         print("Plotting data")
         feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB(), M3GP_Gengy() ]
-        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
-        df = pd.concat(dfs)
-        df['test_score'] = df['test_score']
+        # dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
+        # df = pd.concat(dfs)
+        # df['test_score'] = df['test_score']
+        # plot_separated_violin_comparisons(df)
         # plot_combined_barplot_comparison(df)
-        plot_separated_violin_comparisons(df)
     
         # visualise_single_file(DKA_M3GP(), 0, gv.SPLITS[2], DecisionTree(), column = 'fitness')
         # visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
         # visualise_all_seeds_compare_splits(TraditionalGP(),splits = [ 0.75 ], model = DecisionTree())
-        # visualise_compare_fls([ M3GP_Gengy(), M3GP_JB() ],splits = [ 0.75 ], model = SVM(), added_text="_compare_jb_gengy")
+        visualise_compare_fls(feature_learnings,splits = [ 0.75 ], model = MLP(), added_text="_compare_jb_gengy")
 
+    if not STAT_TESTS:
+        print("Warning: Not doing statistical tests.")
+    else:
+        print("Running statistical tests")
+        feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB(), M3GP_Gengy() ]
+        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
+        df1 = dfs[0]
+        df2 = dfs[1]
+        kolmogorov_smirnov(df1, df2, 'test_score', RandomForest())
+
+    
     
 
