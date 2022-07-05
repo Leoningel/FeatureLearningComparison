@@ -112,3 +112,4 @@ def plot_separated_violin_comparisons(
     plt.tight_layout()
     plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
     sns.set(font_scale=1) 
+    plt.close()
