@@ -105,7 +105,8 @@ if __name__ == '__main__':
         dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
         df = pd.concat(dfs)
         df['test_score'] = df['test_score']
-        pairs = [ ((str(model), str(feature_learnings[0])), (str(model), str(feature_learnings[1]))) for model in models[0:3] ]
+        pairs = [ ((str(model), str(feature_learnings[0])), (str(model), str(feature_learnings[1]))) for model in models ]
+        plot_separated_violin_comparisons(df, stat_test_pairs=pairs, column='train_score', take_out_outliers=True)
         plot_separated_violin_comparisons(df, stat_test_pairs=pairs, take_out_outliers=True)
         # plot_combined_barplot_comparison(df)
     
