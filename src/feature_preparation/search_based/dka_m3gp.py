@@ -116,7 +116,7 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         fitness_function = utils.ff_time_series(X,y,include_all_data=True)
         if self.test_data:
             X_test, y_test = self.test_data
-            self.test_data = utils.ff_time_series(X_test, y_test)
+            self.test_data = utils.ff_time_series(X_test, y_test,include_all_data=True)
 
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1)
 
