@@ -61,6 +61,17 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         self.save_to_csv = save_to_csv
         self.test_data = test_data
 
+    special_features = {
+        "season"    : Season,
+        "yr"        : Year,
+        "mnth"      : Month,
+        "holiday"   : Holiday,
+        "weekday"   : Weekday,
+        "workingday": WorkingDay,
+        "weathersit": WeatherSit,
+    }
+    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
+    
     def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0):
         if self.save_to_csv != '':
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
@@ -102,7 +113,7 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
                                    Average,
                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
 
-        fitness_function = utils.ff_time_series(X,y)
+        fitness_function = utils.ff_time_series(X,y,include_all_data=True)
         if self.test_data:
             X_test, y_test = self.test_data
             self.test_data = utils.ff_time_series(X_test, y_test)
@@ -120,8 +131,8 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
 
 class DKA_M3GP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__elitism_size": gv.ELITISMS,
-                            "feature_learning__novelties_size": gv.NOVELTIES,
+                            # "feature_learning__elitism_size": gv.ELITISMS,
+                            # "feature_learning__novelties_size": gv.NOVELTIES,
                             }
     method = DKA_M3GP_Method
     

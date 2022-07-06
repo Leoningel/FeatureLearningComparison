@@ -58,6 +58,17 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         self.n_generations = n_generations
         self.save_to_csv = save_to_csv
         self.test_data = test_data
+    
+    special_features = {
+        "season"    : Season,
+        "yr"        : Year,
+        "mnth"      : Month,
+        "holiday"   : Holiday,
+        "weekday"   : Weekday,
+        "workingday": WorkingDay,
+        "weathersit": WeatherSit,
+    }
+    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
 
     def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0):
         if self.save_to_csv != '':
