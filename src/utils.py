@@ -8,14 +8,16 @@ import global_vars as gv
 
 def make_grid_search_ready(pipeline:Pipeline):
     if "feature_learning__n_generations" in pipeline.get_params():
-        pipeline.set_params(feature_learning__n_generations=15)
+        pipeline.set_params(feature_learning__n_generations=1)
     return pipeline
 
-def make_evaluation_ready(pipeline:Pipeline, csv_text=''):
+def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None):
     if "feature_learning__n_generations" in pipeline.get_params():
-        pipeline.set_params(feature_learning__n_generations=500)
+        pipeline.set_params(feature_learning__n_generations=100)
     if "feature_learning__save_to_csv" in pipeline.get_params():
         pipeline.set_params(feature_learning__save_to_csv=csv_text)
+    if "feature_learning__test_data" in pipeline.get_params():
+        pipeline.set_params(feature_learning__test_data=test_data)
     return pipeline
                         
 def make_pipeline(feature_learning: FeatureLearningMethod, model: Model, seed: int, params=None):
@@ -47,15 +49,15 @@ def cv_time_series(
     fittest_inds = list()
     
     for split in splits:
-        est = make_pipeline(feature_learning, model, seed, params)
-        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}")
-        
         cut = int(split * len(X))
         train_X = X[:cut]
         train_y = y[:cut]
         test_X = X[cut:]
         test_y = y[cut:]
 
+        est = make_pipeline(feature_learning, model, seed, params)
+        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}", test_data=(test_X, test_y))
+        
         est = est.fit(train_X,train_y)
         test_predictions = est.predict(test_X)
         train_predictions = est.predict(train_X)
