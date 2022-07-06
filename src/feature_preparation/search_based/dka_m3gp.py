@@ -131,8 +131,8 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
 
 class DKA_M3GP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            # "feature_learning__elitism_size": gv.ELITISMS,
-                            # "feature_learning__novelties_size": gv.NOVELTIES,
+                            "feature_learning__elitism_size": gv.ELITISMS,
+                            "feature_learning__novelties_size": gv.NOVELTIES,
                             }
     method = DKA_M3GP_Method
     
