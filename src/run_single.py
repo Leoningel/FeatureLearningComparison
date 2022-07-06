@@ -56,7 +56,6 @@ if __name__ == '__main__':
         utils.make_grid_search_ready(estimator.pipeline)
         best_estimator, best_params = estimator.grid_search(X_train, y_train)
         grid_search_time = time.time() - start
-        utils.make_evaluation_ready(estimator.pipeline)
         test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION])
     
     duration = time.time() - start
