@@ -22,6 +22,7 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
         self.novelties_size = novelties_size
         self.n_generations = n_generations
         self.save_to_csv = save_to_csv
+        self.test_data = test_data
 
     def fit(self,X,y=None):
         if self.save_to_csv != '':
