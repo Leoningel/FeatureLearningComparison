@@ -20,7 +20,7 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, elitism_size=5, novelties_size=5, n_generations=500, save_to_csv='', test_data = None) -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, elitism_size=5, novelties_size=0, n_generations=500, save_to_csv='', test_data = None) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
@@ -83,7 +83,7 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
 class M3GP_Gengy(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
                             "feature_learning__elitism_size": gv.ELITISMS,
-                            "feature_learning__novelties_size": gv.NOVELTIES,
+                            # "feature_learning__novelties_size": gv.NOVELTIES,
                             }
     method = M3GP_Gengy_Method
     
