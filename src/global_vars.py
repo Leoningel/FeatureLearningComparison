@@ -6,6 +6,6 @@ TEMP_RESULTS_FOLDER = "./results_temp/"
 SPLITS = [ 0.5, 0.66, 0.83 ]
 MAX_DEPTH = 12
 ELITISMS = [ 1, 5 ]
-NOVELTIES = [ 20, 50, 100 ]
+NOVELTIES = [ 0, 20, 50, 100 ]
 MUTATION_PROBS = [ 0.1, 0.25, 0.5, 0.6 ]
 CROSSOVER_PROBS = [ 0.8, 0.9, 1 ]

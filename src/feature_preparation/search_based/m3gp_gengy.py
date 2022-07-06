@@ -82,8 +82,8 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
 
 class M3GP_Gengy(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            # "feature_learning__elitism_size": gv.ELITISMS,
-                            # "feature_learning__novelties_size": gv.NOVELTIES,
+                            "feature_learning__elitism_size": gv.ELITISMS,
+                            "feature_learning__novelties_size": gv.NOVELTIES,
                             }
     method = M3GP_Gengy_Method
     
