@@ -121,13 +121,13 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ], added_text = ''):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ], added_text = '', server = 'ml'):
 
     li = []
 
     for feature_learning in feature_learnings:
         for split in splits:
-            all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed=*_model={model}_split={split}.csv")
+            all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{server}/{feature_learning}/seed=*_model={model}_split={split}.csv")
 
             if split == 0.75:
                 split = 'whole dataset'

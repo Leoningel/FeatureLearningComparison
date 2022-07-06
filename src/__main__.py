@@ -102,18 +102,18 @@ if __name__ == '__main__':
     else:
         print("Plotting data")
         feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB(), M3GP_Gengy() ]
-        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
-        df = pd.concat(dfs)
-        df['test_score'] = df['test_score']
-        pairs = [ ((str(model), str(feature_learnings[0])), (str(model), str(feature_learnings[1]))) for model in models ]
-        plot_separated_violin_comparisons(df, stat_test_pairs=pairs, column='train_score', take_out_outliers=True)
-        plot_separated_violin_comparisons(df, stat_test_pairs=pairs, take_out_outliers=True)
+        # dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/ml/{feature_learning}/main.csv") for feature_learning in feature_learnings ]
+        # df = pd.concat(dfs)
+        # df['test_score'] = df['test_score']
+        # pairs = [ ((str(model), str(feature_learnings[0])), (str(model), str(feature_learnings[1]))) for model in models ]
+        # plot_separated_violin_comparisons(df, stat_test_pairs=pairs, column='train_score', take_out_outliers=True)
+        # plot_separated_violin_comparisons(df, stat_test_pairs=pairs, take_out_outliers=True)
         # plot_combined_barplot_comparison(df)
     
         # visualise_single_file(DKA_M3GP(), 0, gv.SPLITS[2], DecisionTree(), column = 'fitness')
         # visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
         # visualise_all_seeds_compare_splits(TraditionalGP(),splits = [ 0.75 ], model = DecisionTree())
-        # visualise_compare_fls(feature_learnings,splits = [ 0.75 ], model = MLP(), added_text="_compare_jb_gengy")
+        visualise_compare_fls(feature_learnings,splits = [ 0.75 ], model = DecisionTree(), added_text="_compare_jb_gengy")
 
     if not STAT_TESTS:
         print("Warning: Not doing statistical tests.")
