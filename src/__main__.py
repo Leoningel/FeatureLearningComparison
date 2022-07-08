@@ -46,6 +46,7 @@ if __name__ == '__main__':
     PLOT_DATA = "--plot_data" in args
     STAT_TESTS = "--stat_tests" in args
     CLEAN_RESULTS = "--clean_results" in args
+    TEST = "--test" in args
     seeds = [ int(arg.split("=")[1]) for arg in args if "--seed=" in arg ]
     if not seeds:
         seeds = range(N_SEEDS)
@@ -84,10 +85,10 @@ if __name__ == '__main__':
                     estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
                     
                     with ignore_warnings(category=ConvergenceWarning):
-                        utils.make_grid_search_ready(estimator.pipeline)
+                        utils.make_grid_search_ready(estimator.pipeline, test=TEST)
                         best_estimator, best_params = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
-                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION])
+                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], test=TEST)
                     
                     duration = time.time() - start
                     

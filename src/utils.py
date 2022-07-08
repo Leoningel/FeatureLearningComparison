@@ -6,14 +6,20 @@ from model_generation.models import Model
 import global_vars as gv
 
 
-def make_grid_search_ready(pipeline:Pipeline):
+def make_grid_search_ready(pipeline:Pipeline, test=False):
     if "feature_learning__n_generations" in pipeline.get_params():
-        pipeline.set_params(feature_learning__n_generations=15)
+        n_gens = 15
+        if test:
+            n_gens = 1
+        pipeline.set_params(feature_learning__n_generations=n_gens)
     return pipeline
 
-def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None):
+def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None, test=False):
     if "feature_learning__n_generations" in pipeline.get_params():
-        pipeline.set_params(feature_learning__n_generations=500)
+        n_gens = 500
+        if test:
+            n_gens = 15
+        pipeline.set_params(feature_learning__n_generations=n_gens)
     if "feature_learning__save_to_csv" in pipeline.get_params():
         pipeline.set_params(feature_learning__save_to_csv=csv_text)
     if "feature_learning__test_data" in pipeline.get_params():
@@ -38,6 +44,7 @@ def cv_time_series(
         scoring = 'mean_squared_error',
         splits = gv.SPLITS,
         additional_text = '',
+        test=False
     ):
     if scoring == 'mean_squared_error':
         scoring = mean_squared_error
@@ -56,7 +63,7 @@ def cv_time_series(
         test_y = y[cut:]
 
         est = make_pipeline(feature_learning, model, seed, params)
-        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}", test_data=(test_X, test_y))
+        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}", test_data=(test_X, test_y), test=test)
         
         est = est.fit(train_X,train_y)
         test_predictions = est.predict(test_X)
