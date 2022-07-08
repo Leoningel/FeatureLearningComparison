@@ -155,7 +155,7 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
             )
 
     a.set_title(f"{column} comparison")
-    path = f"plots/compare_fls_model={model}{added_text}.pdf"
+    path = f"plots/compare_fls_model={model}_({column}){added_text}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 
