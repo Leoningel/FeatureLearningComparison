@@ -63,10 +63,10 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar(standard_gp_grammar + [Var], BuildingBlock)
         
-        fitness_function = utils.ff_time_series(X,y)
+        fitness_function = utils.ff_time_series(X,y, single_solution=True)
         if self.test_data:
             X_test, y_test = self.test_data
-            self.test_data = utils.ff_time_series(X_test, y_test)
+            self.test_data = utils.ff_time_series(X_test, y_test, single_solution=True)
 
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1)
 
