@@ -158,7 +158,7 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     smodel = 'm=' + str(model)
     sfls = 'fl='
     for fl in feature_learnings:
-        sfls += str(fl) + ' '
+        sfls += str(fl) + '_'
     path = f"plots/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")

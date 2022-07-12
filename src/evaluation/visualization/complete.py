@@ -117,10 +117,10 @@ def plot_separated_violin_comparisons(
     plt.tight_layout()
     smodels = 'm='
     for m in models:
-        smodels += str(m) + ' '
+        smodels += str(m) + '_'
     sfls = 'fl='
     for fl in df['method'].unique():
-        sfls += str(fl) + ' '
+        sfls += str(fl) + '_'
     path = f"plots/v_{outbasename}_{column}_{smodels}_{sfls}.pdf"
     plt.savefig(path)
     sns.set(font_scale=1) 
