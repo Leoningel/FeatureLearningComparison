@@ -121,13 +121,13 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ], added_text = '', server = 'ml'):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml'):
 
     li = []
 
     for feature_learning in feature_learnings:
         for split in splits:
-            all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{server}/{feature_learning}/seed=*_model={model}_split={split}.csv")
+            all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{folder}/{feature_learning}/seed=*_model={model}_split={split}.csv")
 
             if split == 0.75:
                 split = 'whole dataset'
@@ -155,7 +155,11 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
             )
 
     a.set_title(f"{column} comparison")
-    path = f"plots/compare_fls_model={model}_({column}){added_text}.pdf"
+    smodel = 'm=' + str(model)
+    sfls = 'fl='
+    for fl in feature_learnings:
+        sfls += str(fl) + ' '
+    path = f"plots/g_{added_text}_{column} {smodel} {sfls}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 

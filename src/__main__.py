@@ -1,5 +1,6 @@
 import csv
 import os
+from argparse import ArgumentParser
 import shutil
 import time
 from typing import List
@@ -101,29 +102,55 @@ if __name__ == '__main__':
         print("Warning: Not plotting data.")
     else:
         print("Plotting data")
-        feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB(), M3GP_Gengy() ]
-        # dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/ml/{feature_learning}/main.csv") for feature_learning in feature_learnings ]
-        # df = pd.concat(dfs)
-        # df['test_score'] = df['test_score']
-        # pairs = [ ((str(model), str(feature_learnings[0])), (str(model), str(feature_learnings[1]))) for model in models ]
-        # plot_separated_violin_comparisons(df, stat_test_pairs=pairs, column='train_score', take_out_outliers=True)
-        # plot_separated_violin_comparisons(df, stat_test_pairs=pairs, take_out_outliers=True)
-        # plot_combined_barplot_comparison(df)
+        parser = ArgumentParser()
+        parser.add_argument("-fl", "--featurelearnings", dest="featurelearnings", nargs='+', type=int)
+        parser.add_argument("-m", "--models", dest="models", nargs='+', type=int)
+        parser.add_argument('-pd', "--plot_data", dest='pd', action='store_const', const=True, default=False)
+        parser.add_argument('-t', "--test", dest='test', action='store_const', const=True, default=False)
+        parser.add_argument('-fn', "--folder_name", dest='folder_name', type=str)
+        parser.add_argument('-out', "--outbasename", dest='outbasename', type=str, default='')
+        parser.add_argument('-p', "--pairs", dest='pairs', type=int, nargs='+', default=None)
+        parser.add_argument('-v', "--violin", dest='violin', action='store_const', const=True, default=False)
+        parser.add_argument('-g', "--per_generation", dest='per_generation', action='store_const', const=True, default=False)
+        args = parser.parse_args()
     
-        # visualise_single_file(DKA_M3GP(), 0, gv.SPLITS[2], DecisionTree(), column = 'fitness')
-        # visualise_all_seeds_all_splits(TraditionalGP(), DecisionTree(), column = 'fitness')
-        # visualise_all_seeds_compare_splits(TraditionalGP(),splits = [ 0.75 ], model = DecisionTree())
-        visualise_compare_fls(feature_learnings,splits = [ 0.75 ], model = DecisionTree(), added_text="_compare_jb_gengy")
+        feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), M3GP_JB(), RandomSearchFS(), FeatureToolsFS(), PrincipleCA(), NoFeatureLearning() ]
+        models = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
+        rel_fls = list()
+        for fl in args.featurelearnings:
+            rel_fls.append(feature_learnings[fl])
+        rel_models = list()
+        for m in args.models:
+            rel_models.append(models[m])
+        pairs = list()
+        if args.pairs:
+            pair_fls = list()
+            if -1 in args.pairs:
+                pair_fls = rel_fls
+            else:
+                for p in args.pairs:
+                    pair_fls.append(rel_fls[p])
+            for m in rel_models:
+                for idx1, fl1 in enumerate(pair_fls):
+                    for idx2, fl2 in enumerate(rel_fls):
+                        if idx1 < idx2: 
+                            pairs.append(((str(m), str(fl1)), (str(m), str(fl2))))
 
-    if not STAT_TESTS:
-        print("Warning: Not doing statistical tests.")
-    else:
-        print("Running statistical tests")
-        feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB(), M3GP_Gengy() ]
-        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}{feature_learning}/main.csv") for feature_learning in feature_learnings ]
-        df1 = dfs[0]
-        df2 = dfs[1]
-        kolmogorov_smirnov(df1, df2, 'test_score', RandomForest())
+        folder_name = args.folder_name
+        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/{folder_name}/{feature_learning}/main.csv") for feature_learning in rel_fls ]
+        df = pd.concat(dfs)
+        if args.violin:
+            if args.test:
+                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=True)
+            else:
+                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=True)
+        if args.per_generation:
+            for m in rel_models:
+                if args.test:
+                    visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column='test_fitness', folder=folder_name)
+                else:
+                    visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column='fitness', folder=folder_name)
+
 
     
     

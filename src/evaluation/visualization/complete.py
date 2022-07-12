@@ -46,7 +46,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     plt.close()
 
 def plot_separated_violin_comparisons(
-    df: pd.DataFrame, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False,
+    df: pd.DataFrame, models = None, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False,
 ):
     """
     Draws violin plots for all examples.
@@ -57,12 +57,6 @@ def plot_separated_violin_comparisons(
     """
     sns.set_style({"font.family": "serif"})
     sns.set(font_scale=0.75)
-
-    to_replace = {
-        "No_FL": "No FL",
-        "FeatureToolsFS": "FT FS",
-        "random_search": "RS FS",
-    }
     
     plot_name = column
     if column == "avg_score":
@@ -74,14 +68,25 @@ def plot_separated_violin_comparisons(
     elif column == "test_score":
         df['test score (MSE)'] = df.test_score
         column = "test score (MSE)"
+
+    # to_replace = {
+    #     "No_FL": "No FL",
+    #     "FeatureToolsFS": "FT FS",
+    #     "random_search": "RS FS",
+    # }
+    # df = df.replace(to_replace)
     
-    df = df.replace(to_replace)
+    if models:
+        models = [ str(m) for m in models ]
+        df = df[ df['model'].isin(models) ]
+    
     if take_out_outliers:
-        outlier_cutoff = 15
+        outlier_cutoff = 3
         print("Outliers:")
-        print(df[np.abs(df[column]-df[column].median()) > (outlier_cutoff*df[column].median())][['method', column, 'model']])
-        df = df[np.abs(df[column]-df[column].median()) <= (outlier_cutoff*df[column].median())]
-    
+        for m in df['model'].unique():
+            print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (outlier_cutoff*df[df['model'] == m] [column].std())),(df['model'] == m))]][['method', column, 'model']])
+            df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (outlier_cutoff*df[df['model'] == m] [column].std())),(df['model'] != m))]]
+
     x = "model"
     y = column
     hue = 'method'
@@ -110,6 +115,13 @@ def plot_separated_violin_comparisons(
     
     # g.fig.suptitle(f"Feature Learning {column}")
     plt.tight_layout()
-    plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
+    smodels = 'm='
+    for m in models:
+        smodels += str(m) + ' '
+    sfls = 'fl='
+    for fl in df['method'].unique():
+        sfls += str(fl) + ' '
+    path = f"plots/v_{outbasename}_{column} {smodels} {sfls}.pdf"
+    plt.savefig(path)
     sns.set(font_scale=1) 
     plt.close()
