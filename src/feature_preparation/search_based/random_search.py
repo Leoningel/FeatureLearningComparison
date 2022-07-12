@@ -38,7 +38,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             evaluation_function=fitness_function,
             representation=treebased_representation,
             seed=self.seed,
-            population_size=500,
+            population_size=gv.POPULATION_SIZE,
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
             minimize=True,

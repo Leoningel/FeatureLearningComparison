@@ -82,7 +82,7 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
             evaluation_function=fitness_function,
             representation=treebased_representation,
             seed=self.seed,
-            population_size=500,
+            population_size=gv.POPULATION_SIZE,
             number_of_generations=self.n_generations,
             n_elites=self.elitism_size,
             n_novelties=self.novelties_size,

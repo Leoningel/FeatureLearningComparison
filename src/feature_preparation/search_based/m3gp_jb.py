@@ -30,7 +30,7 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
         else:
             save_to_csv = ''
         m3gp = M3GP_alg(
-                    population_size=500,
+                    population_size=gv.POPULATION_SIZE,
                     max_generation=self.n_generations,
                     limit_depth=self.max_depth,
                     elitism_size=self.elitism_size,
