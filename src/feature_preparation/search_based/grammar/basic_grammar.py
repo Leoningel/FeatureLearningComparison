@@ -147,4 +147,4 @@ class IfThenElse(BuildingBlock):
             self.cond, indent(str(self.then), "\t"), indent(str(self.elze), "\t")
         )
 
-standard_gp_grammar = [Literal, Plus, SafeDiv, Mult, Minus, BuildingBlock]
+standard_gp_grammar = [ Plus, SafeDiv, Mult, Minus, BuildingBlock]
