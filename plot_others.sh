@@ -8,15 +8,6 @@ function run_example {
 
 }
 
-run_comparison.sh -fl 2 4 -m 0 1 --plot_data -fn franklin -t -v -out jb_gengy_dt_rf -p -1 -o
-run_comparison.sh -fl 2 4 -m 0 1 --plot_data -fn franklin -v -out jb_gengy_dt_rf -p -1 -o
-run_comparison.sh -fl 2 4 -m 2 --plot_data -fn franklin -t -v -out jb_gengy_mlp -p -1 -o
-run_comparison.sh -fl 2 4 -m 2 --plot_data -fn franklin -v -out jb_gengy_mlp -p -1 -o
-run_comparison.sh -fl 2 4 -m 3 --plot_data -fn franklin -t -v -out jb_gengy_svm -p -1 -o
-run_comparison.sh -fl 2 4 -m 3 --plot_data -fn franklin -v -out jb_gengy_svm -p -1 -o
-run_comparison.sh -fl 2 4 -m 0 --plot_data -fn franklin -t -g -out jb_gengy -p -1 -o
-run_comparison.sh -fl 2 4 -m 0 --plot_data -fn franklin -g -out jb_gengy -p -1 -o
-
 run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn franklin -t -g -out search_methods
 run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn franklin -g -out search_methods
 

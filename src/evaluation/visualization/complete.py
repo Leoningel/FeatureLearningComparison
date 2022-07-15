@@ -62,12 +62,15 @@ def plot_separated_violin_comparisons(
     if column == "avg_score":
         df['avg score (MSE)'] = df.avg_score
         column = "avg score (MSE)"
-    elif column == "best_score":
-        df['best score (MSE)'] = df.best_score
-        column = "best score (MSE)"
+    elif column == "train_score":
+        df['train score (MSE)'] = df.train_score
+        column = "train score (MSE)"
     elif column == "test_score":
         df['test score (MSE)'] = df.test_score
         column = "test score (MSE)"
+    elif column == 'time':
+        df['Time'] = df['time'] - df['grid_search_time']
+        column = 'Time'
 
     # to_replace = {
     #     "No_FL": "No FL",
@@ -81,12 +84,27 @@ def plot_separated_violin_comparisons(
         df = df[ df['model'].isin(models) ]
     
     if take_out_outliers:
-        outlier_cutoff = 3
         df_wo_outliers = df
         print("Outliers:")
         for m in df['model'].unique():
-            print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (outlier_cutoff*df[df['model'] == m] [column].std())),(df['model'] == m))]][['method', column, 'model']])
-            df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (outlier_cutoff*df[df['model'] == m] [column].std())),(df['model'] != m))]]
+            if 'MLP' == m:
+                outlier_cutoff = 1
+                print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+                df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+                print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+                df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+                print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+                df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+                print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+                df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+                print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+                df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+                print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+                df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+            outlier_cutoff = 3
+            print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] == m))]][['method', column, 'model']])
+            df = df[[a or b for (a,b) in zip((np.abs(df[column]-df[column].median()) <= (df[column].median() + outlier_cutoff*df[df['model'] == m][column].std())),(df['model'] != m))]]
+                
 
     x = "model"
     y = column
@@ -96,7 +114,7 @@ def plot_separated_violin_comparisons(
                     y=y,
                     # sharey=False,
                     # sharex=False,
-                    palette='Dark2',
+                    # palette='Dark2',
                     # height=3.5,
                     # aspect=1, 
                     # kind="violin",

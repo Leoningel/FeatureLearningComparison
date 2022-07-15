@@ -113,6 +113,8 @@ if __name__ == '__main__':
         parser.add_argument('-o', "--outliercorrection", dest='outliercorrection', action='store_const', const=True, default=False)
         parser.add_argument('-v', "--violin", dest='violin', action='store_const', const=True, default=False)
         parser.add_argument('-g', "--per_generation", dest='per_generation', action='store_const', const=True, default=False)
+        parser.add_argument('--time', dest='time', action='store_const', const=True, default=False)
+        parser.add_argument('--nodes', dest='nodes', action='store_const', const=True, default=False)
         args = parser.parse_args()
     
         feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), M3GP_JB(), RandomSearchFS(), FeatureToolsFS(), PrincipleCA(), NoFeatureLearning() ]
@@ -144,13 +146,19 @@ if __name__ == '__main__':
             if args.test:
                 plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=args.outliercorrection)
             else:
-                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection)
+                if args.time:
+                    plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='time', take_out_outliers=args.outliercorrection)
+                else:
+                    plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection)
         if args.per_generation:
             for m in rel_models:
                 if args.test:
                     visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column='test_fitness', folder=folder_name)
                 else:
-                    visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column='fitness', folder=folder_name)
+                    if args.nodes:
+                        visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column='nodes', folder=folder_name)
+                    else:
+                        visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column='fitness', folder=folder_name)
 
 
     
