@@ -3,7 +3,6 @@ import os
 from argparse import ArgumentParser
 import shutil
 import time
-from tkinter import ON
 from typing import List
 import sys
 import warnings
@@ -49,6 +48,7 @@ if __name__ == '__main__':
     STAT_TESTS = "--stat_tests" in args
     CLEAN_RESULTS = "--clean_results" in args
     TEST = "--test" in args
+    ON_BUDGET = "--budget" in args
     seeds = [ int(arg.split("=")[1]) for arg in args if "--seed=" in arg ]
     if not seeds:
         seeds = range(N_SEEDS)
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                         utils.make_grid_search_ready(estimator.pipeline, test=TEST)
                         best_estimator, best_params = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
-                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], test=TEST)
+                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], test=TEST, on_budget=ON_BUDGET)
                     
                     duration = time.time() - start
                     
