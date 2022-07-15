@@ -110,6 +110,7 @@ if __name__ == '__main__':
         parser.add_argument('-fn', "--folder_name", dest='folder_name', type=str)
         parser.add_argument('-out', "--outbasename", dest='outbasename', type=str, default='')
         parser.add_argument('-p', "--pairs", dest='pairs', type=int, nargs='+', default=None)
+        parser.add_argument('-o', "--outliercorrection", dest='outliercorrection', action='store_const', const=True, default=False)
         parser.add_argument('-v', "--violin", dest='violin', action='store_const', const=True, default=False)
         parser.add_argument('-g', "--per_generation", dest='per_generation', action='store_const', const=True, default=False)
         args = parser.parse_args()
@@ -141,9 +142,9 @@ if __name__ == '__main__':
         df = pd.concat(dfs)
         if args.violin:
             if args.test:
-                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=True)
+                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=args.outliercorrection)
             else:
-                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=True)
+                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection)
         if args.per_generation:
             for m in rel_models:
                 if args.test:

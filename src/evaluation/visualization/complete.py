@@ -82,6 +82,7 @@ def plot_separated_violin_comparisons(
     
     if take_out_outliers:
         outlier_cutoff = 3
+        df_wo_outliers = df
         print("Outliers:")
         for m in df['model'].unique():
             print(df[[a and b for (a,b) in zip((np.abs(df[column]-df[column].median()) > (outlier_cutoff*df[df['model'] == m] [column].std())),(df['model'] == m))]][['method', column, 'model']])
@@ -109,6 +110,8 @@ def plot_separated_violin_comparisons(
     # [plt.setp(ax.get_xticklabels(), rotation=45) for ax in g.axes.flat]
     
     if stat_test_pairs:
+        if take_out_outliers:
+            df = df_wo_outliers
         annotator = Annotator(g, stat_test_pairs, data=df, x=x, y=y, hue=hue, plot='boxplot')
         annotator.configure(test='Mann-Whitney', text_format='full', loc='outside')
         annotator.apply_and_annotate()
