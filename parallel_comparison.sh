@@ -10,4 +10,4 @@
 #SBATCH --array=0-719                   # iterate values between 0 and 59, inclusive
 
 bash setup.sh
-python src/run_single.py -s $(expr $SLURM_ARRAY_TASK_ID % 30) -f $(expr $SLURM_ARRAY_TASK_ID / 120) -m $(expr $(expr $SLURM_ARRAY_TASK_ID / 30) % 4)
+python src/run_single.py -s $(expr $SLURM_ARRAY_TASK_ID % 30) -f $(expr $SLURM_ARRAY_TASK_ID / 120) -m $(expr $(expr $SLURM_ARRAY_TASK_ID / 30) % 4) $*
