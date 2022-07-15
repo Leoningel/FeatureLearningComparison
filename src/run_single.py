@@ -8,8 +8,6 @@ warnings.filterwarnings('ignore')
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
-import numpy as np
-
 import global_vars as gv
 from data_extraction.data_extraction import load
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
