@@ -14,7 +14,7 @@ def make_grid_search_ready(pipeline:Pipeline, test=False):
         pipeline.set_params(feature_learning__n_generations=n_gens)
     return pipeline
 
-def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None, test=False):
+def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None, test=False, on_budget=False):
     if "feature_learning__n_generations" in pipeline.get_params():
         n_gens = 500
         if test:
@@ -24,6 +24,8 @@ def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None, test=F
         pipeline.set_params(feature_learning__save_to_csv=csv_text)
     if "feature_learning__test_data" in pipeline.get_params():
         pipeline.set_params(feature_learning__test_data=test_data)
+    if "feature_learning__on_budget" in pipeline.get_params():
+        pipeline.set_params(feature_learning__on_budget=on_budget)
     return pipeline
                         
 def make_pipeline(feature_learning: FeatureLearningMethod, model: Model, seed: int, params=None):
@@ -44,7 +46,8 @@ def cv_time_series(
         scoring = 'mean_squared_error',
         splits = gv.SPLITS,
         additional_text = '',
-        test=False
+        test=False,
+        on_budget=False,
     ):
     if scoring == 'mean_squared_error':
         scoring = mean_squared_error
@@ -63,7 +66,7 @@ def cv_time_series(
         test_y = y[cut:]
 
         est = make_pipeline(feature_learning, model, seed, params)
-        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}", test_data=(test_X, test_y), test=test)
+        est = make_evaluation_ready(est, f"{additional_text}model={model}_split={split}", test_data=(test_X, test_y), test=test, on_budget=on_budget)
         
         est = est.fit(train_X,train_y)
         test_predictions = est.predict(test_X)

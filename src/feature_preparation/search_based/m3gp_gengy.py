@@ -20,7 +20,7 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, elitism_size=5, novelties_size=0, n_generations=500, save_to_csv='', test_data = None) -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, elitism_size=5, novelties_size=0, n_generations=500, save_to_csv='', test_data = None, on_budget = False) -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
@@ -29,6 +29,7 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
         self.n_generations = n_generations
         self.save_to_csv = save_to_csv
         self.test_data = test_data
+        self.on_budget = on_budget
 
     def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0):
         if self.save_to_csv != '':
@@ -53,6 +54,8 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
             test_data=test_fitness_function,
+            timer_stop_criteria=self.on_budget,
+            timer_limit=1200,
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp

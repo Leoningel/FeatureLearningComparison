@@ -14,7 +14,7 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class M3GP_JB_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH - 2, elitism_size=5, novelties_size=0, n_generations=500, save_to_csv='', test_data = None) -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH - 2, elitism_size=5, novelties_size=0, n_generations=500, save_to_csv='', test_data = None, on_budget = False) -> None:
         self.feature_mapping = None
         self.seed = seed
         self.max_depth = max_depth
@@ -23,6 +23,7 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
         self.n_generations = n_generations
         self.save_to_csv = save_to_csv
         self.test_data = test_data
+        self.on_budget = on_budget
 
     def fit(self,X,y=None):
         if self.save_to_csv != '':
