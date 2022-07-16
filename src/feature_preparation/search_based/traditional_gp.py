@@ -54,7 +54,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             save_genotype_as_string=False,
             test_data=test_fitness_function,
             timer_stop_criteria=self.on_budget,
-            timer_limit=1200,
+            timer_limit=gv.TIME_LIMIT,
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
