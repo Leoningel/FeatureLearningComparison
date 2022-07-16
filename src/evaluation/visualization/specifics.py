@@ -121,7 +121,7 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml'):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml'):
 
     li = []
 
@@ -135,8 +135,8 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
             for idx, filename in enumerate(all_files):
                 print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
                 df = pd.read_csv(filename, index_col=None, header=0)
-                df = df[[column, "number_of_the_generation"]]
-                df = df.groupby(['number_of_the_generation']).min()
+                df = df[[column, per_column]]
+                df = df.groupby([per_column]).min()
                 df['fl'] = str(feature_learning)
                 df = df.reset_index()
                 li.append(df)
@@ -149,7 +149,7 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
 
     a = sns.lineplot(
             data=df,
-            x = "number_of_the_generation",
+            x = per_column,
             y = column,
             hue = 'fl'
             )
