@@ -32,8 +32,6 @@ from feature_preparation.search_based.dka_m3gp import DKA_M3GP
 from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 import utils as utils
 
-N_SEEDS = 30   
-TRAIN_PROPORTION = 0.75
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), DKA_M3GP(), DK_M3GP(), TraditionalGP() ]
@@ -48,7 +46,7 @@ if __name__ == '__main__':
     ON_BUDGET = "--budget" in args
     seeds = [ int(arg.split("=")[1]) for arg in args if "--seed=" in arg ]
     if not seeds:
-        seeds = range(N_SEEDS)
+        seeds = range(gv.N_SEEDS)
     
     if CLEAN_RESULTS:
         try:
@@ -71,7 +69,7 @@ if __name__ == '__main__':
     else:
         print("Running models")
         for feature_learning in feature_learnings:
-            X, y, X_train, y_train = load(gv.DATA_FILE, 'cnt', drop=[], train_proportion=TRAIN_PROPORTION)
+            X, y, X_train, y_train = load(gv.DATA_FILE, 'cnt', drop=[], train_proportion=gv.TRAIN_PROPORTION)
             print(f"=================\n{feature_learning}.\n--------")
             
             for model in models:
@@ -87,7 +85,7 @@ if __name__ == '__main__':
                         utils.make_grid_search_ready(estimator.pipeline, test=TEST)
                         best_estimator, best_params = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
-                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], test=TEST, on_budget=ON_BUDGET)
+                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [gv.TRAIN_PROPORTION], test=TEST, on_budget=ON_BUDGET)
                     
                     duration = time.time() - start
                     
