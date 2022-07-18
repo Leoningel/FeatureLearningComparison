@@ -25,18 +25,8 @@ from feature_preparation.search_based.grammar.categories import (
     IntCategory,
 )
 from feature_preparation.search_based.grammar.boom_bikes import (
-    MonthIB,
-    Season,
-    SeasonIB,
-    WeatherSit,
-    WeatherSitIB,
-    WeekdayIB,
-    Year,
-    Month,
-    Holiday,
-    Weekday,
-    WorkingDay,
-    YearIB,
+    special_features as bb_special_features,
+    ibs as bb_ibs,
 )
 # from feature_preparation.search_based.grammar.logical_ops import IfThenElse
 from feature_preparation.search_based.grammar.conditions import (
@@ -60,16 +50,8 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         self.test_data = test_data
         self.on_budget = on_budget
     
-    special_features = {
-        "season"    : Season,
-        "yr"        : Year,
-        "mnth"      : Month,
-        "holiday"   : Holiday,
-        "weekday"   : Weekday,
-        "workingday": WorkingDay,
-        "weathersit": WeatherSit,
-    }
-    ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
+    special_features = bb_special_features
+    ibs = bb_ibs
 
     def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize = True):
         if self.save_to_csv != '':

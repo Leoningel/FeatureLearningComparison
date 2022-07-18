@@ -150,3 +150,15 @@ class WeatherSitIB(IBCategory):
 
 inbetween_categories = [ IBCategory, SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
 
+    
+special_features = {
+    "season"    : Season,
+    "yr"        : Year,
+    "mnth"      : Month,
+    "holiday"   : Holiday,
+    "weekday"   : Weekday,
+    "workingday": WorkingDay,
+    "weathersit": WeatherSit,
+}
+
+ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
