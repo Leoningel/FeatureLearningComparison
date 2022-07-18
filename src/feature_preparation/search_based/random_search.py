@@ -28,7 +28,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         self.save_to_csv = save_to_csv
         self.test_data = test_data
 
-    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0):
+    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize=True):
         if self.save_to_csv != '':
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
         else:
@@ -41,7 +41,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             population_size=gv.POPULATION_SIZE,
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
-            minimize=True,
+            minimize=minimize,
             favor_less_deep_trees=True,
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
@@ -57,12 +57,12 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar([Var,  FeatureSet, BuildingBlock], Solution)
         
-        fitness_function = utils.ff_time_series(X,y)
+        fitness_function, minimize = utils.ff_time_series(X,y)
         if self.test_data:
             X_test, y_test = self.test_data
-            self.test_data = utils.ff_time_series(X_test, y_test)
+            self.test_data, _ = utils.ff_time_series(X_test, y_test)
 
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, minimize=minimize)
 
         self.feature_mapping = fs
         return self

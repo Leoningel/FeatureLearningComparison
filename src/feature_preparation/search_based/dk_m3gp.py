@@ -71,7 +71,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
     }
     ibs = [ SeasonIB, YearIB, MonthIB, WeekdayIB, WeatherSitIB ]
 
-    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0):
+    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize = True):
         if self.save_to_csv != '':
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
         else:
@@ -89,7 +89,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
             specific_type_mutation=FeatureSet,
             specific_type_crossover=FeatureSet,
             max_depth=self.max_depth,
-            minimize=True,
+            minimize=minimize,
             favor_less_deep_trees=True,
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
@@ -112,12 +112,12 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
                                     Category, IntCategory, BoolCategory, IBCategory, Col
                                     ] + list(self.special_features.values()) + self.ibs, FeatureSet)
         
-        fitness_function = utils.ff_time_series(X,y)
+        fitness_function, minimize = utils.ff_time_series(X,y)
         if self.test_data:
             X_test, y_test = self.test_data
-            self.test_data = utils.ff_time_series(X_test, y_test)
+            self.test_data, _ = utils.ff_time_series(X_test, y_test)
 
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1, minimize=minimize)
 
         self.feature_mapping = fs
         return self

@@ -1,4 +1,4 @@
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, f1_score
 from sklearn.pipeline import Pipeline
 
 from feature_preparation.core import FeatureLearningMethod
@@ -43,16 +43,18 @@ def cv_time_series(
         params,
         X,
         y,
-        scoring = 'mean_squared_error',
+        scoring = gv.SCORING,
         splits = gv.SPLITS,
         additional_text = '',
         test=False,
         on_budget=False,
     ):
-    if scoring == 'mean_squared_error':
-        scoring = mean_squared_error
+    if scoring == 'f_score':
+        scoring = f1_score
+        preprocess_predictions = lambda x: int(x > 0.5)
     else:
         scoring = mean_squared_error
+        preprocess_predictions = lambda x: x
     
     test_scores = list()
     train_scores = list()
@@ -71,6 +73,8 @@ def cv_time_series(
         est = est.fit(train_X,train_y)
         test_predictions = est.predict(test_X)
         train_predictions = est.predict(train_X)
+        test_predictions = list(map(preprocess_predictions, test_predictions))
+        train_predictions = list(map(preprocess_predictions, train_predictions))
 
         test_score = scoring(test_predictions,test_y)
         train_score = scoring(train_predictions,train_y)

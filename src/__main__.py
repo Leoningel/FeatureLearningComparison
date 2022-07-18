@@ -83,7 +83,7 @@ if __name__ == '__main__':
                         utils.make_grid_search_ready(estimator.pipeline, test=TEST)
                         best_estimator, best_params = estimator.grid_search(X_train, y_train)
                         grid_search_time = time.time() - start
-                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [gv.TRAIN_PROPORTION], test=TEST, on_budget=ON_BUDGET)
+                        test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [gv.TRAIN_PROPORTION], test=TEST, on_budget=ON_BUDGET, scoring=gv.SCORING)
                     
                     duration = time.time() - start
                     

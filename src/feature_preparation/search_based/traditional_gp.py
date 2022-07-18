@@ -32,7 +32,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         self.test_data = test_data
         self.on_budget = on_budget
 
-    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0):
+    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize=True):
         if self.save_to_csv != '':
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
         else:
@@ -48,7 +48,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             n_novelties=self.novelties_size,
             either_mut_or_cro=0.5,
             max_depth=self.max_depth,
-            minimize=True,
+            minimize=minimize,
             favor_less_deep_trees=True,
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
@@ -66,12 +66,12 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         
         grammar = extract_grammar(standard_gp_grammar + [Var], BuildingBlock)
         
-        fitness_function = utils.ff_time_series(X,y, single_solution=True)
+        fitness_function, minimize = utils.ff_time_series(X,y, single_solution=True)
         if self.test_data:
             X_test, y_test = self.test_data
-            self.test_data = utils.ff_time_series(X_test, y_test, single_solution=True)
+            self.test_datam, _ = utils.ff_time_series(X_test, y_test, single_solution=True)
 
-        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1)
+        _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1, minimize=minimize)
 
         self.feature_mapping = fs
         

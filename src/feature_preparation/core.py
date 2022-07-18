@@ -35,9 +35,16 @@ class FeatureLearningOptimization():
             cut = int(split * len(target))
             split_data.append((data_ids[:cut],data_ids[cut:]))
         
+        if gv.SCORING == 'f_score':
+            scoring = 'f1'
+        else:
+            scoring = 'neg_mean_squared_error'
+            
+        print(scoring)
+        
         grid_search = GridSearchCV(self.pipeline,
                                    self.param_grid,
-                                   scoring ='neg_mean_squared_error',
+                                   scoring = scoring,
                                    cv = split_data,
                                    n_jobs=1
                                    )

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import f1_score, mean_squared_error
 from sklearn.tree import DecisionTreeRegressor
 
 from feature_preparation.search_based.grammar.basic_grammar import Solution
@@ -49,7 +49,14 @@ def feature_info(X, exclude = []):
     return feature_names, feature_indices
 
 def ff_time_series(X, y, single_solution=False, include_all_data = False):
-    scoring = mean_squared_error
+    if gv.SCORING == 'f_score':
+        scoring = f1_score
+        preprocess_predictions = lambda x: int(x > 0.5)
+        minimize = False
+    else:
+        scoring = mean_squared_error
+        preprocess_predictions = lambda x: x
+        minimize = True
     
     def fitness_function(fs: Solution):
             feature_names, feature_indices = feature_info(X)
@@ -57,8 +64,9 @@ def ff_time_series(X, y, single_solution=False, include_all_data = False):
             dt = DecisionTreeRegressor(max_depth=4)
             model = dt.fit(Xt,y)
             predictions = model.predict(Xt)
+            predictions = list(map(preprocess_predictions, predictions))
             score = scoring(predictions,y)
             return score
     
-    return fitness_function
+    return fitness_function, minimize
 
