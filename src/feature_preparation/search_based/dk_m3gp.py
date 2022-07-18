@@ -1,8 +1,6 @@
 from typing import Annotated, List, Union
 import numpy as np
 
-from sklearn.tree import DecisionTreeRegressor
-from evaluation.evaluation_metrics import cv_score
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
