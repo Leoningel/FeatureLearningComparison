@@ -11,7 +11,6 @@ warnings.filterwarnings('ignore')
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
-import numpy as np
 import pandas as pd
 
 import global_vars as gv
