@@ -29,7 +29,10 @@ from feature_preparation.search_based.grammar.boom_bikes import (
     special_features as bb_special_features,
     ibs as bb_ibs,
 )
-# from feature_preparation.search_based.grammar.logical_ops import IfThenElse
+from feature_preparation.search_based.grammar.credit_g import (
+    special_features as credit_special_features,
+    ibs as credit_ibs,
+)
 from feature_preparation.search_based.grammar.conditions import (
     Equals,
     InBetween,
@@ -51,8 +54,12 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         self.test_data = test_data
         self.on_budget = on_budget
 
-    special_features = bb_special_features
-    ibs = bb_ibs
+    if gv.DATA_FILE == 'data/credit_g.csv':
+        special_features = credit_special_features
+        ibs = credit_ibs
+    else:
+        special_features = bb_special_features
+        ibs = bb_ibs
     
     def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize=True):
         if self.save_to_csv != '':
