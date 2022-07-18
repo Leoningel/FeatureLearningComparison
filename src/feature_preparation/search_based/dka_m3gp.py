@@ -27,6 +27,8 @@ from feature_preparation.search_based.grammar.categories import (
     Col,
     IBCategory,
     IntCategory,
+)
+from feature_preparation.search_based.grammar.boom_bikes import (
     MonthIB,
     Season,
     SeasonIB,
@@ -38,7 +40,7 @@ from feature_preparation.search_based.grammar.categories import (
     Holiday,
     Weekday,
     WorkingDay,
-    YearIB
+    YearIB,
 )
 # from feature_preparation.search_based.grammar.logical_ops import IfThenElse
 from feature_preparation.search_based.grammar.conditions import (
