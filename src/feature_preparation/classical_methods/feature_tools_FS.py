@@ -15,7 +15,7 @@ class FeatureToolsFS_Method(BaseEstimator, TransformerMixin):
         es = es.add_dataframe(
             dataframe_name="boom_bikes",
             dataframe=X,
-            index="instant"
+            index=gv.TIME_COLUMN
         )
         fm, features = ft.dfs(entityset=es, target_dataframe_name="boom_bikes", max_depth=1)
         _, new_features = remove_highly_correlated_features(fm,features=features,pct_corr_threshold=self.pct_corr_threshold)
