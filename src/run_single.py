@@ -44,7 +44,7 @@ if __name__ == '__main__':
     feature_learning = feature_learnings[options.flm]
     # feature_learning = PrincipleCA()
     
-    X, y, X_train, y_train = load(gv.DATA_FILE, 'cnt', drop=[], train_proportion=TRAIN_PROPORTION)
+    X, y, X_train, y_train = load(gv.DATA_FILE, target_column=gv.TARGET_COLUMN, drop=[], train_proportion=TRAIN_PROPORTION)
     
     start = time.time()
 

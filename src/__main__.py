@@ -69,7 +69,7 @@ if __name__ == '__main__':
     else:
         print("Running models")
         for feature_learning in feature_learnings:
-            X, y, X_train, y_train = load(gv.DATA_FILE, 'cnt', drop=[], train_proportion=gv.TRAIN_PROPORTION)
+            X, y, X_train, y_train = load(gv.DATA_FILE, target_column=gv.TARGET_COLUMN, drop=[], train_proportion=gv.TRAIN_PROPORTION)
             print(f"=================\n{feature_learning}.\n--------")
             
             for model in models:
