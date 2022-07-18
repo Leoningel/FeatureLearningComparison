@@ -1,10 +1,13 @@
 DATA_FILE = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
+DATA_FILE = "data/credit_g.csv"
 DELIMITER = ','
 TIME_COLUMN = "instant"
 TARGET_COLUMN = 'cnt'
+TARGET_COLUMN = 'target'
 RESULTS_FOLDER = "./results/"
 TEMP_RESULTS_FOLDER = "./results_temp/"
 SCORING = 'mse'
+SCORING = 'f_score'
 SPLITS = [ 0.5, 0.66, 0.83 ]
 MAX_DEPTH = 12
 ELITISMS = [ 1, 5 ]
