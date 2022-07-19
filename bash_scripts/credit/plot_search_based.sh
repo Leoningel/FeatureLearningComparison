@@ -8,17 +8,19 @@ function run_example {
 
 }
 
-run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn credit/time -t -g -out timed_search_methods -pt
-run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn credit/time -g -out timed_search_methods -pt
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/max_depth_12 --time -v -out search_methods_full -p 2 -o
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/max_depth_12 --nodes -g -out search_methods_full -p -1 -o
 
-run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/time -t -g -out timed_search_methods_full -pt
-run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/time -t -v -out timed_search_methods_full -pt
-run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/time -v -out timed_search_methods_full -pt
+run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn credit/max_depth_12 -t -g -out search_methods
+run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn credit/max_depth_12 -g -out search_methods
 
-# run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn credit/franklin -t -g -out search_methods
-# run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn credit/franklin -g -out search_methods
-
-# run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/franklin -t -g -out search_methods_full
-# run_comparison.sh -fl 0 1 2 3 5 -m 0 --plot_data -fn credit/franklin -g -out search_methods_full
-# run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/franklin -t -v -out search_methods_full
-# run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/franklin -v -out search_methods_full
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/max_depth_12 -t -g -out search_methods_full
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/max_depth_12 -g -out search_methods_full
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/max_depth_12 -t -v -out search_methods_full -p 2
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn credit/max_depth_12 -v -out search_methods_full -p 2
+run_comparison.sh -fl 0 1 2 3 -m 1 --plot_data -fn credit/max_depth_12 -t -v -out search_methods_full -p 2
+run_comparison.sh -fl 0 1 2 3 -m 1 --plot_data -fn credit/max_depth_12 -v -out search_methods_full -p 2
+run_comparison.sh -fl 0 1 2 3 -m 2 --plot_data -fn credit/max_depth_12 -t -v -out search_methods_full -p 2 -o
+run_comparison.sh -fl 0 1 2 3 -m 2 --plot_data -fn credit/max_depth_12 -v -out search_methods_full -p 2 -o
+run_comparison.sh -fl 0 1 2 3 -m 3 --plot_data -fn credit/max_depth_12 -t -v -out search_methods_full -p 2
+run_comparison.sh -fl 0 1 2 3 -m 3 --plot_data -fn credit/max_depth_12 -v -out search_methods_full -p 2
