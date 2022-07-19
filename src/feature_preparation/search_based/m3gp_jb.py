@@ -30,6 +30,12 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
         else:
             save_to_csv = ''
+        if gv.SCORING == 'f_score':
+            model_name = "DecisionTreeClassifier"
+            fitness_type = "WAF"
+        else:
+            model_name="DecisionTreeRegressor"
+            fitness_type="MSE"
         m3gp = M3GP_alg(
                     population_size=gv.POPULATION_SIZE,
                     max_generation=self.n_generations,
@@ -38,8 +44,8 @@ class M3GP_JB_Method(BaseEstimator, TransformerMixin):
                     max_initial_depth=self.max_depth,
                     # dim_min=11,
                     # dim_max=12,
-                    model_name="DecisionTreeRegressor", 
-                    fitnessType="MSE",
+                    model_name=model_name, 
+                    fitnessType=fitness_type,
                     csv_file=save_to_csv,
                     random_state=self.seed,
                     verbose=False)
