@@ -131,7 +131,7 @@ if __name__ == '__main__':
             for m in rel_models:
                 for idx1, fl1 in enumerate(pair_fls):
                     for idx2, fl2 in enumerate(rel_fls):
-                        if idx1 < idx2: 
+                        if str(fl1) != str(fl2): 
                             pairs.append(((str(m), str(fl1)), (str(m), str(fl2))))
 
         folder_name = args.folder_name
