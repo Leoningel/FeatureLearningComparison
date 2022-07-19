@@ -8,8 +8,8 @@ function run_example {
 
 }
 
-run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn bb/max_depth_12 --time -v -out jb_gengy_depth_12 -p -1 -o
-run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn bb/max_depth_12 --nodes -g -out jb_gengy_depth_12 -p -1 -o
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn bb/max_depth_12 --time -v -out search_methods_full -p -1 -o
+run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn bb/max_depth_12 --nodes -g -out search_methods_full -p -1 -o
 
 run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn bb/max_depth_12 -t -g -out search_methods
 run_comparison.sh -fl 0 1 2 -m 0 --plot_data -fn bb/max_depth_12 -g -out search_methods
