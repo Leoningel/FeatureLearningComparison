@@ -136,10 +136,13 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
                 print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
                 df = pd.read_csv(filename, index_col=None, header=0)
                 df = df[[column, per_column]]
+                # df = df[[column, per_column, "nodes"]]
                 df = df.groupby([per_column]).min()
                 df['fl'] = str(feature_learning)
                 df = df.reset_index()
                 li.append(df)
+        # print(f"Average nodes: {sum(list(map(lambda x: x.nodes.values[-1], li)))/len(li)}. FL method: {feature_learning}.")
+        # print(f"Average generations: {sum(list(map(lambda x: x.number_of_the_generation.max(), li)))/len(li)}. FL method: {feature_learning}.")
         
     df = pd.concat(li, axis=0, ignore_index=True)
     
