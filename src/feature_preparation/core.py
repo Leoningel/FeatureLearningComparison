@@ -40,8 +40,6 @@ class FeatureLearningOptimization():
         else:
             scoring = 'neg_mean_squared_error'
             
-        print(scoring)
-        
         grid_search = GridSearchCV(self.pipeline,
                                    self.param_grid,
                                    scoring = scoring,
