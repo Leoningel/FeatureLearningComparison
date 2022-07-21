@@ -15,7 +15,7 @@ import pandas as pd
 
 import global_vars as gv
 from data_extraction.data_extraction import load
-from evaluation.visualization.specifics import visualise_all_seeds_compare_splits, visualise_compare_fls, visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
+from evaluation.visualization.specifics import visualise_all_seeds_compare_splits, visualise_compare_fls, visualise_compare_folders, visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
 from evaluation.visualization.complete import plot_combined_barplot_comparison, plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
@@ -97,16 +97,17 @@ if __name__ == '__main__':
     else:
         print("Plotting data")
         parser = ArgumentParser()
-        parser.add_argument("-fl", "--featurelearnings", dest="featurelearnings", nargs='+', type=int)
-        parser.add_argument("-m", "--models", dest="models", nargs='+', type=int)
+        parser.add_argument("-fl", "--featurelearnings", dest="featurelearnings", nargs='+', type=int, default=[])
+        parser.add_argument("-m", "--models", dest="models", nargs='+', type=int, default=[])
         parser.add_argument('-pd', "--plot_data", dest='pd', action='store_const', const=True, default=False)
         parser.add_argument('-t', "--test", dest='test', action='store_const', const=True, default=False)
         parser.add_argument('-fn', "--folder_name", dest='folder_name', type=str)
         parser.add_argument('-out', "--outbasename", dest='outbasename', type=str, default='')
-        parser.add_argument('-p', "--pairs", dest='pairs', type=int, nargs='+', default=None)
+        parser.add_argument('-p', "--pairs", dest='pairs', type=int, nargs='+', default=[])
         parser.add_argument('-o', "--outliercorrection", dest='outliercorrection', action='store_const', const=True, default=False)
         parser.add_argument('-v', "--violin", dest='violin', action='store_const', const=True, default=False)
         parser.add_argument('-g', "--per_generation", dest='per_generation', action='store_const', const=True, default=False)
+        parser.add_argument('-sp', "--specifics", dest='specifics', action='store_const', const=True, default=False)
         parser.add_argument('--time', dest='time', action='store_const', const=True, default=False)
         parser.add_argument('--nodes', dest='nodes', action='store_const', const=True, default=False)
         parser.add_argument('-pt', '--per_time', dest='per_time', action='store_const', const=True, default=False)
@@ -136,7 +137,8 @@ if __name__ == '__main__':
 
         folder_name = args.folder_name
         dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/{folder_name}/{feature_learning}/main.csv") for feature_learning in rel_fls ]
-        df = pd.concat(dfs)
+        if dfs:
+            df = pd.concat(dfs)
         if args.violin:
             if args.test:
                 plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=args.outliercorrection)
@@ -145,20 +147,22 @@ if __name__ == '__main__':
                     plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='time', take_out_outliers=args.outliercorrection)
                 else:
                     plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection)
+                 
+        column = 'fitness'
+        if args.test:
+            column = 'test_fitness'
+        elif args.nodes:
+            column = 'nodes'
+        
+        per_column = 'number_of_the_generation'
+        if args.per_time:
+            per_column = 'time_since_the_start_of_the_evolution'
         if args.per_generation:
             for m in rel_models:
-                column = 'fitness'
-                if args.test:
-                    column = 'test_fitness'
-                elif args.nodes:
-                    column = 'nodes'
-                
-                per_column = 'number_of_the_generation'
-                if args.per_time:
-                    per_column = 'time_since_the_start_of_the_evolution'
-                    
                 visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column=column, per_column = per_column, folder=folder_name)
-
+        if args.specifics:
+                visualise_compare_folders(folder_paths=["credit/max_depth_12/traditional_gp", "credit/max_depth_12/traditional_gp_unweighted"], fl_names = ["weighted", "unweighted"], model = 'DT', added_text=args.outbasename, column=column, per_column = per_column)
+            
 
     
     

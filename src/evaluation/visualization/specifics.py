@@ -167,4 +167,48 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     print(f"Saved figure to {path}.")
 
 
+def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'fitness', per_column: str = 'number_of_the_generation', added_text = ''):
+
+    li = []
+
+    for jdx, folder_path in enumerate(folder_paths):
+            all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{folder_path}/seed=*_model={model}_split=*.csv")
+
+            for idx, filename in enumerate(all_files):
+                print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
+                df = pd.read_csv(filename, index_col=None, header=0)
+                df = df[[column, per_column]]
+                # df = df[[column, per_column, "nodes"]]
+                df = df.groupby([per_column]).min()
+                try:
+                    df['fl'] = fl_names[jdx]
+                except:
+                    df['fl'] = jdx
+                df = df.reset_index()
+                li.append(df)
+        # print(f"Average nodes: {sum(list(map(lambda x: x.nodes.values[-1], li)))/len(li)}. FL method: {feature_learning}.")
+        # print(f"Average generations: {sum(list(map(lambda x: x.number_of_the_generation.max(), li)))/len(li)}. FL method: {feature_learning}.")
+        
+    df = pd.concat(li, axis=0, ignore_index=True)
+    plt.close()
+    sns.set_style({"font.family": "serif"})
+    sns.set(font_scale=0.75)
+
+    a = sns.lineplot(
+            data=df,
+            x = per_column,
+            y = column,
+            hue = 'fl'
+            )
+
+    a.set_title(f"{column} comparison")
+    smodel = 'm=' + str(model)
+    sfls = 'fl='
+    for fl in fl_names:
+        sfls += str(fl) + '_'
+    path = f"plots/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
+    plt.savefig(path)
+    print(f"Saved figure to {path}.")
+
+
     
