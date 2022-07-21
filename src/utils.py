@@ -50,7 +50,7 @@ def cv_time_series(
         on_budget=False,
     ):
     if scoring == 'f_score':
-        scoring = lambda pred,gt: f1_score(pred, gt, average="weighted")
+        scoring = lambda pred,gt: f1_score(pred, gt)
         preprocess_predictions = lambda x: int(x > 0.5)
     else:
         scoring = lambda pred,gt: mean_squared_error(pred, gt)
