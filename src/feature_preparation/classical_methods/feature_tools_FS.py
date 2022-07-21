@@ -4,6 +4,8 @@ import featuretools as ft
 from featuretools.selection import remove_highly_correlated_features
 from sklearn.base import BaseEstimator, TransformerMixin
 
+import global_vars as gv
+
 class FeatureToolsFS_Method(BaseEstimator, TransformerMixin):
     def __init__(self, seed = 0, pct_corr_threshold=0.95) -> None:
         self.pct_corr_threshold = pct_corr_threshold
