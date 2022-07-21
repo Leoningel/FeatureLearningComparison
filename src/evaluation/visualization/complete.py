@@ -82,6 +82,8 @@ def plot_separated_violin_comparisons(
     if models:
         models = [ str(m) for m in models ]
         df = df[ df['model'].isin(models) ]
+    if len(models) == 1:
+        stat_test_pairs = [ (fl1, fl2) for ((_, fl1), (_, fl2)) in stat_test_pairs ]
     
     if take_out_outliers:
         df_wo_outliers = df
@@ -110,19 +112,15 @@ def plot_separated_violin_comparisons(
     y = column
     hue = 'method'
     
-    g = sns.boxplot(x=x,
-                    y=y,
-                    # sharey=False,
-                    # sharex=False,
-                    # palette='Dark2',
-                    # height=3.5,
-                    # aspect=1, 
-                    # kind="violin",
-                    hue=hue,
-                    # col_wrap=2,
-                    # cut=0,
-                    # fmt='.2',
-                    data=df)
+    if len(models) > 1:
+        g = sns.boxplot(x=x,
+                        y=y,
+                        hue=hue,
+                        data=df)
+    else:
+        g = sns.boxplot(x=hue,
+                        y=y,
+                        data=df)
 
     # g.set_axis_labels("", column).set_titles("{col_name}").despine(left=True)
     # [plt.setp(ax.get_xticklabels(), rotation=45) for ax in g.axes.flat]
@@ -130,11 +128,16 @@ def plot_separated_violin_comparisons(
     if stat_test_pairs:
         if take_out_outliers:
             df = df_wo_outliers
-        annotator = Annotator(g, stat_test_pairs, data=df, x=x, y=y, hue=hue, plot='boxplot')
+        if len(models) > 1:
+            annotator = Annotator(g, stat_test_pairs, data=df, x=x, y=y, hue=hue, plot='boxplot')
+        else:
+            annotator = Annotator(g, stat_test_pairs, data=df, x=hue, y=y, plot='boxplot')
         annotator.configure(test='Mann-Whitney', text_format='full', loc='outside')
         annotator.apply_and_annotate()
     
     # g.fig.suptitle(f"Feature Learning {column}")
+    # if len(models) == 1:
+    #     plt.title(f'{models[0]}')
     plt.tight_layout()
     smodels = 'm='
     for m in models:
