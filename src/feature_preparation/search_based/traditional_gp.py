@@ -69,7 +69,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
         fitness_function, minimize = utils.ff_time_series(X,y, single_solution=True)
         if self.test_data:
             X_test, y_test = self.test_data
-            self.test_datam, _ = utils.ff_time_series(X_test, y_test, single_solution=True)
+            self.test_data, _ = utils.ff_time_series(X_test, y_test, single_solution=True)
 
         _, _, fs = self.evolve(grammar, fitness_function=fitness_function, test_fitness_function=self.test_data, verbose=1, minimize=minimize)
 
