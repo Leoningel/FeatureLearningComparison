@@ -161,7 +161,7 @@ if __name__ == '__main__':
             for m in rel_models:
                 visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column=column, per_column = per_column, folder=folder_name)
         if args.specifics:
-                visualise_compare_folders(folder_paths=["credit/max_depth_12/traditional_gp", "credit/max_depth_12/traditional_gp_unweighted"], fl_names = ["weighted", "unweighted"], model = 'DT', added_text=args.outbasename, column=column, per_column = per_column)
+                visualise_compare_folders(folder_paths=["credit/Alcides results/m3gp_gengy", "credit/Alcides results/dka_m3gp", "credit/Alcides results/dk_m3gp", "credit/Alcides results/traditional_gp"], fl_names = ["m3gp", "dka_m3gp", "dk_m3gp", "traditional"], model = 'DT', added_text=args.outbasename, column=column, per_column = per_column)
             
 
     
