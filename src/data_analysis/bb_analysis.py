@@ -16,7 +16,7 @@ a = sns.lineplot(
             )
 
 a.set_title(f"Bike count over time")
-path = f"plots/input_data_analysis/cnt_to_instant.pdf"
+path = f"plots/bb/input_data_analysis/cnt_to_instant.pdf"
 plt.savefig(path)
 print(f"Saved figure to {path}.")
 plt.close()
@@ -49,7 +49,7 @@ g = sns.boxplot(
 for item in g.get_xticklabels():
             item.set_rotation(25)
 g.set_title(f"Bike count per month")
-path = f"plots/input_data_analysis/bikes_per_month.pdf"
+path = f"plots/bb/input_data_analysis/bikes_per_month.pdf"
 plt.savefig(path)
 print(f"Saved figure to {path}.")
 plt.close()
@@ -77,7 +77,7 @@ g = sns.boxplot(
 for item in g.get_xticklabels():
             item.set_rotation(25)
 g.set_title(f"Bike count per day of the week")
-path = f"plots/input_data_analysis/bikes_per_weekday.pdf"
+path = f"plots/bb/input_data_analysis/bikes_per_weekday.pdf"
 plt.savefig(path)
 print(f"Saved figure to {path}.")
 plt.close()
@@ -93,7 +93,7 @@ g = sns.boxplot(
             )
 
 g.set_title(f"Bike count on working days")
-path = f"plots/input_data_analysis/bikes_per_workingday.pdf"
+path = f"plots/bb/input_data_analysis/bikes_per_workingday.pdf"
 plt.savefig(path)
 print(f"Saved figure to {path}.")
 plt.close()
@@ -109,7 +109,7 @@ g = sns.boxplot(
             )
 
 g.set_title(f"Bike count on holidays")
-path = f"plots/input_data_analysis/bikes_per_holiday.pdf"
+path = f"plots/bb/input_data_analysis/bikes_per_holiday.pdf"
 plt.savefig(path)
 print(f"Saved figure to {path}.")
 plt.close()
