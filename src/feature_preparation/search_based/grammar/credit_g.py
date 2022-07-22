@@ -10,21 +10,21 @@ class CheckingStatusCol(Col):
     col_name = "checking_status"
     
     number_map = {
-        1 : "A11",
-        2 : "A12",
-        3 : "A13",
-        4 : "A14",
+        0 : "A11",
+        1 : "A12",
+        2 : "A13",
+        3 : "A14",
     }
 
 @dataclass
 class CheckingStatus(IntCategory):
-    category: Annotated[int, IntRange( 1, 4 )]
+    category: Annotated[int, IntRange( 0, 3 )]
     column: CheckingStatusCol
 
 @dataclass
 class CheckingStatusIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 4 )]
-    category2: Annotated[int, IntRange( 1, 4 )]
+    category1: Annotated[int, IntRange( 0, 3 )]
+    category2: Annotated[int, IntRange( 0, 3 )]
     column: CheckingStatusCol
 
 @dataclass
@@ -84,22 +84,22 @@ class SavingsCol(Col):
     col_name = "savings_status"
     
     number_map = {
-        1 : "A61",
-        2 : "A62",
-        3 : "A63",
-        4 : "A64",
-        5 : "A65",
+        0 : "A61",
+        1 : "A62",
+        2 : "A63",
+        3 : "A64",
+        4 : "A65",
     }
 
 @dataclass
 class Savings(IntCategory):
-    category: Annotated[int, IntRange( 1, 5 )]
+    category: Annotated[int, IntRange( 0, 4 )]
     column: SavingsCol
 
 @dataclass
 class SavingsIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 5 )]
-    category2: Annotated[int, IntRange( 1, 5 )]
+    category1: Annotated[int, IntRange( 0, 4 )]
+    category2: Annotated[int, IntRange( 0, 4 )]
     column: SavingsCol
     
 @dataclass
@@ -107,22 +107,22 @@ class EmploymentCol(Col):
     col_name = "employment"
     
     number_map = {
-        1 : "A71",
-        2 : "A72",
-        3 : "A73",
-        4 : "A74",
-        5 : "A75",
+        0 : "A71",
+        1 : "A72",
+        2 : "A73",
+        3 : "A74",
+        4 : "A75",
     }
 
 @dataclass
 class Employment(IntCategory):
-    category: Annotated[int, IntRange( 1, 5 )]
+    category: Annotated[int, IntRange( 0, 4 )]
     column: EmploymentCol
 
 @dataclass
 class EmploymentIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 5 )]
-    category2: Annotated[int, IntRange( 1, 5 )]
+    category1: Annotated[int, IntRange( 0, 4 )]
+    category2: Annotated[int, IntRange( 0, 4 )]
     column: EmploymentCol
     
 @dataclass
@@ -130,22 +130,22 @@ class PersonalStatusCol(Col):
     col_name = "personal_status"
     
     number_map = {
-        1 : "A91",
-        2 : "A92",
-        3 : "A93",
-        4 : "A94",
-        5 : "A95",
+        0 : "A91",
+        1 : "A92",
+        2 : "A93",
+        3 : "A94",
+        4 : "A95",
     }
 
 @dataclass
 class PersonalStatus(IntCategory):
-    category: Annotated[int, IntRange( 1, 5 )]
+    category: Annotated[int, IntRange( 0, 4 )]
     column: PersonalStatusCol
 
 @dataclass
 class PersonalStatusIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 5 )]
-    category2: Annotated[int, IntRange( 1, 5 )]
+    category1: Annotated[int, IntRange( 0, 4 )]
+    category2: Annotated[int, IntRange( 0, 4 )]
     column: PersonalStatusCol
     
 @dataclass
@@ -153,20 +153,20 @@ class OtherPartiesCol(Col):
     col_name = "other_parties"
     
     number_map = {
-        1 : "A101",
-        2 : "A102",
-        3 : "A103",
+        0 : "A101",
+        1 : "A102",
+        2 : "A103",
     }
 
 @dataclass
 class OtherParties(IntCategory):
-    category: Annotated[int, IntRange( 1, 3 )]
+    category: Annotated[int, IntRange( 0, 2 )]
     column: OtherPartiesCol
 
 @dataclass
 class OtherPartiesIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 3 )]
-    category2: Annotated[int, IntRange( 1, 3 )]
+    category1: Annotated[int, IntRange( 0, 2 )]
+    category2: Annotated[int, IntRange( 0, 2 )]
     column: OtherPartiesCol
     
 @dataclass
@@ -174,21 +174,21 @@ class PropertyCol(Col):
     col_name = "property_magnitude"
     
     number_map = {
-        1 : "A121",
-        2 : "A122",
-        3 : "A123",
-        4 : "A124",
+        0 : "A121",
+        1 : "A122",
+        2 : "A123",
+        3 : "A124",
     }
 
 @dataclass
 class Property(IntCategory):
-    category: Annotated[int, IntRange( 1, 4 )]
+    category: Annotated[int, IntRange( 0, 3 )]
     column: PropertyCol
 
 @dataclass
 class PropertyIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 4 )]
-    category2: Annotated[int, IntRange( 1, 4 )]
+    category1: Annotated[int, IntRange( 0, 3 )]
+    category2: Annotated[int, IntRange( 0, 3 )]
     column: PropertyCol
     
 @dataclass
@@ -196,20 +196,20 @@ class OtherInstallmentsCol(Col):
     col_name = "other_payment_plans"
     
     number_map = {
-        1 : "A141",
-        2 : "A142",
-        3 : "A143",
+        0 : "A141",
+        1 : "A142",
+        2 : "A143",
     }
 
 @dataclass
 class OtherInstallments(IntCategory):
-    category: Annotated[int, IntRange( 1, 3 )]
+    category: Annotated[int, IntRange( 0, 2 )]
     column: OtherInstallmentsCol
 
 @dataclass
 class OtherInstallmentsIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 3 )]
-    category2: Annotated[int, IntRange( 1, 3 )]
+    category1: Annotated[int, IntRange( 0, 2 )]
+    category2: Annotated[int, IntRange( 0, 2 )]
     column: OtherInstallmentsCol
     
 @dataclass
@@ -217,20 +217,20 @@ class HousingCol(Col):
     col_name = "housing"
     
     number_map = {
-        1 : "A151",
-        2 : "A152",
-        3 : "A153",
+        0 : "A151",
+        1 : "A152",
+        2 : "A153",
     }
 
 @dataclass
 class Housing(IntCategory):
-    category: Annotated[int, IntRange( 1, 3 )]
+    category: Annotated[int, IntRange( 0, 2 )]
     column: HousingCol
 
 @dataclass
 class HousingIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 3 )]
-    category2: Annotated[int, IntRange( 1, 3 )]
+    category1: Annotated[int, IntRange( 0, 2 )]
+    category2: Annotated[int, IntRange( 0, 2 )]
     column: HousingCol
     
 @dataclass
@@ -238,21 +238,21 @@ class JobCol(Col):
     col_name = "job"
     
     number_map = {
-        1 : "A171",
-        2 : "A172",
-        3 : "A173",
-        4 : "A174",
+        0 : "A171",
+        1 : "A172",
+        2 : "A173",
+        3 : "A174",
     }
 
 @dataclass
 class Job(IntCategory):
-    category: Annotated[int, IntRange( 1, 4 )]
+    category: Annotated[int, IntRange( 0, 3 )]
     column: JobCol
 
 @dataclass
 class JobIB(IBCategory):
-    category1: Annotated[int, IntRange( 1, 4 )]
-    category2: Annotated[int, IntRange( 1, 4 )]
+    category1: Annotated[int, IntRange( 0, 3 )]
+    category2: Annotated[int, IntRange( 0, 3 )]
     column: JobCol
     
 @dataclass
