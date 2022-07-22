@@ -16,7 +16,7 @@ def make_grid_search_ready(pipeline:Pipeline, test=False):
 
 def make_evaluation_ready(pipeline:Pipeline, csv_text='', test_data=None, test=False, on_budget=False):
     if "feature_learning__n_generations" in pipeline.get_params():
-        n_gens = 500
+        n_gens = gv.POPULATION_SIZE
         if test:
             n_gens = 15
         pipeline.set_params(feature_learning__n_generations=n_gens)
