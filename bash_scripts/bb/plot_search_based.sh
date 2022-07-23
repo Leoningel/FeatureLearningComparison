@@ -2,11 +2,7 @@ export PYTHONPATH="${PYTHONPATH:+${PYTHONPATH}:}."
 
 PYTHON_BINARY=python
 
-function run_example {
-    printf "Running $@..."
-    $PYTHON_BINARY $@ > /dev/null && echo "(done)" || echo "(failed)"
 
-}
 
 run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn bb/max_depth_12 --time -v -out search_methods_full -p 2 -o
 run_comparison.sh -fl 0 1 2 3 -m 0 --plot_data -fn bb/max_depth_12 --nodes -g -out search_methods_full -p -1 -o
