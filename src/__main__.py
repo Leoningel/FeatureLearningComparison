@@ -136,10 +136,10 @@ if __name__ == '__main__':
                             pairs.append(((str(m), str(fl1)), (str(m), str(fl2))))
 
         folder_name = args.folder_name
-        dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/{folder_name}/{feature_learning}/main.csv") for feature_learning in rel_fls ]
-        if dfs:
-            df = pd.concat(dfs)
         if args.violin:
+            dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/{folder_name}/{feature_learning}/main.csv") for feature_learning in rel_fls ]
+            if dfs:
+                df = pd.concat(dfs)
             if args.test:
                 plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=args.outliercorrection)
             else:
