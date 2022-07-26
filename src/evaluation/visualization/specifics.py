@@ -201,6 +201,8 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
             hue = 'fl'
             )
 
+    # a.set_xlim(0,200)
+
     a.set_title(f"{column} comparison")
     smodel = 'm=' + str(model)
     sfls = 'fl='
