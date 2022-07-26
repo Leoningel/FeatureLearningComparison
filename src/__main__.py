@@ -111,6 +111,7 @@ if __name__ == '__main__':
         parser.add_argument('--time', dest='time', action='store_const', const=True, default=False)
         parser.add_argument('--nodes', dest='nodes', action='store_const', const=True, default=False)
         parser.add_argument('-pt', '--per_time', dest='per_time', action='store_const', const=True, default=False)
+        parser.add_argument('--f_score', dest='f_score', action='store_const', const=True, default=False)
         args = parser.parse_args()
     
         feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), M3GP_JB(), RandomSearchFS(), FeatureToolsFS(), PrincipleCA(), NoFeatureLearning() ]
@@ -141,12 +142,12 @@ if __name__ == '__main__':
             if dfs:
                 df = pd.concat(dfs)
             if args.test:
-                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=args.outliercorrection)
+                plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, take_out_outliers=args.outliercorrection, f_score=args.f_score)
             else:
                 if args.time:
-                    plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='time', take_out_outliers=args.outliercorrection)
+                    plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='time', take_out_outliers=args.outliercorrection, f_score=args.f_score)
                 else:
-                    plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection)
+                    plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection, f_score=args.f_score)
                  
         column = 'fitness'
         if args.test:
@@ -161,7 +162,7 @@ if __name__ == '__main__':
             for m in rel_models:
                 visualise_compare_fls(rel_fls,splits = [ 0.75 ], model = m, added_text=args.outbasename, column=column, per_column = per_column, folder=folder_name)
         if args.specifics:
-                visualise_compare_folders(folder_paths=["credit/Alcides results/m3gp_gengy", "credit/Alcides results/dka_m3gp", "credit/Alcides results/dk_m3gp", "credit/Alcides results/traditional_gp"], fl_names = ["m3gp", "dka_m3gp", "dk_m3gp", "traditional"], model = 'DT', added_text=args.outbasename, column=column, per_column = per_column)
+                visualise_compare_folders(folder_paths=["credit/max_depth_12_weighted/m3gp_gengy", "credit/max_depth_12_weighted/m3gp_jb"], fl_names = ["m3gp_gengy", "m3gp_jb"], model = 'DT', added_text=args.outbasename, column=column, per_column = per_column)
             
 
     

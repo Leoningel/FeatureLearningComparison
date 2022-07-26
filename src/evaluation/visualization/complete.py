@@ -46,7 +46,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     plt.close()
 
 def plot_separated_violin_comparisons(
-    df: pd.DataFrame, models = None, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False,
+    df: pd.DataFrame, models = None, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False, f_score=False
 ):
     """
     Draws violin plots for all examples.
@@ -58,17 +58,20 @@ def plot_separated_violin_comparisons(
     sns.set_style({"font.family": "serif"})
     sns.set(font_scale=0.75)
     
-    plot_name = column
+    score = 'MSE'
+    if f_score:
+        score = 'F1 score'
+    
     if column == "avg_score":
-        df['avg score (MSE)'] = df.avg_score
-        column = "avg score (MSE)"
+        df[f"avg score ({score})"] = df.avg_score
+        column = f"avg score ({score})"
     elif column == "train_score":
-        df['train score (MSE)'] = df.train_score
-        column = "train score (MSE)"
+        df[f"train score ({score})"] = df.train_score
+        column = f"train score ({score})"
     elif column == "test_score":
-        df['test score (MSE)'] = df.test_score
-        column = "test score (MSE)"
-    elif column == 'time':
+        df[f"test score ({score})"] = df.test_score
+        column = f"test score ({score})"
+    elif column == "time":
         df['Time'] = df['time'] - df['grid_search_time']
         column = 'Time'
 
