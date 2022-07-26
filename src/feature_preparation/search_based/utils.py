@@ -50,7 +50,7 @@ def feature_info(X, exclude = []):
 
 def ff_time_series(X, y, single_solution=False, include_all_data = False):
     if gv.SCORING == 'f_score':
-        scoring = lambda pred,gt: f1_score(pred, gt)
+        scoring = lambda pred,gt: f1_score(pred, gt, average='weighted')
         ffmodel = DecisionTreeClassifier
         minimize = False
     else:
