@@ -72,8 +72,8 @@ def plot_separated_violin_comparisons(
         df[f"test score ({score})"] = df.test_score
         column = f"test score ({score})"
     elif column == "time":
-        df['Time'] = df['time'] - df['grid_search_time']
-        column = 'Time'
+        df['Time (s)'] = df['time'] - df['grid_search_time']
+        column = 'Time (s)'
 
     # to_replace = {
     #     "No_FL": "No FL",
