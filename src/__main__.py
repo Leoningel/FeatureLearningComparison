@@ -33,12 +33,12 @@ import utils as utils
  
 models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), DKA_M3GP(), DK_M3GP(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
+feature_learnings : List[FeatureLearningMethod] = [ DK_M3GP(), DKA_M3GP(), M3GP_Gengy() ]
 
 if __name__ == '__main__':
     args = sys.argv
     RUN_MODELS = "--run_models" in args
     PLOT_DATA = "--plot_data" in args
-    STAT_TESTS = "--stat_tests" in args
     CLEAN_RESULTS = "--clean_results" in args
     TEST = "--test" in args
     ON_BUDGET = "--budget" in args
