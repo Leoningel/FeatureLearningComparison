@@ -18,6 +18,10 @@ TRAIN_PROPORTION = 0.75
 # TARGET_COLUMN = 'cnt'
 # SCORING = 'mse'
 
-DATA_FILE = "data/credit_g.csv"
+# DATA_FILE = "data/credit_g.csv"
+# TARGET_COLUMN = 'target'
+# SCORING = 'f_score'
+
+DATA_FILE = "data/caesarian.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'f_score'

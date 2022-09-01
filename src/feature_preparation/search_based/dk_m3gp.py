@@ -24,13 +24,9 @@ from feature_preparation.search_based.grammar.categories import (
     IBCategory,
     IntCategory,
 )
-from feature_preparation.search_based.grammar.boom_bikes import (
-    special_features as bb_special_features,
-    ibs as bb_ibs,
-)
-from feature_preparation.search_based.grammar.credit_g import (
-    special_features as credit_special_features,
-    ibs as credit_ibs,
+from feature_preparation.search_based.grammar.domain_knowledge import (
+    special_features,
+    ibs
 )
 from feature_preparation.search_based.grammar.conditions import (
     Equals,
@@ -52,13 +48,6 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         self.save_to_csv = save_to_csv
         self.test_data = test_data
         self.on_budget = on_budget
-    
-    if gv.DATA_FILE == 'data/credit_g.csv':
-        special_features = credit_special_features
-        ibs = credit_ibs
-    else:
-        special_features = bb_special_features
-        ibs = bb_ibs
 
     def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize = True):
         if self.save_to_csv != '':
@@ -90,7 +79,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         return b, bf, bp
 
     def fit(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X, exclude=list(self.special_features.keys()) + [gv.TIME_COLUMN])
+        feature_names, feature_indices = utils.feature_info(X, exclude=list(special_features.keys()) + [gv.TIME_COLUMN])
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Var.feature_indices = feature_indices
         
@@ -99,7 +88,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
                                     IfThenElse, 
                                     Equals, NotEquals, InBetween,
                                     Category, IntCategory, BoolCategory, IBCategory, Col
-                                    ] + list(self.special_features.values()) + self.ibs, FeatureSet)
+                                    ] + list(special_features.values()) + ibs, FeatureSet)
         
         fitness_function, minimize = utils.ff_time_series(X,y)
         if self.test_data:
