@@ -22,6 +22,10 @@ TRAIN_PROPORTION = 0.75
 # TARGET_COLUMN = 'target'
 # SCORING = 'f_score'
 
-DATA_FILE = "data/caesarian.csv"
+# DATA_FILE = "data/caesarian.csv"
+# TARGET_COLUMN = 'target'
+# SCORING = 'f_score'
+
+DATA_FILE = "data/penguins.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'f_score'

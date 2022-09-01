@@ -12,10 +12,17 @@ from feature_preparation.search_based.grammar.domain_specificities.caesarian imp
     special_features as caesarian_special_features,
     ibs as caesarian_ibs,
 )
+from feature_preparation.search_based.grammar.domain_specificities.penguins import (
+    special_features as penguins_special_features,
+    ibs as penguins_ibs,
+)
 
 
 
-if gv.DATA_FILE == 'data/caesarian.csv':
+if gv.DATA_FILE == 'data/penguins.csv':
+    special_features = penguins_special_features
+    ibs = penguins_ibs
+elif gv.DATA_FILE == 'data/caesarian.csv':
     special_features = caesarian_special_features
     ibs = caesarian_ibs
 elif gv.DATA_FILE == 'data/credit_g.csv':
