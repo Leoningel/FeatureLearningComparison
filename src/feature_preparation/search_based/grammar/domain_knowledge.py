@@ -18,16 +18,17 @@ from feature_preparation.search_based.grammar.domain_specificities.penguins impo
 )
 
 
-
-if gv.DATA_FILE == 'data/penguins.csv':
-    special_features = penguins_special_features
-    ibs = penguins_ibs
-elif gv.DATA_FILE == 'data/caesarian.csv':
-    special_features = caesarian_special_features
-    ibs = caesarian_ibs
-elif gv.DATA_FILE == 'data/credit_g.csv':
-    special_features = credit_special_features
-    ibs = credit_ibs
-else:
-    special_features = bb_special_features
-    ibs = bb_ibs
+class DomainKnowledge():
+    def __init__(self) -> None:
+        if gv.DATA_FILE == 'data/penguins.csv':
+            self.special_features = penguins_special_features
+            self.ibs = penguins_ibs
+        elif gv.DATA_FILE == 'data/caesarian.csv':
+            self.special_features = caesarian_special_features
+            self.ibs = caesarian_ibs
+        elif gv.DATA_FILE == 'data/credit_g.csv':
+            self.special_features = credit_special_features
+            self.ibs = credit_ibs
+        else:
+            self.special_features = bb_special_features
+            self.ibs = bb_ibs

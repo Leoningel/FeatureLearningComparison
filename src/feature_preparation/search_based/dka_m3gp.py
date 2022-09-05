@@ -25,10 +25,7 @@ from feature_preparation.search_based.grammar.categories import (
     IBCategory,
     IntCategory,
 )
-from feature_preparation.search_based.grammar.domain_knowledge import (
-    special_features,
-    ibs
-)
+from feature_preparation.search_based.grammar.domain_knowledge import DomainKnowledge
 from feature_preparation.search_based.grammar.conditions import (
     Equals,
     InBetween,
@@ -80,7 +77,9 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
         return b, bf, bp
 
     def fit(self,X,y=None):
-        feature_names, feature_indices = utils.feature_info(X, exclude=list(special_features.keys()) + [gv.TIME_COLUMN])
+        dk = DomainKnowledge()
+        
+        feature_names, feature_indices = utils.feature_info(X, exclude=list(dk.special_features.keys()) + [gv.TIME_COLUMN])
         Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
         Average.__init__.__annotations__["aggregation_col"] = Annotated[str, VarRange([gv.TARGET_COLUMN])]
         Var.feature_indices = feature_indices
@@ -91,7 +90,7 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
                                    Equals, NotEquals, InBetween,
                                    Category, IntCategory, BoolCategory, IBCategory, Col,
                                    Average,
-                                   ] + list(special_features.values()) + ibs, FeatureSet)
+                                   ] + list(dk.special_features.values()) + dk.ibs, FeatureSet)
 
         fitness_function, minimize = utils.ff_time_series(X,y,include_all_data=True)
         if self.test_data:
