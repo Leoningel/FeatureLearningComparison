@@ -105,7 +105,7 @@ class SafeDiv(BuildingBlock):
 
 @dataclass
 class Literal(BuildingBlock):
-    val: Annotated[int, IntRange(0,100)]
+    val: Annotated[int, IntRange(0, 1)]
     
     def evaluate(self, **kwargs):
         data_size = len(list(kwargs.items())[0][1])

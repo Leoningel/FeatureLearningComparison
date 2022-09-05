@@ -14,6 +14,7 @@ from feature_preparation.search_based.grammar.basic_grammar import (
     Solution, 
     FeatureSet, 
     Var,
+    Literal,
     standard_gp_grammar,
     IfThenElse
 )
@@ -77,17 +78,25 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
 
     def fit(self,X,y=None):
         dk = DomainKnowledge()
+        dk_grammar = [ IfThenElse, 
+                        Equals, NotEquals, InBetween,
+                        Category, IntCategory, BoolCategory, IBCategory, Col
+                        ]
         
         feature_names, feature_indices = utils.feature_info(X, exclude=list(dk.special_features.keys()) + [gv.TIME_COLUMN])
-        Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
-        Var.feature_indices = feature_indices
-        
+               
+        if feature_names:
+            Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
+            Var.feature_indices = feature_indices
+            dk_grammar += [ Var ]
+        else:
+            dk_grammar += [ Literal ]
+            
         grammar = extract_grammar(standard_gp_grammar + 
-                                  [ Var,
-                                    IfThenElse, 
-                                    Equals, NotEquals, InBetween,
-                                    Category, IntCategory, BoolCategory, IBCategory, Col
-                                    ] + list(dk.special_features.values()) + dk.ibs, FeatureSet)
+                                  dk_grammar + 
+                                  list(dk.special_features.values()) + 
+                                  dk.ibs, 
+                                  FeatureSet)
         
         fitness_function, minimize = utils.ff_time_series(X,y)
         if self.test_data:

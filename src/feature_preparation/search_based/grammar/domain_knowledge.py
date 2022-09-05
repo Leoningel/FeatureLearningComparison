@@ -16,6 +16,10 @@ from feature_preparation.search_based.grammar.domain_specificities.penguins impo
     special_features as penguins_special_features,
     ibs as penguins_ibs,
 )
+from feature_preparation.search_based.grammar.domain_specificities.flare import (
+    special_features as flare_special_features,
+    ibs as flare_ibs,
+)
 
 
 class DomainKnowledge():
@@ -23,6 +27,9 @@ class DomainKnowledge():
         if gv.DATA_FILE == 'data/penguins.csv':
             self.special_features = penguins_special_features
             self.ibs = penguins_ibs
+        if gv.DATA_FILE == 'data/flare.csv':
+            self.special_features = flare_special_features
+            self.ibs = flare_ibs
         elif gv.DATA_FILE == 'data/caesarian.csv':
             self.special_features = caesarian_special_features
             self.ibs = caesarian_ibs

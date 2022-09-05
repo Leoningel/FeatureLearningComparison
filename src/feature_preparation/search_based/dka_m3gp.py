@@ -15,6 +15,7 @@ from feature_preparation.search_based.grammar.basic_grammar import (
     Solution, 
     FeatureSet, 
     Var,
+    Literal,
     standard_gp_grammar,
     IfThenElse
 )
@@ -78,19 +79,28 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
 
     def fit(self,X,y=None):
         dk = DomainKnowledge()
+        Average.__init__.__annotations__["aggregation_col"] = Annotated[str, VarRange([gv.TARGET_COLUMN])]
+        
+        dka_grammar = [ IfThenElse, 
+                        Equals, NotEquals, InBetween,
+                        Category, IntCategory, BoolCategory, IBCategory, Col,
+                        Average
+                        ]
         
         feature_names, feature_indices = utils.feature_info(X, exclude=list(dk.special_features.keys()) + [gv.TIME_COLUMN])
-        Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
-        Average.__init__.__annotations__["aggregation_col"] = Annotated[str, VarRange([gv.TARGET_COLUMN])]
-        Var.feature_indices = feature_indices
-        
+               
+        if feature_names:
+            Var.__init__.__annotations__["feature_name"] = Annotated[str, VarRange(feature_names)]
+            Var.feature_indices = feature_indices
+            dka_grammar += [ Var ]
+        else:
+            dka_grammar += [ Literal ]
+            
         grammar = extract_grammar(standard_gp_grammar + 
-                                  [ Var,
-                                    IfThenElse,
-                                   Equals, NotEquals, InBetween,
-                                   Category, IntCategory, BoolCategory, IBCategory, Col,
-                                   Average,
-                                   ] + list(dk.special_features.values()) + dk.ibs, FeatureSet)
+                                  dka_grammar + 
+                                  list(dk.special_features.values()) + 
+                                  dk.ibs, 
+                                  FeatureSet)
 
         fitness_function, minimize = utils.ff_time_series(X,y,include_all_data=True)
         if self.test_data:
