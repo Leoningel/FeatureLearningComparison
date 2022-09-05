@@ -46,8 +46,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     plt.close()
 
 def plot_separated_violin_comparisons(
-    df: pd.DataFrame, models = None, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False, f_score=False
-):
+    df: pd.DataFrame, models = None, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False, f_score=False, output_folder=''):
     """
     Draws violin plots for all examples.
 
@@ -148,7 +147,7 @@ def plot_separated_violin_comparisons(
     sfls = 'fl='
     for fl in df['method'].unique():
         sfls += str(fl) + '_'
-    path = f"plots/v_{outbasename}_{column}_{smodels}_{sfls}.pdf"
+    path = f"plots/{output_folder}/v_{outbasename}_{column}_{smodels}_{sfls}.pdf"
     plt.savefig(path)
     sns.set(font_scale=1) 
     plt.close()

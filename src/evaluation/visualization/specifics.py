@@ -121,7 +121,7 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml'):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml', output_folder=''):
 
     li = []
 
@@ -162,12 +162,12 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     sfls = 'fl='
     for fl in feature_learnings:
         sfls += str(fl) + '_'
-    path = f"plots/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
+    path = f"plots/{output_folder}/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 
 
-def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'fitness', per_column: str = 'number_of_the_generation', added_text = ''):
+def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'fitness', per_column: str = 'number_of_the_generation', added_text = '', output_folder=''):
 
     li = []
 
@@ -208,7 +208,7 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
     sfls = 'fl='
     for fl in fl_names:
         sfls += str(fl) + '_'
-    path = f"plots/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
+    path = f"plots/{output_folder}/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 
