@@ -1,4 +1,4 @@
-,Age,Sex,Chest pain type,Trestbps,Cholesterol,Fasting blood sugar gt 120,Resting ecg,Max heart rate,Exercise induced angina,Oldpeak,Slope,Number of vessels colored,Thal,target
+instant,Age,Sex,Chest pain type,Trestbps,Cholesterol,Fasting blood sugar gt 120,Resting ecg,Max heart rate,Exercise induced angina,Oldpeak,Slope,Number of vessels colored,Thal,target
 0,57.0,1,0,154.0,232.0,0,1,164.0,0,0.0,2,1,2,1
 1,59.0,1,3,150.0,212.0,1,2,157.0,0,1.6,2,0,2,0
 2,66.0,1,2,112.0,212.0,0,1,132.0,1,0.1,2,1,2,1
