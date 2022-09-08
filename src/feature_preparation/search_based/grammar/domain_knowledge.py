@@ -20,6 +20,10 @@ from feature_preparation.search_based.grammar.domain_specificities.flare import 
     special_features as flare_special_features,
     ibs as flare_ibs,
 )
+from feature_preparation.search_based.grammar.domain_specificities.cleve import (
+    special_features as cleve_special_features,
+    ibs as cleve_ibs,
+)
 
 
 class DomainKnowledge():
@@ -36,6 +40,9 @@ class DomainKnowledge():
         elif gv.DATA_FILE == 'data/credit_g.csv':
             self.special_features = credit_special_features
             self.ibs = credit_ibs
+        elif gv.DATA_FILE == 'data/cleve.csv':
+            self.special_features = cleve_special_features
+            self.ibs = cleve_ibs
         else:
             self.special_features = bb_special_features
             self.ibs = bb_ibs

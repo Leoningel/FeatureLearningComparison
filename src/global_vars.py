@@ -34,3 +34,6 @@ DATA_FILE = "data/flare.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'f_score'
 
+DATA_FILE = "data/cleve.csv"
+TARGET_COLUMN = 'target'
+SCORING = 'f_score'
