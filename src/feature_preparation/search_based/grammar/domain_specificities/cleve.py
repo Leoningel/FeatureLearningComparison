@@ -105,7 +105,6 @@ special_features = {
     "Slope": Slope,
     "Thal": Thal,
     "Fasting blood sugar gt 120" :FastingBloodSugar,
-
 }
 
 ibs = [ ]
