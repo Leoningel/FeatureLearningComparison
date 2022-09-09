@@ -1,3 +1,3 @@
 export PYTHONPATH="${PYTHONPATH:+${PYTHONPATH};}./src"
 
-python -m src $*
+python3 -m src $*

@@ -89,7 +89,7 @@ class TempExtremities(IntCategory):
 
 
 """ 
-mucous_membrane
+mucous_membranes
 1 = normal pink
 2 = bright pink
 3 = pale pink
@@ -99,7 +99,7 @@ mucous_membrane
 """
 @dataclass
 class MucousMembraneCol(Col):
-    col_name = "mucous_membrane"
+    col_name = "mucous_membranes"
 
     number_map = {
         1: "Normal Pink",
@@ -249,7 +249,7 @@ special_features = {
     "pain" : Pain,
     "outcome": Outcome,
     "temp_extremities": TempExtremities,
-    "mucous_mebrane": MucousMembrane,
+    "mucous_membranes": MucousMembrane,
     "peristalsis": Peristalsis,
     "abdominal_distension": AbdominalDistension,
     "nasogastric_reflux": NasogastricReflux,
