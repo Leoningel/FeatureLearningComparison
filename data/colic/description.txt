@@ -1,0 +1,4 @@
+A short explanation about having 3 .csv file:
+    > colic1.csv - This file is the original .csv file
+    > colic2.csv - On this file I deleted all data points that pain, surgery and outcome were ZERO
+    > colic3.csv - On this file I deleted all data points that the categorised features were ZERO
