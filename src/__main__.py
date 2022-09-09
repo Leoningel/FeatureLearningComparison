@@ -53,8 +53,9 @@ if __name__ == '__main__':
             raise ValueError("No destination is given. Add --dest=<destination_folder> to the arguments.")
         if os.path.isdir(dest_folder):
             raise FileExistsError(f"Destination folder ({dest_folder}) already exists. First delete the destination folder or save to another folder.")
-        shutil.move(gv.TEMP_RESULTS_FOLDER, dest_folder)
-        os.mkdir(f"{gv.TEMP_RESULTS_FOLDER}")
+        if dest_folder != '-':
+            shutil.move(gv.TEMP_RESULTS_FOLDER, dest_folder)
+            os.mkdir(f"{gv.TEMP_RESULTS_FOLDER}")
         for feature_learning in feature_learnings:
             os.mkdir(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}")
             with open(f"{gv.TEMP_RESULTS_FOLDER}{feature_learning}/main.csv", "w", newline="") as outfile:
