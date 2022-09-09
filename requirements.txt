@@ -7,3 +7,4 @@ matplotlib
 git+https://github.com/alcides/GeneticEngine.git@main#egg=geneticengine
 git+https://github.com/Leoningel/Python-M3GP.git@master#egg=m3gp
 statannotations
+IPython
