@@ -25,6 +25,11 @@ from feature_preparation.search_based.grammar.domain_specificities.cleve import 
     ibs as cleve_ibs,
 )
 
+from feature_preparation.search_based.grammar.domain_specificities.colic import (
+    special_features as colic_special_features,
+    ibs as colic_ibs,
+)
+
 
 class DomainKnowledge():
     def __init__(self) -> None:
@@ -43,6 +48,12 @@ class DomainKnowledge():
         elif gv.DATA_FILE == 'data/cleve.csv':
             self.special_features = cleve_special_features
             self.ibs = cleve_ibs
+        elif gv.DATA_FILE == 'data/colic2.csv':
+            self.special_features = colic_special_features
+            self.ibs = colic_ibs
+        elif gv.DATA_FILE == 'data/colic3.csv':
+            self.special_features = colic_special_features
+            self.ibs = colic_ibs
         else:
             self.special_features = bb_special_features
             self.ibs = bb_ibs

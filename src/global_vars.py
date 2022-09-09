@@ -37,3 +37,11 @@ SCORING = 'f_score'
 DATA_FILE = "data/cleve.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'f_score'
+
+DATA_FILE = "data/colic2.csv"
+TARGET_COLUMN = 'target'
+SCORING = 'f_score'
+
+DATA_FILE = "data/colic3.csv"
+TARGET_COLUMN = 'target'
+SCORING = 'f_score'
