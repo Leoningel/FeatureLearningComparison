@@ -4,3 +4,4 @@ mkdir logs
 mkdir plots
 mkdir results
 mkdir results_temp
+bash run_comparison --clean_results --dest=-
