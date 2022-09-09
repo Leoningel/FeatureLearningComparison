@@ -48,10 +48,10 @@ class DomainKnowledge():
         elif gv.DATA_FILE == 'data/cleve.csv':
             self.special_features = cleve_special_features
             self.ibs = cleve_ibs
-        elif gv.DATA_FILE == 'data/colic2.csv':
+        elif gv.DATA_FILE == 'data/colic/colic2.csv':
             self.special_features = colic_special_features
             self.ibs = colic_ibs
-        elif gv.DATA_FILE == 'data/colic3.csv':
+        elif gv.DATA_FILE == 'data/colic/colic3.csv':
             self.special_features = colic_special_features
             self.ibs = colic_ibs
         else:

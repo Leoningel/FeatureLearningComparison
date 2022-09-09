@@ -34,14 +34,14 @@ TRAIN_PROPORTION = 0.75
 # TARGET_COLUMN = 'target'
 # SCORING = 'f_score'
 
-DATA_FILE = "data/cleve.csv"
-TARGET_COLUMN = 'target'
-SCORING = 'f_score'
+# DATA_FILE = "data/cleve.csv"
+# TARGET_COLUMN = 'target'
+# SCORING = 'f_score'
 
-DATA_FILE = "data/colic2.csv"
-TARGET_COLUMN = 'target'
-SCORING = 'f_score'
+# DATA_FILE = "data/colic/colic2.csv"
+# TARGET_COLUMN = 'target'
+# SCORING = 'f_score'
 
-DATA_FILE = "data/colic3.csv"
+DATA_FILE = "data/colic/colic3.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'f_score'
