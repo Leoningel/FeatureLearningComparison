@@ -29,6 +29,10 @@ from feature_preparation.search_based.grammar.domain_specificities.colic import 
     special_features as colic_special_features,
     ibs as colic_ibs,
 )
+from feature_preparation.search_based.grammar.domain_specificities.daily_website_visitors import (
+    special_features as daily_website_visitors_special_features,
+    ibs as daily_website_visitors_ibs,
+)
 
 
 class DomainKnowledge():
@@ -54,6 +58,9 @@ class DomainKnowledge():
         elif gv.DATA_FILE == 'data/colic/colic3.csv':
             self.special_features = colic_special_features
             self.ibs = colic_ibs
+        elif gv.DATA_FILE == 'data/daily-website-visitors2.csv':
+            self.special_features = daily_website_visitors_special_features 
+            self.ibs = daily_website_visitors_ibs
         else:
             self.special_features = bb_special_features
             self.ibs = bb_ibs
