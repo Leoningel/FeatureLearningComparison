@@ -1,4 +1,5 @@
 import csv
+from email.policy import default
 import time
 from typing import List
 from optparse import OptionParser
@@ -30,7 +31,7 @@ TRAIN_PROPORTION = 0.75
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-s", "--seed", dest="seed", type="int")
-    parser.add_option("-m", "--model", dest="model", type="int")
+    parser.add_option("-m", "--model", dest="model", type="int", default=0)
     parser.add_option("-f", "--flm", dest="flm", type="int")
     parser.add_option("--budget", dest="on_budget", action='store_const', const=True, default=False)
 
