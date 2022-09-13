@@ -20,7 +20,7 @@ import global_vars as gv
 name = __name__.split(".")[-1]
 
 class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
-    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, n_generations=gv.POPULATION_SIZE, save_to_csv='') -> None:
+    def __init__(self, seed = 0, max_depth=gv.MAX_DEPTH, n_generations=gv.NUMBER_OF_GENERATIONS, save_to_csv='') -> None:
         self.feature_mapping: Solution = None
         self.seed = seed
         self.max_depth = max_depth
