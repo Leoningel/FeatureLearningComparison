@@ -8,6 +8,7 @@ results_temp
 *.csv
 !data/*.csv
 !data/colic/*.csv
+!data/daily_website_visitors/*.csv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
