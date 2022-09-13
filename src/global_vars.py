@@ -46,6 +46,6 @@ TRAIN_PROPORTION = 0.75
 # TARGET_COLUMN = 'target'
 # SCORING = 'f_score'
 
-DATA_FILE = "data/daily-website-visitors2.csv"
+DATA_FILE = "data/daily_website_visitors/daily-website-visitors2.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'f_score'
