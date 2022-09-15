@@ -5,7 +5,7 @@ import seaborn as sns
 import global_vars as gv
 
 
-data = pd.read_csv("data/boom_bikes_14-01-2022-RAW.csv", delimiter=gv.DELIMITER)
+data = pd.read_csv("data/boom_bikes_14-01-2022_without_casual_and_registered.csv", delimiter=gv.DELIMITER)
 data[['Bike count']] = data[['cnt']]
 data[['Time instant']] = data[['instant']]
             
@@ -17,6 +17,30 @@ a = sns.lineplot(
 
 a.set_title(f"Bike count over time")
 path = f"plots/bb/input_data_analysis/cnt_to_instant.pdf"
+plt.savefig(path)
+print(f"Saved figure to {path}.")
+plt.close()
+
+# -----------------------------
+
+number_map = {
+        1 : "Clear",
+        2 : "Misty",
+        3 : "Light rain",
+    }
+data.weathersit = data.weathersit.map(number_map)
+data[['Weather situation']] = data[['weathersit']]
+
+g = sns.boxplot(
+            x='Weather situation',
+            y='Bike count',
+            data=data
+            )
+
+for item in g.get_xticklabels():
+            item.set_rotation(25)
+g.set_title(f"Bike count per weather situation")
+path = f"plots/bb/input_data_analysis/bikes_per_weather.pdf"
 plt.savefig(path)
 print(f"Saved figure to {path}.")
 plt.close()
