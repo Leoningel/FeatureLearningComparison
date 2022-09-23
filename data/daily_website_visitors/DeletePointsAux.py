@@ -22,6 +22,6 @@ with open('daily-website-visitors.csv', 'r') as inp, open('daily-website-visitor
 
 csvSort = pd.read_csv("daily-website-visitors2.csv")
 
-csvSort.sort_values(csvSort.columns[4],axis=0,inplace=True)
+# csvSort.sort_values(csvSort.columns[4],axis=0,inplace=True)
 
 csvSort.to_csv("daily-website-visitors2.csv",index=False)
