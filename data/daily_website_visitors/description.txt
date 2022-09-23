@@ -1,0 +1,4 @@
+A short explanation about having 3 .csv file:
+    > daily_website_visitors1.csv - This file is the original .csv file
+    > daily_website_visitors2.csv - On this file I deleted the columns "Unique.Visits" and "First.Time.Visits", and made Page.Loads the target. Furthermore, column "Day" (text of weekday) was deleted, and column "Date" was transformed to the columns "Day" (day of the month), "Month", and "Month/Day" (a month day combination).
+    > daily_website_visitors3.csv - On this file I deleted the columns "Unique.Visits" and "First.Time.Visits", and made Page.Loads the target. Furthermore, columns "Day" and "Date" were deleted.
