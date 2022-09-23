@@ -5,7 +5,7 @@ import seaborn as sns
 import global_vars as gv
 
 
-data = pd.read_csv("data/boom_bikes_14-01-2022_without_casual_and_registered.csv", delimiter=gv.DELIMITER)
+data = pd.read_csv("data/boom_bikes_14_01_2022_without_casual_and_registered.csv", delimiter=gv.DELIMITER)
 data[['Bike count']] = data[['cnt']]
 data[['Time instant']] = data[['instant']]
             

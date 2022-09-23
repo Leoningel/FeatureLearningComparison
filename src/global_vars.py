@@ -15,7 +15,7 @@ N_SEEDS = 30
 TRAIN_PROPORTION = 0.75
 
 
-# DATA_FILE = "data/boom_bikes_14-01-2022_without_casual_and_registered.csv"
+# DATA_FILE = "data/boom_bikes_14_01_2022_without_casual_and_registered.csv"
 # TARGET_COLUMN = 'cnt'
 # SCORING = 'mse'
 

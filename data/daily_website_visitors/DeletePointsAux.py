@@ -5,7 +5,7 @@ import csv
 import pandas as pd
 import shutil
 
-with open('daily-website-visitors.csv', 'r') as inp, open('daily-website-visitors2.csv', 'w') as out:
+with open('daily_website_visitors.csv', 'r') as inp, open('daily_website_visitors2.csv', 'w') as out:
     writer = csv.writer(out)
 
     header = next(csv.reader(inp))
@@ -20,8 +20,8 @@ with open('daily-website-visitors.csv', 'r') as inp, open('daily-website-visitor
                         row[-1].replace(",", ""), 
                         row[4].replace(",", "")))
 
-csvSort = pd.read_csv("daily-website-visitors2.csv")
+csvSort = pd.read_csv("daily_website_visitors2.csv")
 
 # csvSort.sort_values(csvSort.columns[4],axis=0,inplace=True)
 
-csvSort.to_csv("daily-website-visitors2.csv",index=False)
+csvSort.to_csv("daily_website_visitors2.csv",index=False)
