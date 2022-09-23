@@ -50,3 +50,7 @@ TRAIN_PROPORTION = 0.75
 DATA_FILE = "data/daily_website_visitors/daily-website-visitors2.csv"
 TARGET_COLUMN = 'target'
 SCORING = 'mse'
+
+# DATA_FILE = "data/daily_website_visitors/daily-website-visitors3.csv"
+# TARGET_COLUMN = 'target'
+# SCORING = 'mse'
