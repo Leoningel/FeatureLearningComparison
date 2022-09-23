@@ -54,7 +54,7 @@ class Month(IntCategory):
 categories = [Col, Category, BoolCategory,
             IntCategory, Weekday, WeekdayCol, Month, MonthCol]
 
-#TODO:  day/month combo(e.g., 9/Feb or 9/2) , Returning.visits
+#TODO:  categorize month/day combo(e.g., 9/Feb or 9/2)
 
 
 @dataclass
