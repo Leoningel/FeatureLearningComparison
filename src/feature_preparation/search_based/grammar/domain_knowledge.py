@@ -40,7 +40,7 @@ class DomainKnowledge():
         if gv.DATA_FILE == 'data/penguins.csv':
             self.special_features = penguins_special_features
             self.ibs = penguins_ibs
-        if gv.DATA_FILE == 'data/flare.csv':
+        elif gv.DATA_FILE == 'data/flare.csv':
             self.special_features = flare_special_features
             self.ibs = flare_ibs
         elif gv.DATA_FILE == 'data/caesarian.csv':
