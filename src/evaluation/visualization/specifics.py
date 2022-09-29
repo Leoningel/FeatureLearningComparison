@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from feature_preparation.core import FeatureLearningMethod
 import global_vars as gv
 from model_generation.models import Model
+from evaluation.visualization.utils import to_replace
 
 
 
@@ -121,7 +122,7 @@ def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, mode
     print(f"Saved figure to {path}.")
     
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml', output_folder=''):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml', output_folder='', f_score: bool = False):
 
     li = []
 
@@ -136,9 +137,13 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
                 print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
                 df = pd.read_csv(filename, index_col=None, header=0)
                 df = df[[column, per_column]]
+                df = df.replace(to_replace)
                 # df = df[[column, per_column, "nodes"]]
                 df = df.groupby([per_column]).min()
-                df['fl'] = str(feature_learning)
+                fl = str(feature_learning)
+                if fl in to_replace.keys():
+                    fl = to_replace[fl]
+                df['fl'] = fl
                 df = df.reset_index()
                 li.append(df)
         # print(f"Average nodes: {sum(list(map(lambda x: x.nodes.values[-1], li)))/len(li)}. FL method: {feature_learning}.")
@@ -150,24 +155,36 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     sns.set_style({"font.family": "serif"})
     sns.set(font_scale=0.75)
 
+    new_column = column 
+    if column != 'nodes':
+        if new_column == 'test_fitness':
+            new_column = 'test fitness'
+        if f_score:
+            new_column = f'{column} (f1 score)'
+        else:
+            new_column = f'{column} (MSE)'
+    new_per_column = 'Generations'
+    df[new_column] = df[[column]]
+    df[new_per_column] = df[[per_column]]
+
     a = sns.lineplot(
             data=df,
-            x = per_column,
-            y = column,
+            x = new_per_column,
+            y = new_column,
             hue = 'fl'
             )
 
-    a.set_title(f"{column} comparison")
+    a.set_title(f"{new_column} comparison")
     smodel = 'm=' + str(model)
     sfls = 'fl='
     for fl in feature_learnings:
         sfls += str(fl) + '_'
-    path = f"plots/{output_folder}/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
+    path = f"plots/{output_folder}/g_{added_text}_{new_column}_{smodel}_{sfls}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 
 
-def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'fitness', per_column: str = 'number_of_the_generation', added_text = '', output_folder=''):
+def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'fitness', per_column: str = 'number_of_the_generation', added_text = '', output_folder='', f_score: bool = False):
 
     li = []
 
@@ -180,6 +197,7 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
                 df = df[[column, per_column]]
                 # df = df[[column, per_column, "nodes"]]
                 df = df.groupby([per_column]).min()
+                df = df.replace(to_replace)
                 try:
                     df['fl'] = fl_names[jdx]
                 except:
@@ -194,21 +212,32 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
     sns.set_style({"font.family": "serif"})
     sns.set(font_scale=0.75)
 
+    if column in ['fitness', 'test_fitness']:
+        if column == 'test_fitness':
+            column = 'test fitness'
+        if f_score:
+            new_column = f'{column} (f1 score)'
+        else:
+            new_column = f'{column} (MSE)'
+    new_per_column = 'Generations'
+    df[new_column] = df[[column]]
+    df[new_per_column] = df[[per_column]]
+
     a = sns.lineplot(
             data=df,
-            x = per_column,
-            y = column,
+            x = new_per_column,
+            y = new_column,
             hue = 'fl'
             )
 
     # a.set_xlim(0,200)
 
-    a.set_title(f"{column} comparison")
+    a.set_title(f"{new_column} comparison")
     smodel = 'm=' + str(model)
     sfls = 'fl='
     for fl in fl_names:
         sfls += str(fl) + '_'
-    path = f"plots/{output_folder}/g_{added_text}_{column}_{smodel}_{sfls}.pdf"
+    path = f"plots/{output_folder}/g_{added_text}_{new_column}_{smodel}_{sfls}.pdf"
     plt.savefig(path)
     print(f"Saved figure to {path}.")
 

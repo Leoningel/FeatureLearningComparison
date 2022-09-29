@@ -5,6 +5,7 @@ import seaborn as sns
 
 from scipy import stats
 from statannotations.Annotator import Annotator
+from evaluation.visualization.utils import to_replace
 
 def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", column : str = 'test_score', log_scale=True):
     if type(df) == str:
@@ -74,16 +75,20 @@ def plot_separated_violin_comparisons(
         df['Time (s)'] = df['time'] - df['grid_search_time']
         column = 'Time (s)'
 
-    # to_replace = {
-    #     "No_FL": "No FL",
-    #     "FeatureToolsFS": "FT FS",
-    #     "random_search": "RS FS",
-    # }
-    # df = df.replace(to_replace)
+    df = df.replace(to_replace)
     
     if models:
         models = [ str(m) for m in models ]
         df = df[ df['model'].isin(models) ]
+    new_stat_test_pairs = list()
+    for ((m1, fl1), (m2, fl2)) in stat_test_pairs:
+        if fl1 in to_replace.keys():
+            fl1 = to_replace[fl1]
+        if fl2 in to_replace.keys():
+            fl2 = to_replace[fl2]
+        new_stat_test_pairs.append(((m1, fl1), (m2, fl2)))
+    stat_test_pairs = new_stat_test_pairs
+    
     if len(models) == 1:
         stat_test_pairs = [ (fl1, fl2) for ((_, fl1), (_, fl2)) in stat_test_pairs ]
     
