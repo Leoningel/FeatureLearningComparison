@@ -1,10 +1,10 @@
-plots
+# plots
 GeneticEngine
 logs
 results
 results_temp
 .vscode
-*.pdf
+# *.pdf
 *.csv
 !data/*.csv
 !data/colic/*.csv
