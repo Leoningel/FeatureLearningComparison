@@ -1,3 +1,5 @@
+import pandas as pd
+
 DELIMITER = ','
 TIME_COLUMN = "instant"
 RESULTS_FOLDER = "./results/"
@@ -14,43 +16,10 @@ TIME_LIMIT = 1200
 N_SEEDS = 30   
 TRAIN_PROPORTION = 0.75
 
-
-# DATA_FILE = "data/boom_bikes_14_01_2022_without_casual_and_registered.csv"
-# TARGET_COLUMN = 'cnt'
-# SCORING = 'mse'
-
-# DATA_FILE = "data/credit_g.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-# DATA_FILE = "data/caesarian.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-# DATA_FILE = "data/penguins.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-# DATA_FILE = "data/flare.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-# DATA_FILE = "data/cleve.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-# DATA_FILE = "data/colic/colic2.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-# DATA_FILE = "data/colic/colic3.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'f_score'
-
-DATA_FILE = "data/daily_website_visitors/daily_website_visitors2.csv"
-TARGET_COLUMN = 'target'
-SCORING = 'mse'
-
-# DATA_FILE = "data/daily_website_visitors/daily_website_visitors3.csv"
-# TARGET_COLUMN = 'target'
-# SCORING = 'mse'
+# NAmes: bb, credit, caesarian, penguins, flare, cleve, colic/colic2, colic/colic3, website_visitors/web_visits2, website_visitors/web_visits3
+NAME = 'bb'
+data_info = pd.read_csv('data/data_info.csv')
+data_info = data_info.loc[data_info['NAME'] == NAME].values[0]
+DATA_FILE = data_info[1]
+TARGET_COLUMN = data_info[2]
+SCORING = data_info[3]
