@@ -213,12 +213,13 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
     sns.set(font_scale=0.75)
 
     if column in ['fitness', 'test_fitness']:
+        new_column = column
         if column == 'test_fitness':
-            column = 'test fitness'
+            new_column = 'test fitness'
         if f_score:
-            new_column = f'{column} (f1 score)'
+            new_column = f'{new_column} (f1 score)'
         else:
-            new_column = f'{column} (MSE)'
+            new_column = f'{new_column} (MSE)'
     new_per_column = 'Generations'
     df[new_column] = df[[column]]
     df[new_per_column] = df[[per_column]]
