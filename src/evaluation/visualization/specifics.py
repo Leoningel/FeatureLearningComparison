@@ -182,6 +182,8 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
             new_column = f'{column} (f1 score)'
         else:
             new_column = f'{column} (MSE)'
+    else: 
+        new_column = 'Number of nodes'
     new_per_column = 'Generations'
     df[new_column] = df[[column]]
     df[new_per_column] = df[[per_column]]
