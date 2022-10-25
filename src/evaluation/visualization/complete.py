@@ -46,7 +46,7 @@ def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", colum
     if log_scale:
         extra = ' - (logarithmic scale)'
         
-    plt.title(f"Feature Learning {column}{extra}")
+    # plt.title(f"Feature Learning {column}{extra}")
     plt.tight_layout()
     plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
     plt.close()
@@ -152,7 +152,7 @@ def plot_separated_violin_comparisons(
     
     # g.fig.suptitle(f"Feature Learning {column}")
     # if len(models) == 1:
-    plt.title(f'Comparison of FL methods for model {models[0]}')
+    # plt.title(f'Comparison of FL methods for model {models[0]}')
     plt.tight_layout()
     smodels = 'm='
     for m in models:
