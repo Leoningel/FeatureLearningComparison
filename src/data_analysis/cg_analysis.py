@@ -11,6 +11,10 @@ data[['Time instant']] = data[['instant']]
 
 # -----------------------------
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.countplot(
             x='Risk',
             data=data,
@@ -40,6 +44,10 @@ data = data.sort_values(by='credit_history')
 data.credit_history = data.credit_history.map(number_map)
 data[['Credit history']] = data[['credit_history']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.barplot(
             x='Credit history',
             y='Risk',
@@ -68,6 +76,14 @@ data = data.sort_values(by='job')
 data.job = data.job.map(number_map)
 data[['Job']] = data[['job']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.barplot(
             x='Job',
             y='Risk',
@@ -95,6 +111,10 @@ data = data.sort_values(by='housing')
 data.housing = data.housing.map(number_map)
 data[['Housing']] = data[['housing']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.barplot(
             x='Housing',
             y='Risk',
@@ -132,6 +152,10 @@ data[['Personal status']] = data[['personal_status']]
 # print(f"Average risk single men: {single_men[['target']].sum()/len(single_men[['target']].values)}")
 # print(f"Average risk married men: {married_men[['target']].sum()/len(married_men[['target']].values)}")
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.barplot(
             x='Personal status',
             y='Risk',

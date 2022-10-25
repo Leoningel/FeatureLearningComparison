@@ -5,17 +5,22 @@ import seaborn as sns
 
 from scipy import stats
 from statannotations.Annotator import Annotator
-from evaluation.visualization.utils import to_replace
+from evaluation.visualization.utils import to_replace, FONTSIZE
 
 def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", column : str = 'test_score', log_scale=True):
     if type(df) == str:
         df = pd.read_csv(df)
     
+    sns.set_style("darkgrid")
+    sns.set_style({"font.family": "serif",
+                   'font.size' : FONTSIZE
+                   })
+    # sns.set(font_scale=0.75)
     
-    to_replace = {
-        "No_Feature_Learning": "No FL",
-        "FeatureTools_FS": "FT FS",
-    }
+    # to_replace = {
+    #     "No_Feature_Learning": "No FL",
+    #     "FeatureTools_FS": "FT FS",
+    # }
     
     df = df.replace(to_replace)
 
@@ -55,8 +60,11 @@ def plot_separated_violin_comparisons(
     allows for the scale of the 'column' to reflect
     absolute values, rather than relative.
     """
-    sns.set_style({"font.family": "serif"})
-    sns.set(font_scale=0.75)
+    sns.set_style("darkgrid")
+    sns.set_style({"font.family": "serif",
+                   'font.size' : FONTSIZE
+                   })
+    # sns.set(font_scale=0.75)
     
     score = 'MSE'
     if f_score:
@@ -144,7 +152,7 @@ def plot_separated_violin_comparisons(
     
     # g.fig.suptitle(f"Feature Learning {column}")
     # if len(models) == 1:
-    #     plt.title(f'{models[0]}')
+    plt.title(f'Comparison of FL methods for model {models[0]}')
     plt.tight_layout()
     smodels = 'm='
     for m in models:
@@ -154,5 +162,4 @@ def plot_separated_violin_comparisons(
         sfls += str(fl) + '_'
     path = f"plots/{output_folder}/v_{outbasename}_{column}_{smodels}_{sfls}.pdf"
     plt.savefig(path)
-    sns.set(font_scale=1) 
     plt.close()

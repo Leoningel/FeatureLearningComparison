@@ -9,6 +9,11 @@ data = pd.read_csv("data/boom_bikes_14_01_2022_without_casual_and_registered.csv
 data[['Bike count']] = data[['cnt']]
 data[['Time instant']] = data[['instant']]
             
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
+
 a = sns.lineplot(
             data=data,
             x = 'Time instant',
@@ -31,6 +36,10 @@ number_map = {
 data.weathersit = data.weathersit.map(number_map)
 data[['Weather situation']] = data[['weathersit']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.boxplot(
             x='Weather situation',
             y='Bike count',
@@ -64,6 +73,10 @@ number_map = {
 data.mnth = data.mnth.map(number_map)
 data[['Month']] = data[['mnth']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.boxplot(
             x='Month',
             y='Bike count',
@@ -92,6 +105,10 @@ number_map = {
 data.weekday = data.weekday.map(number_map)
 data[['Day of the week']] = data[['weekday']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.boxplot(
             x='Day of the week',
             y='Bike count',
@@ -110,6 +127,10 @@ plt.close()
 
 data[['Working day']] = data[['workingday']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.boxplot(
             x='Working day',
             y='Bike count',
@@ -126,6 +147,10 @@ plt.close()
 
 data[['Holiday']] = data[['holiday']]
 
+sns.set_style("darkgrid")
+sns.set_style({"font.family": "serif",
+                'font.size' : 60
+                })
 g = sns.boxplot(
             x='Holiday',
             y='Bike count',
