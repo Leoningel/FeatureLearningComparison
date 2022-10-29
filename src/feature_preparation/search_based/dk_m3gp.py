@@ -59,7 +59,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
             seed=self.seed,
             population_size=gv.POPULATION_SIZE,
             number_of_generations=self.n_generations,
-            n_elites=self.elitism_size,
+            n_elites=gv.ELITSM,
             n_novelties=self.novelties_size,
             either_mut_or_cro=0.5,
             specific_type_mutation=FeatureSet,
@@ -116,7 +116,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
 
 class DK_M3GP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__elitism_size": gv.ELITISMS,
+                            # "feature_learning__elitism_size": gv.ELITISMS,
                             # "feature_learning__novelties_size": gv.NOVELTIES,
                             }
     method = DK_M3GP_Method

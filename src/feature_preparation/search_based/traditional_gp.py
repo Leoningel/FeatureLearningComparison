@@ -44,7 +44,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             seed=self.seed,
             population_size=gv.POPULATION_SIZE,
             number_of_generations=self.n_generations,
-            n_elites=self.elitism_size,
+            n_elites=gv.ELITSM,
             n_novelties=self.novelties_size,
             either_mut_or_cro=0.5,
             max_depth=self.max_depth,
@@ -85,7 +85,7 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
 
 class TraditionalGP(FeatureLearningMethod):
     param_grid: Union[dict, list] = { 
-                            "feature_learning__elitism_size": gv.ELITISMS,
+                            # "feature_learning__elitism_size": gv.ELITISMS,
                             # "feature_learning__novelties_size": gv.NOVELTIES,
                             }
     method = TraditionalGP_Method
