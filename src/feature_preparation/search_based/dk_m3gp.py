@@ -47,7 +47,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
         self.test_data = test_data
         self.on_budget = on_budget
 
-    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize = True):
+    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=1, minimize = True):
         if self.save_to_csv != '':
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
         else:

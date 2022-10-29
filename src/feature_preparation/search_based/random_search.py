@@ -27,7 +27,7 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
         self.n_generations = n_generations
         self.save_to_csv = save_to_csv
 
-    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=0, minimize=True):
+    def evolve(self, g, fitness_function, test_fitness_function = None, verbose=1, minimize=True):
         if self.save_to_csv != '':
             save_to_csv = f"{gv.TEMP_RESULTS_FOLDER}/{name}/seed={self.seed}_{self.save_to_csv}.csv"
         else:
