@@ -62,10 +62,16 @@ def ff_time_series(X, y, single_solution=False, include_all_data = False):
             feature_names, feature_indices = feature_info(X)
             Xt = mapping(feature_names, feature_indices, X, fs, include_all_data, single_solution=single_solution)
             dt = ffmodel(max_depth=4)
-            model = dt.fit(Xt,y)
-            predictions = model.predict(Xt)
-            score = scoring(predictions,y)
-            return score
+            try:
+                model = dt.fit(Xt,y)
+                predictions = model.predict(Xt)
+                score = scoring(predictions,y)
+                return score
+            except:
+                if gv.SCORING == 'f_score':
+                    return 0
+                else:
+                    return 10000000000
     
     return fitness_function, minimize
 
