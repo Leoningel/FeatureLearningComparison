@@ -33,7 +33,7 @@ import utils as utils
  
 # models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 models : List[Model] = [ DecisionTree() ]
-feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), DKA_M3GP(), DK_M3GP(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
+# feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), DKA_M3GP(), DK_M3GP(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
 feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy() ]
 
 if __name__ == '__main__':
@@ -82,8 +82,9 @@ if __name__ == '__main__':
                     estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
                     
                     with ignore_warnings(category=ConvergenceWarning):
-                        utils.make_grid_search_ready(estimator.pipeline, test=TEST)
-                        best_estimator, best_params = estimator.grid_search(X_train, y_train)
+                        # utils.make_grid_search_ready(estimator.pipeline, test=TEST)
+                        # _, best_params = estimator.grid_search(X_train, y_train)
+                        best_params = None
                         grid_search_time = time.time() - start
                         test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [gv.TRAIN_PROPORTION], test=TEST, on_budget=ON_BUDGET, scoring=gv.SCORING)
                     
