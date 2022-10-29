@@ -53,8 +53,9 @@ if __name__ == '__main__':
     estimator = FeatureLearningOptimization(param_grid=feature_learning.param_grid, pipeline=pipeline)
     
     with ignore_warnings(category=ConvergenceWarning):
-        utils.make_grid_search_ready(estimator.pipeline)
-        best_estimator, best_params = estimator.grid_search(X_train, y_train)
+        # utils.make_grid_search_ready(estimator.pipeline)
+        # _, best_params = estimator.grid_search(X_train, y_train)
+        best_params = None
         grid_search_time = time.time() - start
         test_scores, train_scores, test_ind = utils.cv_time_series(feature_learning, model, seed, best_params, X, y, splits = [TRAIN_PROPORTION], on_budget=options.on_budget)
     
