@@ -33,8 +33,8 @@ import utils as utils
  
 # models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
 models : List[Model] = [ DecisionTree() ]
-# feature_learnings : List[FeatureLearningMethod] = [ M3GP_Gengy(), M3GP_JB(), DKA_M3GP(), DK_M3GP(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
-feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy() ]
+feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
+# feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy() ]
 
 if __name__ == '__main__':
     args = sys.argv
