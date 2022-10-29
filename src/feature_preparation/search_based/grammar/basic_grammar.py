@@ -93,7 +93,7 @@ class SafeDiv(BuildingBlock):
                 d2 = d2.astype(float)
         try:
             with np.errstate(divide="ignore", invalid="ignore"):
-                return np.where(abs(d2) < 0.01, d1 / 0.01, d1 / d2)
+                return np.where(abs(d2) < 0.001, d1 / 0.001, d1 / d2)
         except ZeroDivisionError:
             # In this case we are trying to divide two constants, one of which is 0
             # Return a constant.
