@@ -58,7 +58,7 @@ class DomainKnowledge():
         elif gv.DATA_FILE == 'data/colic/colic3.csv':
             self.special_features = colic_special_features
             self.ibs = colic_ibs
-        elif gv.DATA_FILE == 'data/daily_website_visitors/daily-website-visitors2.csv':
+        elif gv.DATA_FILE == 'data/daily_website_visitors/daily_website_visitors3.csv':
             self.special_features = daily_website_visitors_special_features 
             self.ibs = daily_website_visitors_ibs
         else:
