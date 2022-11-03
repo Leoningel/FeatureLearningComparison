@@ -26,6 +26,7 @@ class Equals(Condition):
                 cat = self.input.column.number_map[cat]
             except:
                 print(f"Number mapping not working for value {cat} and category {self.input.column}.")
+                raise ValueError(f"Number mapping not working for value {cat} and category {self.input.column}.")
         return f"({self.input.column} == {cat})"
 
 
@@ -43,6 +44,7 @@ class NotEquals(Condition):
                 cat = self.input.column.number_map[cat]
             except:
                 print(f"Number mapping not working for value {cat} and category {self.input.column}.")
+                raise ValueError(f"Number mapping not working for value {cat} and category {self.input.column}.")
         return f"({self.input.column} != {cat})"
 
 

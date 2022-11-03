@@ -38,7 +38,7 @@ class SurgeryCol(Col):
 
 @dataclass
 class Surgery(IntCategory):
-    category: Annotated[int, IntRange(0, 1)]
+    category: Annotated[int, IntRange(1, 2)]
     column: SurgeryCol
     
 
