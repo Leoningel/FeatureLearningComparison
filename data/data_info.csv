@@ -7,5 +7,7 @@ flare,data/flare.csv,target,f_score
 cleve,data/cleve.csv,target,f_score
 colic/colic2,data/colic/colic2.csv,target,f_score
 colic/colic3,data/colic/colic3.csv,target,f_score
+colic,data/colic/colic3.csv,target,f_score
 website_visitors/web_visits/2,data/daily_website_visitors/daily_website_visitors2.csv,target,mse
 website_visitors,data/daily_website_visitors/daily_website_visitors3.csv,target,mse
+web_visits,data/daily_website_visitors/daily_website_visitors3.csv,target,mse
