@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import glob
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 
 from feature_preparation.core import FeatureLearningMethod
 import global_vars as gv
@@ -45,8 +46,8 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     
     plt.close()
     sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                    "font.size" : FONTSIZE})
+    sns.set(font_scale=1.2)
+    sns.set_style({"font.family": "serif"})
 
     new_column = column 
     if column != 'nodes':
@@ -69,7 +70,11 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
             hue = 'fl'
             )
 
+    # a.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    plt.ticklabel_format(axis='y', style="sci", scilimits=(-2,2))
+    sns.set(font_scale=1.4)
     a.set_title(f"FL {new_column} comparison")
+    plt.tight_layout()
     smodel = 'm=' + str(model)
     sfls = 'fl='
     for fl in feature_learnings:
@@ -109,8 +114,8 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
     df = pd.concat(li, axis=0, ignore_index=True)
     plt.close()
     sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                    "font.size" : FONTSIZE})
+    sns.set(font_scale=1.2)
+    sns.set_style({"font.family": "serif"})
 
     if column in ['fitness', 'test_fitness']:
         new_column = column
@@ -131,9 +136,11 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
             hue = 'fl'
             )
 
-    # a.set_xlim(0,200)
-
+    # a.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    plt.ticklabel_format(axis='y', style="sci", scilimits=(-2,2))
+    sns.set(font_scale=1.4)
     a.set_title(f"FL {new_column} comparison")
+    plt.tight_layout()
     smodel = 'm=' + str(model)
     sfls = 'fl='
     for fl in fl_names:

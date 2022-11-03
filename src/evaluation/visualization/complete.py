@@ -78,9 +78,8 @@ def plot_separated_violin_comparisons(
     y = column
     hue = 'method'
     sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
+    sns.set(font_scale=1.2)
+    sns.set_style({"font.family": "serif"})
     
     if len(models) > 1:
         g = sns.boxplot(x=x,
@@ -92,9 +91,7 @@ def plot_separated_violin_comparisons(
                         y=y,
                         data=df)
 
-    # g.set_axis_labels("", column).set_titles("{col_name}").despine(left=True)
-    # [plt.setp(ax.get_xticklabels(), rotation=45) for ax in g.axes.flat]
-    
+    sns.set(font_scale=1)
     if stat_test_pairs:
         if take_out_outliers:
             df = df_wo_outliers
@@ -102,14 +99,12 @@ def plot_separated_violin_comparisons(
             annotator = Annotator(g, stat_test_pairs, data=df, x=x, y=y, hue=hue, plot='boxplot')
         else:
             annotator = Annotator(g, stat_test_pairs, data=df, x=hue, y=y, plot='boxplot')
-        annotator.configure(test='Mann-Whitney', text_format='full', loc='outside')
+        annotator.configure(test='Mann-Whitney', text_format='star', loc='inside')
         annotator.apply_and_annotate()
     
-    # g.fig.suptitle(f"Feature Learning {column}")
-    # if len(models) == 1:
-    # plt.title(f'Comparison of FL methods for model {models[0]}')
+    plt.xticks(rotation=25)
+    g.set(xlabel=None)
     plt.tight_layout()
-    plt.rcParams.update({'font.size': 22})
     smodels = 'm='
     for m in models:
         smodels += str(m) + '_'
