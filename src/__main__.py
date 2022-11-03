@@ -141,14 +141,15 @@ if __name__ == '__main__':
                             pairs.append(((str(m), str(fl1)), (str(m), str(fl2))))
 
         folder_name = args.folder_name
+        output_folder = args.output_folder
         data_info = pd.read_csv('data/data_info.csv')
-        data_info = data_info.loc[data_info['NAME'] == folder_name].values[0]
+        data_info = data_info.loc[data_info['NAME'] == output_folder].values[0]
         DATA_FILE = data_info[1]
         TARGET_COLUMN = data_info[2]
         SCORING = data_info[3]
         f_score = SCORING == 'f_score'
             
-        output_folder = f'{args.output_folder}/{args.output_folder_spec}'
+        output_folder = f'{output_folder}/{args.output_folder_spec}'
         if args.violin:
             dfs = [ pd.read_csv(f"{gv.RESULTS_FOLDER}/{folder_name}/{feature_learning}/main.csv") for feature_learning in rel_fls ]
             if dfs:
