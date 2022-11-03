@@ -10,7 +10,7 @@ Did not categorize the following columns due to the large amount of zeros withou
     > mucous_membranes (48 zeros)           - (18 zeros on colic2.csv)
     > capillary_refill_time (96 zeros)
     > peristalsis (52 zeros)                - (18 zeros on colic2.csv)
-    > abdominal_distension (65 zeros)       -- (26 zeros on colic2.csv)
+    > abdominal_distension (65 zeros)       - (26 zeros on colic2.csv)
     > nasogastric_tube (131 zeros)
     > nasogastric_reflux (45 zeros)         - (40 zeros on colic2.csv)
     > rectal_examination (128 zeros)
