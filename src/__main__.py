@@ -15,8 +15,8 @@ import pandas as pd
 
 import global_vars as gv
 from data_extraction.data_extraction import load
-from evaluation.visualization.specifics import visualise_all_seeds_compare_splits, visualise_compare_fls, visualise_compare_folders, visualise_single_file, visualise_all_seeds, visualise_all_seeds_all_splits
-from evaluation.visualization.complete import plot_combined_barplot_comparison, plot_separated_violin_comparisons
+from evaluation.visualization.specifics import visualise_compare_fls, visualise_compare_folders
+from evaluation.visualization.complete import plot_separated_violin_comparisons
 from feature_preparation.core import FeatureLearningMethod, FeatureLearningOptimization
 from feature_preparation.classical_methods.feature_tools_FS import FeatureToolsFS
 from feature_preparation.classical_methods.no_feature_construction import NoFeatureLearning

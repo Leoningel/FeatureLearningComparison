@@ -7,50 +7,6 @@ from scipy import stats
 from statannotations.Annotator import Annotator
 from evaluation.visualization.utils import to_replace, FONTSIZE
 
-def plot_combined_barplot_comparison(df, outbasename: str = "_comparison", column : str = 'test_score', log_scale=True):
-    if type(df) == str:
-        df = pd.read_csv(df)
-    
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
-    # sns.set(font_scale=0.75)
-    
-    # to_replace = {
-    #     "No_Feature_Learning": "No FL",
-    #     "FeatureTools_FS": "FT FS",
-    # }
-    
-    df = df.replace(to_replace)
-
-    plot_name = column
-    if column == "avg_score":
-        df['avg score (MSE)'] = df.avg_score
-        column = "avg score (MSE)"
-    elif column == "test_score":
-        df['best score (MSE)'] = df.avg_score
-        column = "best score (MSE)"
-    elif column == "test_score":
-        df['test score (MSE)'] = df.avg_score
-        column = "test score (MSE)"
-    
-    axis = sns.barplot(data=df, x='model', y=column, hue='method',palette='Dark2')
-    if log_scale:
-        axis.set_yscale("log")
-
-    for item in axis.get_xticklabels():
-            item.set_rotation(25)
-        
-    extra = ''
-    if log_scale:
-        extra = ' - (logarithmic scale)'
-        
-    # plt.title(f"Feature Learning {column}{extra}")
-    plt.tight_layout()
-    plt.savefig(f"plots/{plot_name}{outbasename} ({column}).pdf")
-    plt.close()
-
 def plot_separated_violin_comparisons(
     df: pd.DataFrame, models = None, outbasename: str = "_separated_violins", column : str = 'test_score', stat_test_pairs: list = None, take_out_outliers: bool = False, f_score=False, output_folder=''):
     """
@@ -60,11 +16,6 @@ def plot_separated_violin_comparisons(
     allows for the scale of the 'column' to reflect
     absolute values, rather than relative.
     """
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
-    # sns.set(font_scale=0.75)
     
     score = 'MSE'
     if f_score:
@@ -126,6 +77,10 @@ def plot_separated_violin_comparisons(
     x = "model"
     y = column
     hue = 'method'
+    sns.set_style("darkgrid")
+    sns.set_style({"font.family": "serif",
+                   'font.size' : FONTSIZE
+                   })
     
     if len(models) > 1:
         g = sns.boxplot(x=x,
@@ -154,6 +109,7 @@ def plot_separated_violin_comparisons(
     # if len(models) == 1:
     # plt.title(f'Comparison of FL methods for model {models[0]}')
     plt.tight_layout()
+    plt.rcParams.update({'font.size': 22})
     smodels = 'm='
     for m in models:
         smodels += str(m) + '_'

@@ -10,133 +10,6 @@ from model_generation.models import Model
 from evaluation.visualization.utils import to_replace, FONTSIZE
 
 
-
-def visualise_single_file(feature_learning: FeatureLearningMethod, seed: int, split: float, model: Model, column: str = 'fitness'):
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
-    
-    df = pd.read_csv(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed={seed}_model={model}_split={split}.csv")
-    df = df[[column, "number_of_the_generation"]]
-    df = df.groupby(['number_of_the_generation']).min()
-    df = df.reset_index()
-    
-    plt.close()
-
-    a = sns.lineplot(data=df, x = "number_of_the_generation", y = column)
-
-    a.set_title(f"{feature_learning} {column}")
-    path = f"plots/test_single_file/{feature_learning}/seed={seed}_model={model}_split={split}.pdf"
-    plt.savefig(path)
-    print(f"Saved figure to {path}.")
-    
-
-def visualise_all_seeds(feature_learning: FeatureLearningMethod, split: float, model: Model, column: str = 'fitness'):
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
-
-    all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed=*_model={model}_split={split}.csv")
-
-    li = []
-
-    for idx, filename in enumerate(all_files):
-        print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
-        df = pd.read_csv(filename, index_col=None, header=0)
-        df = df[[column, "number_of_the_generation"]]
-        df = df.groupby(['number_of_the_generation']).min()
-        df = df.reset_index()
-        li.append(df)
-    
-    df = pd.concat(li, axis=0, ignore_index=True)
-    
-    plt.close()
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif"})
-
-    a = sns.lineplot(data=df, x = "number_of_the_generation", y = column)
-
-    a.set_title(f"{feature_learning} {column}")
-    path = f"plots/test_single_file/{feature_learning}/all_seeds_model={model}_split={split}.pdf"
-    plt.savefig(path)
-    print(f"Saved figure to {path}.")
-
-def visualise_all_seeds_compare_splits(feature_learning: FeatureLearningMethod, model: Model, column: str = 'fitness', splits: List[float] = [ 0.75 ]):
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
-
-    li = []
-
-    for split in splits:
-        all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed=*_model={model}_split={split}.csv")
-
-        if split == 0.75:
-            split = 'whole dataset'
-        
-        for idx, filename in enumerate(all_files):
-            print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
-            df = pd.read_csv(filename, index_col=None, header=0)
-            df = df[[column, "number_of_the_generation"]]
-            df = df.groupby(['number_of_the_generation']).min()
-            df['split'] = str(split)
-            df = df.reset_index()
-            li.append(df)
-        
-    df = pd.concat(li, axis=0, ignore_index=True)
-    
-    plt.close()
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif"})
-
-    a = sns.lineplot(
-            data=df,
-            x = "number_of_the_generation",
-            y = column,
-            hue = 'split'
-            )
-
-    a.set_title(f"{feature_learning} {column}")
-    path = f"plots/test_single_file/{feature_learning}/all_seeds_model={model}_splits_comparison.pdf"
-    plt.savefig(path)
-    print(f"Saved figure to {path}.")
-        
-
-def visualise_all_seeds_all_splits(feature_learning: FeatureLearningMethod, model: Model, column: str = 'fitness'):
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif",
-                   'font.size' : FONTSIZE
-                   })
-
-    all_files = glob.glob(f"{gv.RESULTS_FOLDER}/{feature_learning}/seed=*_model={model}_split=*.csv")
-
-    li = []
-
-    for idx, filename in enumerate(all_files):
-        print(f"{round((idx/(len(all_files) + 1)) * 100,1)} %", end='\r')
-        df = pd.read_csv(filename, index_col=None, header=0)
-        df = df[[column, "number_of_the_generation"]]
-        df = df.groupby(['number_of_the_generation']).min()
-        df = df.reset_index()
-        li.append(df)
-    
-    df = pd.concat(li, axis=0, ignore_index=True)
-    
-    plt.close()
-    sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif"})
-
-    a = sns.lineplot(data=df, x = "number_of_the_generation", y = column)
-
-    a.set_title(f"{feature_learning} {column}")
-    path = f"plots/test_single_file/{feature_learning}/seed=all_model={model}_split=all.pdf"
-    plt.savefig(path)
-    print(f"Saved figure to {path}.")
-    
-
 def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml', output_folder='', f_score: bool = False):
     sns.set_style("darkgrid")
     sns.set_style({"font.family": "serif",
@@ -172,7 +45,8 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     
     plt.close()
     sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif"})
+    sns.set_style({"font.family": "serif",
+                    "font.size" : FONTSIZE})
 
     new_column = column 
     if column != 'nodes':
@@ -235,7 +109,8 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
     df = pd.concat(li, axis=0, ignore_index=True)
     plt.close()
     sns.set_style("darkgrid")
-    sns.set_style({"font.family": "serif"})
+    sns.set_style({"font.family": "serif",
+                    "font.size" : FONTSIZE})
 
     if column in ['fitness', 'test_fitness']:
         new_column = column
