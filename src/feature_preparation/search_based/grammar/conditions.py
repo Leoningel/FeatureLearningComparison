@@ -22,7 +22,10 @@ class Equals(Condition):
     def __str__(self):
         cat = self.input.category
         if hasattr(self.input.column,"number_map"):
-            cat = self.input.column.number_map[cat]
+            try:
+                cat = self.input.column.number_map[cat]
+            except:
+                print(f"Number mapping not working for value {cat} and category {self.input.column}.")
         return f"({self.input.column} == {cat})"
 
 
@@ -36,7 +39,10 @@ class NotEquals(Condition):
     def __str__(self):
         cat = self.input.category
         if hasattr(self.input.column,"number_map"):
-            cat = self.input.column.number_map[cat]
+            try:
+                cat = self.input.column.number_map[cat]
+            except:
+                print(f"Number mapping not working for value {cat} and category {self.input.column}.")
         return f"({self.input.column} != {cat})"
 
 
