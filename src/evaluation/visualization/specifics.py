@@ -32,7 +32,10 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
                 df = df[[column, per_column]]
                 df = df.replace(to_replace)
                 # df = df[[column, per_column, "nodes"]]
-                df = df.groupby([per_column]).min()
+                if f_score:
+                    df = df.groupby([per_column]).max()
+                else:
+                    df = df.groupby([per_column]).min()
                 fl = str(feature_learning)
                 if fl in to_replace.keys():
                     fl = to_replace[fl]
