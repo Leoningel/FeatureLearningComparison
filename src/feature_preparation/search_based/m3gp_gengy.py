@@ -3,6 +3,7 @@ from typing import Annotated, List, Union
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
+from geneticengine.algorithms.callbacks.csv_callback import CSVCallback
 from geneticengine.algorithms.gp.gp import GP as GP_alg
 from geneticengine.core.grammar import extract_grammar
 from geneticengine.core.representations.tree.treebased import treebased_representation
@@ -50,9 +51,10 @@ class M3GP_Gengy_Method(BaseEstimator, TransformerMixin):
             specific_type_crossover=FeatureSet,
             max_depth=self.max_depth,
             minimize=minimize,
-            save_to_csv=save_to_csv,
-            save_genotype_as_string=False,
-            test_data=test_fitness_function,
+            save_to_csv=CSVCallback(
+                filename=save_to_csv,
+                test_data=test_fitness_function
+                ),
             timer_stop_criteria=self.on_budget,
             timer_limit=gv.TIME_LIMIT,
             )
