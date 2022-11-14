@@ -41,7 +41,6 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
             minimize=minimize,
-            favor_less_deep_trees=True,
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
             )

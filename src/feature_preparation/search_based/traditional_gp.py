@@ -49,7 +49,6 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             either_mut_or_cro=0.5,
             max_depth=self.max_depth,
             minimize=minimize,
-            favor_less_deep_trees=True,
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
             test_data=test_fitness_function,

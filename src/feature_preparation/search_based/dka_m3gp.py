@@ -67,7 +67,6 @@ class DKA_M3GP_Method(BaseEstimator, TransformerMixin):
             specific_type_crossover=FeatureSet,
             max_depth=self.max_depth,
             minimize=minimize,
-            favor_less_deep_trees=True,
             save_to_csv=save_to_csv,
             save_genotype_as_string=False,
             test_data=test_fitness_function,
