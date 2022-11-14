@@ -65,4 +65,4 @@ class Average(BuildingBlock):
         return aggregates
     
     def __str__(self):
-        return f"average(\"{self.aggregation_col}\" for historic {self.col})"
+        return f"average[{self.window_length}](\"{self.aggregation_col}\" for {self.col})"
