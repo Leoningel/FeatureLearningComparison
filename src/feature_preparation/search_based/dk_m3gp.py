@@ -68,6 +68,7 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
             max_depth=self.max_depth,
             max_init_depth=gv.MAX_INIT_DEPTH,
             min_init_depth=gv.MIN_INIT_DEPTH,
+            ramped_half_and_half=gv.RAMPED,
             minimize=minimize,
             save_to_csv=CSVCallback(
                 filename=save_to_csv,
