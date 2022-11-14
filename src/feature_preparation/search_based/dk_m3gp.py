@@ -66,6 +66,8 @@ class DK_M3GP_Method(BaseEstimator, TransformerMixin):
             specific_type_mutation=FeatureSet,
             specific_type_crossover=FeatureSet,
             max_depth=self.max_depth,
+            max_init_depth=gv.MAX_INIT_DEPTH,
+            min_init_depth=gv.MIN_INIT_DEPTH,
             minimize=minimize,
             save_to_csv=CSVCallback(
                 filename=save_to_csv,

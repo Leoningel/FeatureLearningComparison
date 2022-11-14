@@ -49,6 +49,10 @@ class TraditionalGP_Method(BaseEstimator, TransformerMixin):
             n_novelties=self.novelties_size,
             either_mut_or_cro=0.5,
             max_depth=self.max_depth,
+            max_init_depth=gv.MAX_INIT_DEPTH,
+            min_init_depth=gv.MIN_INIT_DEPTH,
+            max_init_depth=gv.MAX_INIT_DEPTH,
+            min_init_depth=gv.MIN_INIT_DEPTH,
             minimize=minimize,
             save_to_csv=CSVCallback(
                 filename=save_to_csv,
