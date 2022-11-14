@@ -3,6 +3,7 @@ from typing import Annotated, List, Union
 from feature_preparation.core import FeatureLearningMethod
 from sklearn.base import BaseEstimator, TransformerMixin
 
+from geneticengine.algorithms.callbacks.csv_callback import CSVCallback
 from geneticengine.algorithms.random_search import RandomSearch as RS_alg
 from geneticengine.core.grammar import extract_grammar
 from geneticengine.core.representations.tree.treebased import treebased_representation
@@ -41,8 +42,10 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
             minimize=minimize,
-            save_to_csv=save_to_csv,
-            save_genotype_as_string=False,
+            save_to_csv=CSVCallback(
+                filename=save_to_csv,
+                test_data=test_fitness_function
+                ),
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
