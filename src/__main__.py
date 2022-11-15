@@ -143,7 +143,7 @@ if __name__ == '__main__':
         folder_name = args.folder_name
         output_folder = args.output_folder
         data_info = pd.read_csv('data/data_info.csv')
-        data_info = data_info.loc[data_info['NAME'] == output_folder].values[0]
+        data_info = data_info.loc[data_info['NAME'] == output_folder.split('/')[-1]].values[0]
         DATA_FILE = data_info[1]
         TARGET_COLUMN = data_info[2]
         SCORING = data_info[3]
