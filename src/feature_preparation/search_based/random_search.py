@@ -42,8 +42,10 @@ class RandomSearchFS_Method(BaseEstimator, TransformerMixin):
             number_of_generations=self.n_generations,
             max_depth=self.max_depth,
             minimize=minimize,
-            save_to_csv=save_to_csv,
-            test_data=test_fitness_function,
+            callbacks=[CSVCallback(
+                filename=save_to_csv,
+                test_data=test_fitness_function
+                )],
             )
         (b, bf, bp) = alg.evolve(verbose=verbose)
         return b, bf, bp
