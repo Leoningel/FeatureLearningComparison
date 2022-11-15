@@ -162,13 +162,13 @@ if __name__ == '__main__':
                 else:
                     plot_separated_violin_comparisons(df, models=rel_models, outbasename=args.outbasename, stat_test_pairs=pairs, column='train_score', take_out_outliers=args.outliercorrection, f_score=f_score, output_folder=output_folder)
                  
-        column = 'fitness'
+        column = 'Fitness'
         if args.test:
-            column = 'test_fitness'
+            column = 'Test Fitness'
         elif args.nodes:
-            column = 'nodes'
+            column = 'Nodes'
         
-        per_column = 'number_of_the_generation'
+        per_column = 'Generations'
         if args.per_time:
             per_column = 'time_since_the_start_of_the_evolution'
         if args.per_generation:

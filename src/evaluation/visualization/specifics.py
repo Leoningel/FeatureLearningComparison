@@ -11,7 +11,7 @@ from model_generation.models import Model
 from evaluation.visualization.utils import to_replace, FONTSIZE
 
 
-def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'fitness', per_column: str = 'number_of_the_generation', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml', output_folder='', f_score: bool = False):
+def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model: Model, column: str = 'Fitness', per_column: str = 'Generations', splits: List[float] = [ 0.75 ], added_text = '', folder = 'ml', output_folder='', f_score: bool = False):
     sns.set_style("darkgrid")
     sns.set_style({"font.family": "serif",
                    'font.size' : FONTSIZE
@@ -31,8 +31,8 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
                 df = pd.read_csv(filename, index_col=None, header=0)
                 df = df[[column, per_column]]
                 df = df.replace(to_replace)
-                # df = df[[column, per_column, "nodes"]]
-                if f_score or column == 'nodes':
+                
+                if f_score or column == 'Nodes':
                     df = df.groupby([per_column]).max()
                 else:
                     df = df.groupby([per_column]).min()
@@ -42,8 +42,6 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
                 df['fl'] = fl
                 df = df.reset_index()
                 li.append(df)
-        # print(f"Average nodes: {sum(list(map(lambda x: x.nodes.values[-1], li)))/len(li)}. FL method: {feature_learning}.")
-        # print(f"Average generations: {sum(list(map(lambda x: x.number_of_the_generation.max(), li)))/len(li)}. FL method: {feature_learning}.")
         
     df = pd.concat(li, axis=0, ignore_index=True)
     
@@ -53,9 +51,9 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     sns.set_style({"font.family": "serif"})
 
     new_column = column 
-    if column != 'nodes':
-        if new_column == 'test_fitness':
-            new_column = 'test fitness'
+    if column != 'Nodes':
+        if new_column == 'Test fitness':
+            new_column = 'Test fitness'
         if f_score:
             new_column = f'{column} (f1 score)'
         else:
@@ -87,7 +85,7 @@ def visualise_compare_fls(feature_learnings: List[FeatureLearningMethod], model:
     print(f"Saved figure to {path}.")
 
 
-def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'fitness', per_column: str = 'number_of_the_generation', added_text = '', output_folder='', f_score: bool = False):
+def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 'Fitness', per_column: str = 'Generations', added_text = '', output_folder='', f_score: bool = False):
     sns.set_style("darkgrid")
     sns.set_style({"font.family": "serif",
                    'font.size' : FONTSIZE
@@ -111,8 +109,6 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
                     df['fl'] = jdx
                 df = df.reset_index()
                 li.append(df)
-        # print(f"Average nodes: {sum(list(map(lambda x: x.nodes.values[-1], li)))/len(li)}. FL method: {feature_learning}.")
-        # print(f"Average generations: {sum(list(map(lambda x: x.number_of_the_generation.max(), li)))/len(li)}. FL method: {feature_learning}.")
         
     df = pd.concat(li, axis=0, ignore_index=True)
     plt.close()
@@ -120,10 +116,10 @@ def visualise_compare_folders(folder_paths, fl_names, model: str, column: str = 
     sns.set(font_scale=1.2)
     sns.set_style({"font.family": "serif"})
 
-    if column in ['fitness', 'test_fitness']:
+    if column in ['Fitness', 'Test fitness']:
         new_column = column
-        if column == 'test_fitness':
-            new_column = 'test fitness'
+        if column == 'Test fitness':
+            new_column = 'Test fitness'
         if f_score:
             new_column = f'{new_column} (f1 score)'
         else:
