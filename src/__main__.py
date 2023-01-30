@@ -31,10 +31,8 @@ from model_generation.models import DecisionTree, RandomForest, MLP, SVM, Model
 import utils as utils
 
  
-# models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-models : List[Model] = [ DecisionTree() ]
-feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
-# feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy() ]
+models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
+feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), PrincipleCA(), NoFeatureLearning() ]
 
 if __name__ == '__main__':
     args = sys.argv

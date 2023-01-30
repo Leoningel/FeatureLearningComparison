@@ -37,8 +37,7 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
     models : List[Model] = [ DecisionTree(), RandomForest(), MLP(), SVM() ]
-    feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), RandomSearchFS(), PrincipleCA(), FeatureToolsFS(), NoFeatureLearning() ]
-    # feature_learnings : List[FeatureLearningMethod] = [ M3GP_JB() ]
+    feature_learnings : List[FeatureLearningMethod] = [ DKA_M3GP(), DK_M3GP(), M3GP_Gengy(), TraditionalGP(), PrincipleCA(), NoFeatureLearning() ]
 
     seed = options.seed
     model = models[options.model]

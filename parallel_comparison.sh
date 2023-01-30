@@ -7,7 +7,7 @@
 #SBATCH --time=48:00:00                 # Time limit hrs:min:sec
 #SBATCH --output=logs/parallel_%j.log   # Standard output and error log
 
-#SBATCH --array=0-239                   # iterate values between 0 and 59, inclusive
+#SBATCH --array=0-539                   # iterate values between 0 and 59, inclusive
 
 bash setup.sh
-python src/run_single.py -s $(expr $SLURM_ARRAY_TASK_ID % 30) -f $(expr $SLURM_ARRAY_TASK_ID / 30) -m $(expr $(expr $SLURM_ARRAY_TASK_ID / 30) % 1) $*
+python src/run_single.py -s $(expr $SLURM_ARRAY_TASK_ID % 30) -f $(expr $SLURM_ARRAY_TASK_ID / 120) -m $(expr $(expr $SLURM_ARRAY_TASK_ID / 30) % 4) $*
