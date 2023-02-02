@@ -11,9 +11,9 @@ In ``./src/global_vars.py`` you can choose one of the examples to run by changin
 
 Execute the run comparisons file: ``./run_comparison.sh``.
 
-Specify that you want to run the models and/or plot the data: ``./run_comparison.sh --run_models --plot_data``.
+Specify that you want to run the models and/or plot the data: ``./run_comparison.sh --clean_results --run_models --plot_data``.
  
-If you want to run all the seeds in parallel, you can run the ``./parallel_comparison.sh`` script.
+If you want to run all the seeds in parallel, you can run the ``./parallel_comparison.sh`` script. Make sure the results_temp folder is clean: ``./run_comparison.sh --clean_results``. You must run this script for each of the examples!
 
 ## Steps to plot the figures
 
@@ -21,4 +21,4 @@ Execute the ``plot_all.sh`` file in the bash script folder for each example. For
 
 ``bash bash_scripts/plot_all.sh -fn bb -of bb``
 
-Or run ```generate_all_plots.sh`` to generate all plots.
+Or run ```generate_all_plots.sh`` to generate all plots (for the available data).
