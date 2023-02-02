@@ -1,0 +1,29 @@
+import pandas as pd
+
+DELIMITER = ','
+TIME_COLUMN = "instant"
+RESULTS_FOLDER = "./results/"
+TEMP_RESULTS_FOLDER = "./results_temp/"
+SPLITS = [ 0.5, 0.66, 0.83 ]
+MAX_DEPTH = 10
+ELITISMS = [ 1, 5 ]
+ELITSM = 2
+NOVELTIES = [ 0, 20, 50, 100 ]
+MUTATION_PROBS = [ 0.1, 0.25, 0.5, 0.6 ]
+CROSSOVER_PROBS = [ 0.8, 0.9, 1 ]
+POPULATION_SIZE = 200
+NUMBER_OF_GENERATIONS = 200
+TIME_LIMIT = 1200
+N_SEEDS = 30   
+TRAIN_PROPORTION = 0.75
+
+# NAmes: bb, credit, caesarian, penguins, flare, cleve, colic/colic2, colic/colic3, website_visitors/web_visits2, website_visitors/web_visits3
+NAME = 'caesarian'
+data_info = pd.read_csv('data/data_info.csv')
+data_info = data_info.loc[data_info['NAME'] == NAME].values[0]
+DATA_FILE = data_info[1]
+TARGET_COLUMN = data_info[2]
+SCORING = data_info[3]
+
+Server: Franklin
+Every FL method except DKA-M3GP

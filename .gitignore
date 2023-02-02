@@ -1,7 +1,7 @@
 # plots
 GeneticEngine
 logs
-results
+# results
 results_temp
 .vscode
 # *.pdf
