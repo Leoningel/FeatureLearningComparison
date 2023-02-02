@@ -1,4 +1,4 @@
-# bash bash_scripts/plot_all.sh -fn wo_grid_s/bb -of bb
+# bash bash_scripts/plot_all.sh -fn bb -of bb
 
 bash_scripts/plot_methods/plot_all_methods.sh -ofs 'all_methods' $*
 # bash_scripts/plot_methods/plot_m3gp_comparison.sh -ofs 'm3gp_comp' $*
