@@ -5,7 +5,7 @@ logs
 results_temp
 .vscode
 # *.pdf
-*.csv
+# *.csv
 !data/*.csv
 !data/colic/*.csv
 !data/daily_website_visitors/*.csv
